@@ -1,0 +1,145 @@
+{
+  "overall": {
+    "count": 308,
+    "positive": 46,
+    "neutral": 245,
+    "negative": 17,
+    "flagged_sarcastic": 12,
+    "mean": 0.0884
+  },
+  "news_sentiment": {
+    "count": 43,
+    "positive": 18,
+    "neutral": 23,
+    "negative": 2,
+    "flagged_sarcastic": 0,
+    "mean": 0.2786
+  },
+  "public_sentiment": {
+    "count": 102,
+    "positive": 7,
+    "neutral": 82,
+    "negative": 13,
+    "flagged_sarcastic": 12,
+    "mean": -0.021
+  },
+  "by_source": {
+    "news": {
+      "count": 40,
+      "positive": 17,
+      "neutral": 21,
+      "negative": 2,
+      "flagged_sarcastic": 0,
+      "mean": 0.2836
+    },
+    "company": {
+      "count": 84,
+      "positive": 3,
+      "neutral": 80,
+      "negative": 1,
+      "flagged_sarcastic": 0,
+      "mean": 0.0106
+    },
+    "market": {
+      "count": 3,
+      "positive": 1,
+      "neutral": 2,
+      "negative": 0,
+      "flagged_sarcastic": 0,
+      "mean": 0.2113
+    },
+    "community": {
+      "count": 30,
+      "positive": 2,
+      "neutral": 23,
+      "negative": 5,
+      "flagged_sarcastic": 8,
+      "mean": -0.0268
+    },
+    "research": {
+      "count": 25,
+      "positive": 1,
+      "neutral": 23,
+      "negative": 1,
+      "flagged_sarcastic": 0,
+      "mean": 0.0092
+    },
+    "reference": {
+      "count": 1,
+      "positive": 0,
+      "neutral": 1,
+      "negative": 0,
+      "flagged_sarcastic": 0,
+      "mean": 0.0
+    },
+    "filing": {
+      "count": 24,
+      "positive": 11,
+      "neutral": 13,
+      "negative": 0,
+      "flagged_sarcastic": 0,
+      "mean": 0.4192
+    },
+    "pdf": {
+      "count": 21,
+      "positive": 6,
+      "neutral": 15,
+      "negative": 0,
+      "flagged_sarcastic": 0,
+      "mean": 0.2518
+    },
+    "ecosystem": {
+      "count": 8,
+      "positive": 0,
+      "neutral": 8,
+      "negative": 0,
+      "flagged_sarcastic": 0,
+      "mean": 0.0
+    },
+    "social": {
+      "count": 72,
+      "positive": 5,
+      "neutral": 59,
+      "negative": 8,
+      "flagged_sarcastic": 4,
+      "mean": -0.019
+    }
+  },
+  "aspects": {
+    "Data center / AI compute": {
+      "mentions": 200,
+      "positive": 98,
+      "neutral": 99,
+      "negative": 3,
+      "mean": 0.3744
+    },
+    "Gaming / GeForce": {
+      "mentions": 200,
+      "positive": 46,
+      "neutral": 145,
+      "negative": 9,
+      "mean": 0.139
+    },
+    "China / export controls": {
+      "mentions": 200,
+      "positive": 40,
+      "neutral": 70,
+      "negative": 90,
+      "mean": -0.2023
+    },
+    "Valuation / stock": {
+      "mentions": 200,
+      "positive": 25,
+      "neutral": 155,
+      "negative": 20,
+      "mean": 0.0151
+    },
+    "Competition": {
+      "mentions": 200,
+      "positive": 18,
+      "neutral": 173,
+      "negative": 9,
+      "mean": 0.0319
+    }
+  }
+}

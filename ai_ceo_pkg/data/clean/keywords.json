@@ -1,0 +1,556 @@
+{
+  "overall": [
+    {
+      "term": "ai",
+      "weight": 0.0896
+    },
+    {
+      "term": "gaap",
+      "weight": 0.0565
+    },
+    {
+      "term": "gpu",
+      "weight": 0.0352
+    },
+    {
+      "term": "model",
+      "weight": 0.0347
+    },
+    {
+      "term": "non gaap",
+      "weight": 0.0339
+    },
+    {
+      "term": "link comments",
+      "weight": 0.0339
+    },
+    {
+      "term": "comments",
+      "weight": 0.0339
+    },
+    {
+      "term": "data",
+      "weight": 0.0333
+    },
+    {
+      "term": "link",
+      "weight": 0.0326
+    },
+    {
+      "term": "submitted",
+      "weight": 0.0313
+    },
+    {
+      "term": "non",
+      "weight": 0.0301
+    },
+    {
+      "term": "agent",
+      "weight": 0.0281
+    },
+    {
+      "term": "revenue",
+      "weight": 0.0273
+    },
+    {
+      "term": "2026",
+      "weight": 0.0265
+    },
+    {
+      "term": "performance",
+      "weight": 0.0254
+    },
+    {
+      "term": "new",
+      "weight": 0.0253
+    },
+    {
+      "term": "income",
+      "weight": 0.0245
+    },
+    {
+      "term": "models",
+      "weight": 0.0237
+    },
+    {
+      "term": "10",
+      "weight": 0.0227
+    },
+    {
+      "term": "memory",
+      "weight": 0.0221
+    },
+    {
+      "term": "training",
+      "weight": 0.0206
+    },
+    {
+      "term": "time",
+      "weight": 0.0202
+    },
+    {
+      "term": "gpus",
+      "weight": 0.02
+    },
+    {
+      "term": "infrastructure",
+      "weight": 0.02
+    },
+    {
+      "term": "cash",
+      "weight": 0.0198
+    }
+  ],
+  "by_source": {
+    "community": [
+      {
+        "term": "ai",
+        "weight": 0.0571
+      },
+      {
+        "term": "arm",
+        "weight": 0.042
+      },
+      {
+        "term": "gpu",
+        "weight": 0.0415
+      },
+      {
+        "term": "driver",
+        "weight": 0.0387
+      },
+      {
+        "term": "a100",
+        "weight": 0.0354
+      },
+      {
+        "term": "mining",
+        "weight": 0.0331
+      },
+      {
+        "term": "gpus",
+        "weight": 0.0315
+      },
+      {
+        "term": "new",
+        "weight": 0.0304
+      },
+      {
+        "term": "cards",
+        "weight": 0.0299
+      },
+      {
+        "term": "openai",
+        "weight": 0.0294
+      },
+      {
+        "term": "https",
+        "weight": 0.0277
+      },
+      {
+        "term": "sec",
+        "weight": 0.0275
+      }
+    ],
+    "company": [
+      {
+        "term": "ai",
+        "weight": 0.094
+      },
+      {
+        "term": "model",
+        "weight": 0.0497
+      },
+      {
+        "term": "agent",
+        "weight": 0.0486
+      },
+      {
+        "term": "data",
+        "weight": 0.0334
+      },
+      {
+        "term": "training",
+        "weight": 0.0315
+      },
+      {
+        "term": "models",
+        "weight": 0.0311
+      },
+      {
+        "term": "gpu",
+        "weight": 0.031
+      },
+      {
+        "term": "agents",
+        "weight": 0.0286
+      },
+      {
+        "term": "performance",
+        "weight": 0.0282
+      },
+      {
+        "term": "infrastructure",
+        "weight": 0.0271
+      },
+      {
+        "term": "skills",
+        "weight": 0.0238
+      },
+      {
+        "term": "memory",
+        "weight": 0.0236
+      }
+    ],
+    "ecosystem": [
+      {
+        "term": "tensorrt",
+        "weight": 0.0959
+      },
+      {
+        "term": "rocm",
+        "weight": 0.0769
+      },
+      {
+        "term": "triton",
+        "weight": 0.0722
+      },
+      {
+        "term": "cpp",
+        "weight": 0.0674
+      },
+      {
+        "term": "llm",
+        "weight": 0.0668
+      },
+      {
+        "term": "gpu",
+        "weight": 0.0629
+      },
+      {
+        "term": "inference",
+        "weight": 0.0561
+      },
+      {
+        "term": "repository",
+        "weight": 0.0552
+      },
+      {
+        "term": "python",
+        "weight": 0.0548
+      },
+      {
+        "term": "language",
+        "weight": 0.0538
+      },
+      {
+        "term": "deep",
+        "weight": 0.0508
+      },
+      {
+        "term": "deep learning",
+        "weight": 0.0508
+      }
+    ],
+    "filing": [
+      {
+        "term": "gaap",
+        "weight": 0.3027
+      },
+      {
+        "term": "non gaap",
+        "weight": 0.2164
+      },
+      {
+        "term": "non",
+        "weight": 0.1842
+      },
+      {
+        "term": "income",
+        "weight": 0.1472
+      },
+      {
+        "term": "net",
+        "weight": 0.1136
+      },
+      {
+        "term": "2025",
+        "weight": 0.107
+      },
+      {
+        "term": "revenue",
+        "weight": 0.1055
+      },
+      {
+        "term": "2024",
+        "weight": 0.1045
+      },
+      {
+        "term": "operating",
+        "weight": 0.1041
+      },
+      {
+        "term": "0001045810",
+        "weight": 0.1012
+      },
+      {
+        "term": "cash",
+        "weight": 0.0947
+      },
+      {
+        "term": "related",
+        "weight": 0.087
+      }
+    ],
+    "market": [
+      {
+        "term": "amazon",
+        "weight": 0.1306
+      },
+      {
+        "term": "jassy",
+        "weight": 0.108
+      },
+      {
+        "term": "ttm",
+        "weight": 0.0881
+      },
+      {
+        "term": "ai",
+        "weight": 0.0879
+      },
+      {
+        "term": "stocks",
+        "weight": 0.0823
+      },
+      {
+        "term": "meta",
+        "weight": 0.0753
+      },
+      {
+        "term": "2026",
+        "weight": 0.0605
+      },
+      {
+        "term": "latest",
+        "weight": 0.0602
+      },
+      {
+        "term": "aws",
+        "weight": 0.06
+      },
+      {
+        "term": "chips",
+        "weight": 0.06
+      },
+      {
+        "term": "etf",
+        "weight": 0.0595
+      },
+      {
+        "term": "mangos",
+        "weight": 0.0595
+      }
+    ],
+    "news": [
+      {
+        "term": "ai",
+        "weight": 0.1021
+      },
+      {
+        "term": "chips",
+        "weight": 0.0446
+      },
+      {
+        "term": "micron",
+        "weight": 0.0429
+      },
+      {
+        "term": "intel",
+        "weight": 0.037
+      },
+      {
+        "term": "data",
+        "weight": 0.0357
+      },
+      {
+        "term": "chip",
+        "weight": 0.0329
+      },
+      {
+        "term": "google",
+        "weight": 0.032
+      },
+      {
+        "term": "growth",
+        "weight": 0.0307
+      },
+      {
+        "term": "like",
+        "weight": 0.0292
+      },
+      {
+        "term": "agentic",
+        "weight": 0.0274
+      },
+      {
+        "term": "companies",
+        "weight": 0.0266
+      },
+      {
+        "term": "gpus",
+        "weight": 0.0266
+      }
+    ],
+    "pdf": [
+      {
+        "term": "gaap",
+        "weight": 0.3112
+      },
+      {
+        "term": "non",
+        "weight": 0.2144
+      },
+      {
+        "term": "non gaap",
+        "weight": 0.1914
+      },
+      {
+        "term": "ai",
+        "weight": 0.139
+      },
+      {
+        "term": "income",
+        "weight": 0.1039
+      },
+      {
+        "term": "revenue",
+        "weight": 0.1034
+      },
+      {
+        "term": "operating",
+        "weight": 0.0879
+      },
+      {
+        "term": "financial",
+        "weight": 0.0817
+      },
+      {
+        "term": "fy25",
+        "weight": 0.0777
+      },
+      {
+        "term": "related",
+        "weight": 0.0746
+      },
+      {
+        "term": "gross",
+        "weight": 0.0738
+      },
+      {
+        "term": "net",
+        "weight": 0.0734
+      }
+    ],
+    "research": [
+      {
+        "term": "10",
+        "weight": 0.0565
+      },
+      {
+        "term": "gpu",
+        "weight": 0.0492
+      },
+      {
+        "term": "model",
+        "weight": 0.0463
+      },
+      {
+        "term": "memory",
+        "weight": 0.0387
+      },
+      {
+        "term": "precision",
+        "weight": 0.0371
+      },
+      {
+        "term": "16",
+        "weight": 0.0304
+      },
+      {
+        "term": "data",
+        "weight": 0.0297
+      },
+      {
+        "term": "latency",
+        "weight": 0.029
+      },
+      {
+        "term": "training",
+        "weight": 0.0253
+      },
+      {
+        "term": "table",
+        "weight": 0.025
+      },
+      {
+        "term": "al",
+        "weight": 0.0248
+      },
+      {
+        "term": "et",
+        "weight": 0.0248
+      }
+    ],
+    "social": [
+      {
+        "term": "ai",
+        "weight": 0.0395
+      },
+      {
+        "term": "link",
+        "weight": 0.0258
+      },
+      {
+        "term": "comments",
+        "weight": 0.0253
+      },
+      {
+        "term": "link comments",
+        "weight": 0.0249
+      },
+      {
+        "term": "submitted",
+        "weight": 0.0249
+      },
+      {
+        "term": "2026",
+        "weight": 0.0242
+      },
+      {
+        "term": "intel",
+        "weight": 0.0204
+      },
+      {
+        "term": "06",
+        "weight": 0.018
+      },
+      {
+        "term": "bond",
+        "weight": 0.0161
+      },
+      {
+        "term": "market",
+        "weight": 0.0159
+      },
+      {
+        "term": "apple",
+        "weight": 0.0157
+      },
+      {
+        "term": "2026 06",
+        "weight": 0.0156
+      }
+    ]
+  }
+}

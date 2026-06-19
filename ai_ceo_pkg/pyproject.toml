@@ -1,0 +1,39 @@
+[project]
+name = "ai-ceo"
+version = "0.1.0"
+description = "AI CEO: Strategic Intelligence Agent (NVIDIA)"
+requires-python = ">=3.11"
+dependencies = [
+    # Retrieval (course Module 10 foundation)
+    "rank-bm25",                 # BM25Okapi
+    "faiss-cpu",                 # dense vector store
+    "sentence-transformers",     # bge embeddings + cross-encoder reranker
+
+    # Models / NLP
+    "transformers",              # FinBERT sentiment
+    "torch",
+    "spacy",                     # lemmatization + NER
+    "nltk",
+
+    # Chunking + local LLM (multi-query)
+    "langchain-text-splitters",
+    "langchain-ollama",
+
+    # Data collection (all key-free)
+    "feedparser",
+    "requests",
+    "yfinance",
+    "beautifulsoup4",
+    "trafilatura",
+    "pypdf",
+
+    # App / data / export
+    "pandas",
+    "openpyxl",
+    "streamlit",
+    "plotly",
+    "numpy",
+]
+
+[tool.uv]
+# uv resolves + installs these in seconds instead of minutes.

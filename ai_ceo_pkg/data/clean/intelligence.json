@@ -1,0 +1,508 @@
+{
+  "company": "NVIDIA",
+  "generated_at": "2026-06-19T21:57:31",
+  "opportunities": [
+    {
+      "title": "Anticipating Industry Changes and Technological Innovations",
+      "detail": "Timely identification of industry changes is crucial for developing new or enhancing existing products.",
+      "impact": "high",
+      "citations": [
+        {
+          "source": "pdf",
+          "title": "ar_2026-Annual-Report-Web",
+          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
+          "section": "ar_2026-Annual-Report-Web.pdf",
+          "published": "",
+          "snippet": ". Our success depends on our ability to: \u2022 timely identify industry changes, adapt our strategies, and develop new or enhance and maintain existing products and technologies that meet the evolving nee"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.827,
+      "entailment": 0.987,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "pdf"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.987,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Meeting Evolving Market Needs",
+      "detail": "Developing products that meet the evolving needs of markets, including addressing unexpected shifts in standards and disruptive technologies.",
+      "impact": "high",
+      "citations": [
+        {
+          "source": "pdf",
+          "title": "ar_2026-Annual-Report-Web",
+          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
+          "section": "ar_2026-Annual-Report-Web.pdf",
+          "published": "",
+          "snippet": ". Our success depends on our ability to: \u2022 timely identify industry changes, adapt our strategies, and develop new or enhance and maintain existing products and technologies that meet the evolving nee"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.832,
+      "entailment": 0.997,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "pdf"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.997,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Managing Complex Supply Chain",
+      "detail": "Handling increased purchase volumes and integrating new suppliers to manage production planning and logistics complexity.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "pdf",
+          "title": "ar_2026-Annual-Report-Web",
+          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
+          "section": "ar_2026-Annual-Report-Web.pdf",
+          "published": "",
+          "snippet": ". We have also entered and may continue to enter into prepaid manufacturing and capacity agreements to supply both current and future products. The increased purchase volumes and integration of new su"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.828,
+      "entailment": 0.989,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "pdf"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.989,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Anticipating Demand Fluctuations",
+      "detail": "Understanding changes in product development cycles, competitor actions, and economic conditions to forecast demand accurately.",
+      "impact": "high",
+      "citations": [],
+      "verified": false,
+      "confidence": 0.125,
+      "entailment": 0.0,
+      "freshness": 0.5,
+      "corroboration": {
+        "score": 0,
+        "sources": [],
+        "level": "none"
+      },
+      "score_breakdown": {
+        "entailment": 0.0,
+        "corroboration": 0.0,
+        "freshness": 0.5,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Competing with New Market Entrants",
+      "detail": "Remaining competitive by anticipating customer demands and delivering products at acceptable quality and prices against increasing competition.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "pdf",
+          "title": "ar_2026-Annual-Report-Web",
+          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
+          "section": "ar_2026-Annual-Report-Web.pdf",
+          "published": "",
+          "snippet": ". We believe that our ability to remain competitive will depend on how well we are able to anticipate the features and functions that customers and partners will 8 demand and whether we are able to de"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.828,
+      "entailment": 0.99,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "pdf"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.99,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    }
+  ],
+  "risks": [
+    {
+      "title": "Export Controls",
+      "detail": "NVIDIA faces significant disruptions to its supply chain and distribution channels due to export controls.",
+      "impact": "high",
+      "citations": [],
+      "verified": false,
+      "confidence": 0.125,
+      "entailment": 0.0,
+      "freshness": 0.5,
+      "corroboration": {
+        "score": 0,
+        "sources": [],
+        "level": "none"
+      },
+      "score_breakdown": {
+        "entailment": 0.0,
+        "corroboration": 0.0,
+        "freshness": 0.5,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Regulatory Restrictions on AI Models",
+      "detail": "Potential restrictions on third-party applications and models could severely impact NVIDIA's business.",
+      "impact": "high",
+      "citations": [],
+      "verified": false,
+      "confidence": 0.125,
+      "entailment": 0.0,
+      "freshness": 0.5,
+      "corroboration": {
+        "score": 0,
+        "sources": [],
+        "level": "none"
+      },
+      "score_breakdown": {
+        "entailment": 0.0,
+        "corroboration": 0.0,
+        "freshness": 0.5,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "AI Diffusion IFR Impact",
+      "detail": "The AI Diffusion IFR may limit access to the market for IT services and computing infrastructure, favoring government-approved firms.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "snippet": ". These restrictions would apply to all covered products, including products sold years ago. The AI Diffusion IFR would limit access to the market for IT services and computing infrastructure, by favo"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.828,
+      "entailment": 0.989,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "filing"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.989,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Supply Chain Resilience Concerns",
+      "detail": "NVIDIA's supply chain is currently concentrated in the Asia-Pacific region, making it vulnerable to new restrictions.",
+      "impact": "medium",
+      "citations": [],
+      "verified": false,
+      "confidence": 0.125,
+      "entailment": 0.0,
+      "freshness": 0.5,
+      "corroboration": {
+        "score": 0,
+        "sources": [],
+        "level": "none"
+      },
+      "score_breakdown": {
+        "entailment": 0.0,
+        "corroboration": 0.0,
+        "freshness": 0.5,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Gaming GPU Controls",
+      "detail": "Export controls on gaming GPUs could disrupt a significant portion of NVIDIA's supply and distribution chain.",
+      "impact": "low",
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2026-02-25)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+          "section": "10-K 2026-02-25",
+          "published": "2026-02-25",
+          "snippet": ". Open-source foundation models are rapidly growing in popularity with developers worldwide. Any regulatory control or other restriction that limits our ability to provide products and services that s"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.68,
+      "entailment": 0.693,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "filing"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.693,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    }
+  ],
+  "trends": [
+    {
+      "title": "AI Infrastructure Expansion",
+      "detail": "NVIDIA is expanding its AI infrastructure across Europe and Asia through partnerships with local companies.",
+      "impact": "high",
+      "citations": [],
+      "verified": false,
+      "confidence": 0.125,
+      "entailment": 0.0,
+      "freshness": 0.5,
+      "corroboration": {
+        "score": 0,
+        "sources": [],
+        "level": "none"
+      },
+      "score_breakdown": {
+        "entailment": 0.0,
+        "corroboration": 0.0,
+        "freshness": 0.5,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Agentic AI Development",
+      "detail": "NVIDIA is advancing the development of agentic AI agents that can operate autonomously in complex environments.",
+      "impact": "high",
+      "citations": [],
+      "verified": false,
+      "confidence": 0.125,
+      "entailment": 0.0,
+      "freshness": 0.5,
+      "corroboration": {
+        "score": 0,
+        "sources": [],
+        "level": "none"
+      },
+      "score_breakdown": {
+        "entailment": 0.0,
+        "corroboration": 0.0,
+        "freshness": 0.5,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    },
+    {
+      "title": "Physical AI Research",
+      "detail": "NVIDIA is supporting physical AI research with tools and technologies for embodied AI agents.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "company",
+          "title": "NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI",
+          "url": "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/",
+          "section": "blog",
+          "published": "Wed, 03 Jun 2026 15:00:35 +0000",
+          "snippet": "Cosmos 3 can further help generate synthetic data and scene variations, then support post-training with embodiment-specific behavior and environment data for tasks ranging from pick-and-place to dexte"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.714,
+      "entailment": 0.761,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.761,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": true,
+      "contradicting_evidence": {
+        "source": "ecosystem",
+        "title": "[ecosystem] NVIDIA/cccl",
+        "url": "https://github.com/NVIDIA/cccl",
+        "snippet": "[ecosystem] NVIDIA/cccl. GitHub repository NVIDIA/cccl. CUDA Core Compute Libraries Stars: 2,385. Open issues and pull requests: 1,587. Forks: 412. Primary language: C++. Last code push: 2026-06-17T22",
+        "contradiction": 0.622
+      }
+    },
+    {
+      "title": "In-Silicon Security",
+      "detail": "NVIDIA DOCA introduces in-silicon security to enhance the security of AI infrastructure.",
+      "impact": "high",
+      "citations": [
+        {
+          "source": "company",
+          "title": "Advancing AI Infrastructure for Agentic AI with NVIDIA DOCA In-Silicon Security",
+          "url": "https://developer.nvidia.com/blog/advancing-ai-infrastructure-for-agentic-ai-with-nvidia-doca-in-silicon-security/",
+          "section": "dev_blog",
+          "published": "2026-06-01T04:21:42Z",
+          "snippet": "Advancing AI Infrastructure for Agentic AI with NVIDIA DOCA In-Silicon Security. The AI era is driving a new class of infrastructure: AI factories that transform data into intelligence for autonomous "
+        }
+      ],
+      "verified": true,
+      "confidence": 0.716,
+      "entailment": 0.766,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.766,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": true,
+      "contradicting_evidence": {
+        "source": "ecosystem",
+        "title": "[ecosystem] NVIDIA/cccl",
+        "url": "https://github.com/NVIDIA/cccl",
+        "snippet": "[ecosystem] NVIDIA/cccl. GitHub repository NVIDIA/cccl. CUDA Core Compute Libraries Stars: 2,385. Open issues and pull requests: 1,587. Forks: 412. Primary language: C++. Last code push: 2026-06-17T22",
+        "contradiction": 0.864
+      }
+    },
+    {
+      "title": "Open Source Contributions",
+      "detail": "NVIDIA is actively contributing to open-source projects, particularly through its CUDA Core Compute Libraries.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "ecosystem",
+          "title": "[ecosystem] NVIDIA/cccl",
+          "url": "https://github.com/NVIDIA/cccl",
+          "section": "github",
+          "published": "2026-06-17T22:55:17Z",
+          "snippet": "[ecosystem] NVIDIA/cccl. GitHub repository NVIDIA/cccl. CUDA Core Compute Libraries Stars: 2,385. Open issues and pull requests: 1,587. Forks: 412. Primary language: C++. Last code push: 2026-06-17T22"
+        }
+      ],
+      "verified": true,
+      "confidence": 0.663,
+      "entailment": 0.66,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "ecosystem"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.66,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": false,
+      "contradicting_evidence": null
+    }
+  ],
+  "recommendations": [
+    {
+      "action": "Enhance AI Infrastructure Expansion",
+      "rationale": "Expanding AI infrastructure across Europe and Asia will ensure market presence and growth.",
+      "expected_impact": "Increased revenue from new markets and strengthened global position.",
+      "risk_level": "medium",
+      "verified": false,
+      "confidence": 0.184
+    },
+    {
+      "action": "Develop Agentic AI Agents",
+      "rationale": "Leading in agentic AI development can establish NVIDIA as a technology leader and innovation driver.",
+      "expected_impact": "Enhanced brand reputation and potential for new product lines.",
+      "risk_level": "low",
+      "verified": false,
+      "confidence": 0.072
+    },
+    {
+      "action": "Strengthen Supply Chain Resilience",
+      "rationale": "Diversifying supply chain to reduce dependency on Asia-Pacific region mitigates risks from export controls and restrictions.",
+      "expected_impact": "Reduced operational risk and improved supply chain efficiency.",
+      "risk_level": "high",
+      "verified": false,
+      "confidence": 0.343
+    },
+    {
+      "action": "Monitor and Adapt to AI Diffusion IFR",
+      "rationale": "Proactively addressing potential regulatory impacts can prevent market access issues.",
+      "expected_impact": "Preserves business continuity in IT services and computing infrastructure markets.",
+      "risk_level": "medium",
+      "verified": true,
+      "confidence": 0.752
+    },
+    {
+      "action": "Expand Open Source Contributions",
+      "rationale": "Increasing open-source contributions can foster community engagement and innovation.",
+      "expected_impact": "Enhanced developer ecosystem and potential for new partnerships.",
+      "risk_level": "low",
+      "verified": false,
+      "confidence": 0.281
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+# ---- Core LangChain (same stack as Module 10/11) ----
+langchain
+langchain-community
+langchain-classic            # EnsembleRetriever home in langchain 1.x
+langchain-huggingface        # current home of HuggingFaceEmbeddings
+langchain-ollama             # local open-source LLM backend
+
+# ---- Retrieval ----
+faiss-cpu                    # dense vector store (Module 10)
+rank-bm25                    # keyword retriever for hybrid search (Module 10)
+sentence-transformers        # pulls bge-small-en-v1.5
+
+# ---- Models / NLP ----
+transformers
+torch
+# (FinBERT for sentiment is pulled automatically by transformers)
+
+# ---- Data collection (all key-free sources) ----
+feedparser                   # Google News RSS + Yahoo Finance RSS + arXiv RSS
+requests                     # Reddit public JSON
+yfinance                     # company profile + market data
+beautifulsoup4               # strip HTML from feed summaries
+trafilatura                  # fetch full article text behind links
+pypdf                        # parse PDFs page by page
+
+# ---- App / viz ----
+pandas
+openpyxl                     # write the Excel export
+streamlit
+plotly
+spacy                        # NER for competitor/entity extraction
+# after install run: python -m spacy download en_core_web_sm
+nltk                        # stopwords, lemmatizer, stemmer (preprocessing)
+langchain-text-splitters    # recursive chunking
+pydantic                     # structured LLM output for the intelligence layer
+networkx                     # knowledge graph construction
+pyvis                        # interactive graph render (inline, offline-safe)
+praw                         # Reddit API (consumer/retail sentiment, free OAuth tier)
+python-dotenv                # load .env file for credentials
+scikit-learn                 # TF-IDF classical keyword extraction

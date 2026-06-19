@@ -1,0 +1,238 @@
+{
+  "all_orgs": [
+    {
+      "name": "gpu",
+      "mentions": 131
+    },
+    {
+      "name": "ai",
+      "mentions": 125
+    },
+    {
+      "name": "sec",
+      "mentions": 59
+    },
+    {
+      "name": "cpu",
+      "mentions": 57
+    },
+    {
+      "name": "data center",
+      "mentions": 40
+    },
+    {
+      "name": "diluted",
+      "mentions": 38
+    },
+    {
+      "name": "api",
+      "mentions": 37
+    },
+    {
+      "name": "intel",
+      "mentions": 34
+    },
+    {
+      "name": "llm",
+      "mentions": 33
+    },
+    {
+      "name": "the securities and exchange commission",
+      "mentions": 33
+    },
+    {
+      "name": "microsoft",
+      "mentions": 31
+    },
+    {
+      "name": "blackwell",
+      "mentions": 30
+    },
+    {
+      "name": "google",
+      "mentions": 29
+    },
+    {
+      "name": "the securities exchange act",
+      "mentions": 29
+    },
+    {
+      "name": "amd",
+      "mentions": 28
+    },
+    {
+      "name": "ip",
+      "mentions": 27
+    },
+    {
+      "name": "hopper",
+      "mentions": 25
+    },
+    {
+      "name": "infiniband",
+      "mentions": 25
+    },
+    {
+      "name": "meta",
+      "mentions": 24
+    },
+    {
+      "name": "dlss",
+      "mentions": 23
+    },
+    {
+      "name": "\u2022 revenue",
+      "mentions": 23
+    },
+    {
+      "name": "professional visualization",
+      "mentions": 23
+    },
+    {
+      "name": "dgx",
+      "mentions": 21
+    },
+    {
+      "name": "nvlink",
+      "mentions": 20
+    },
+    {
+      "name": "nemotron",
+      "mentions": 20
+    },
+    {
+      "name": "nim",
+      "mentions": 20
+    },
+    {
+      "name": "github",
+      "mentions": 19
+    },
+    {
+      "name": "siemens",
+      "mentions": 18
+    },
+    {
+      "name": "apple",
+      "mentions": 18
+    },
+    {
+      "name": "h20",
+      "mentions": 18
+    },
+    {
+      "name": "hpc",
+      "mentions": 17
+    },
+    {
+      "name": "amazon",
+      "mentions": 17
+    },
+    {
+      "name": "coreweave",
+      "mentions": 16
+    },
+    {
+      "name": "pytorch",
+      "mentions": 16
+    },
+    {
+      "name": "tsmc",
+      "mentions": 16
+    },
+    {
+      "name": "aws",
+      "mentions": 16
+    },
+    {
+      "name": "research",
+      "mentions": 16
+    },
+    {
+      "name": "linear",
+      "mentions": 15
+    },
+    {
+      "name": "reportable segments",
+      "mentions": 15
+    },
+    {
+      "name": "income & expense",
+      "mentions": 15
+    }
+  ],
+  "competitors": [
+    {
+      "name": "intel",
+      "mentions": 34,
+      "sample_docs": [
+        "Apple is fighting for TSMC capacity as Nvidia takes center s",
+        "Market shares PC graphics chips Q1/2026",
+        "Intel x86 processors with NVIDIA RTX graphics reportedly pla"
+      ]
+    },
+    {
+      "name": "microsoft",
+      "mentions": 31,
+      "sample_docs": [
+        "Nvidia announces RTX 2000 GPU series with \u20186x more performan",
+        "NVIDIA Nemotron 3 Ultra Powers Faster, More Efficient Reason",
+        "Hugging Face raises $235M from investors including Salesforc"
+      ]
+    },
+    {
+      "name": "google",
+      "mentions": 29,
+      "sample_docs": [
+        "Apple is fighting for TSMC capacity as Nvidia takes center s",
+        "Google, Nvidia and Anthropic bosses' AI tips for students",
+        "NVIDIA earnings press release (2025-05-28)"
+      ]
+    },
+    {
+      "name": "amd",
+      "mentions": 28,
+      "sample_docs": [
+        "ReQAT: Achieving Full-Precision Reasoning Accuracy with 4-bi",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s",
+        "Market shares PC graphics chips Q1/2026"
+      ]
+    },
+    {
+      "name": "meta",
+      "mentions": 24,
+      "sample_docs": [
+        "Extract More Kernel Performance with NVIDIA CompileIQ Auto-T",
+        "NVDA rose 18.7% on 2025-04-09",
+        "q2_NVDA-F2Q26-Quarterly-Presentation-FINAL"
+      ]
+    },
+    {
+      "name": "apple",
+      "mentions": 18,
+      "sample_docs": [
+        "Intel shares rise after Trump announces Apple partnership",
+        "Pixar, Adobe, Apple, Autodesk, and Nvidia form alliance for ",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s"
+      ]
+    },
+    {
+      "name": "amazon",
+      "mentions": 17,
+      "sample_docs": [
+        "The most expensive opinion I ever had was about Nvidia's val",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s",
+        "NVIDIA 10-K Annual report (2025-02-26)"
+      ]
+    },
+    {
+      "name": "tsmc",
+      "mentions": 16,
+      "sample_docs": [
+        "Intel shares rise after Trump announces Apple partnership",
+        "NVIDIA earnings press release (2025-08-27)",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s"
+      ]
+    }
+  ]
+}

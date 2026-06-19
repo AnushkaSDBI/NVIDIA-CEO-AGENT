@@ -1,0 +1,125 @@
+{
+  "date": "2026-06-19",
+  "previous_date": "2026-06-18",
+  "new_total": 31,
+  "by_source": {
+    "company": 1,
+    "news": 13,
+    "research": 5,
+    "social": 12
+  },
+  "items": {
+    "company": [
+      {
+        "title": "How FERC\u2019s Large-Load Interconnection Actions Help Address Grid Stress, Improve Affordability",
+        "url": "https://blogs.nvidia.com/blog/ferc-large-load-interconnection/"
+      }
+    ],
+    "news": [
+      {
+        "title": "Wall Street Analysts Picks Nvidia Over Micron: Here\u2019s Why",
+        "url": "https://beincrypto.com/wall-street-buy-nvidia-sell-micron-ai/?.tsrc=rss"
+      },
+      {
+        "title": "HPE Expands AI Factory with NVIDIA (NVDA) to Support Agentic AI and Autonomous Workflows",
+        "url": "https://finance.yahoo.com/technology/ai/articles/hpe-expands-ai-factory-nvidia-102213294.html?.tsrc=rss"
+      },
+      {
+        "title": "13 Words From Jensen Huang That Spell Good News for Nvidia Shareholders",
+        "url": "https://www.fool.com/investing/2026/06/19/13-words-from-jensen-huang-that-spell-good-news-fo/?.tsrc=rss"
+      },
+      {
+        "title": "Amazon hopes to challenge Nvidia more directly by selling its AI chips",
+        "url": "https://techcrunch.com/2026/06/18/amazon-hopes-to-challenge-nvidia-more-directly-by-selling-its-ai-chips/"
+      },
+      {
+        "title": "Save a massive $1,390 on this RTX 5080 Alienware gaming PC, now just $3,159 \u2014 enormous discount delivers top specs for 4K gameplay, including a 24-core Intel CPU, 32GB DDR5 RAM, and a 2TB SSD",
+        "url": "https://www.tomshardware.com/desktops/gaming-pcs/save-a-massive-usd1-390-on-this-rtx-5080-alienware-gaming-pc-now-just-usd3-159-enormous-discount-delivers-top-specs-for-4k-gameplay-including-a-24-core-intel-cpu-32gb-ddr5-ram-and-a-2tb-ssd"
+      },
+      {
+        "title": "Scammers in China sell $222 RTX 4090 with fake GPU die made out of plastic instead of real silicon \u2014 marked with 2030 production dates, the card didn't even have working VRAM",
+        "url": "https://www.tomshardware.com/pc-components/gpus/scammers-in-china-sell-usd222-rtx-4090-with-fake-gpu-die-made-out-of-plastic-instead-of-real-silicon-marked-with-2030-production-dates-the-card-didnt-even-have-working-vram"
+      },
+      {
+        "title": "Optical Networking Is AI's Most Overlooked Bottleneck. Here's Why This Nvidia-Backed Company Is the Stock to Own.",
+        "url": "https://www.fool.com/investing/2026/06/19/optical-networking-is-ais-most-overlooked-bottlene/?.tsrc=rss"
+      },
+      {
+        "title": "Google Takes On Nvidia With Bold New AI Chip Strategy",
+        "url": "https://finance.yahoo.com/technology/ai/articles/google-takes-nvidia-bold-ai-174825604.html?.tsrc=rss"
+      },
+      {
+        "title": "Why the AI Infrastructure Wave Will Mint More Millionaires Than the Chatbot Phase: 3 Stocks to Own",
+        "url": "https://www.fool.com/investing/2026/06/19/why-the-ai-infrastructure-wave-will-mint-more-mill/?.tsrc=rss"
+      },
+      {
+        "title": "Analyst Warns Intel Valuation \u2018Doesn\u2019t Make Sense.\u2019 Suggests NVIDIA, AMD, Micron, and Broadcom as Alternatives.",
+        "url": "https://247wallst.com/investing/2026/06/19/analyst-warns-intel-valuation-doesnt-make-sense-suggests-nvidia-amd-micron-and-broadcom-as-alternatives/?.tsrc=rss"
+      }
+    ],
+    "research": [
+      {
+        "title": "Execution-State Capsules: Graph-Bound Execution-State Checkpoint and Restore for Low-Latency, Small-Batch, On-Device Physical-AI Serving",
+        "url": "https://arxiv.org/abs/2606.20537v1"
+      },
+      {
+        "title": "Probe-and-Refine Tuning of Repository Guidance for Coding Agents",
+        "url": "https://arxiv.org/abs/2606.20512v1"
+      },
+      {
+        "title": "HEPTv2: End-to-End Efficient Point Transformer for Charged Particle Reconstruction",
+        "url": "https://arxiv.org/abs/2606.20437v1"
+      },
+      {
+        "title": "Rethinking Shrinkage Bias in LLM FP4 Pretraining: Geometric Origin, Systemic Impact, and UFP4 Recipe",
+        "url": "https://arxiv.org/abs/2606.20381v1"
+      },
+      {
+        "title": "FloatDoor: Platform-Triggered Backdoors in LLMs",
+        "url": "https://arxiv.org/abs/2606.19535v1"
+      }
+    ],
+    "social": [
+      {
+        "title": "With Unreal Engine 5.5+ (MegaLights) and Nvidia's ReSTIR PT: Enhanced, can the RTX 50 Series stay Relevant until 2030+?",
+        "url": "https://www.reddit.com/r/nvidia/comments/1u9yyf6/with_unreal_engine_55_megalights_and_nvidias/"
+      },
+      {
+        "title": "I'm back gentlemen",
+        "url": "https://www.reddit.com/r/nvidia/comments/1u9yn39/im_back_gentlemen/"
+      },
+      {
+        "title": "What are people actually building with NVIDIA NIM these days?",
+        "url": "https://www.reddit.com/r/nvidia/comments/1u9wapg/what_are_people_actually_building_with_nvidia_nim/"
+      },
+      {
+        "title": "Pulsar monitor bug with G-Sync when using single-monitor mode",
+        "url": "https://www.reddit.com/r/nvidia/comments/1u9p0l4/pulsar_monitor_bug_with_gsync_when_using/"
+      },
+      {
+        "title": "+600MHz OC Result",
+        "url": "https://www.reddit.com/r/nvidia/comments/1u9me8t/600mhz_oc_result/"
+      },
+      {
+        "title": "Buying a used RTX 4070 12 gb",
+        "url": "https://www.reddit.com/r/nvidia/comments/1u9luem/buying_a_used_rtx_4070_12_gb/"
+      },
+      {
+        "title": "\u26d3\ufe0f\u200d\ud83d\udca5 Juneteenth 3-day Thread and Discussion \u26d3\ufe0f\u200d\ud83d\udca5 2026-06-19 to 2026-06-21",
+        "url": "https://www.reddit.com/r/NVDA_Stock/comments/1u9sovm/juneteenth_3day_thread_and_discussion_20260619_to/"
+      },
+      {
+        "title": "SpaceX Nasdaq-100 forced buy thesis may be way smaller than people think because of the float cap",
+        "url": "https://www.reddit.com/r/wallstreetbets/comments/1u9knkl/spacex_nasdaq100_forced_buy_thesis_may_be_way/"
+      },
+      {
+        "title": "Amazon in Talks to Sell AI Chips Competing With Nvidia to Other Companies",
+        "url": "https://www.reddit.com/r/hardware/comments/1u9yixz/amazon_in_talks_to_sell_ai_chips_competing_with/"
+      },
+      {
+        "title": "NVIDIA OpenShell Developer Guide",
+        "url": "https://www.reddit.com/r/nvidia/comments/1uaa1v8/nvidia_openshell_developer_guide/"
+      }
+    ]
+  }
+}

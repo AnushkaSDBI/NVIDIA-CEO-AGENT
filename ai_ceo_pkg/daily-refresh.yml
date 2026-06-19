@@ -1,0 +1,58 @@
+name: Daily data refresh
+
+# Lightweight CI automation: pulls fresh data daily and commits a change-diff.
+# NOTE: this runs the CPU-only, key-free part of the pipeline (collect --quick +
+# daily brief). The LLM analysis (intelligence) and the FAISS index rebuild are
+# heavy / need Ollama + a GPU, so those stay on your local machine.
+#
+# The accumulating SQLite DB is persisted between runs via actions/cache so the
+# "what changed since yesterday" diff is meaningful across days.
+#
+# Set these repo secrets (Settings -> Secrets and variables -> Actions):
+#   SEC_USER_AGENT, REDDIT_FEED_USER, REDDIT_FEED_TOKEN  (all optional but recommended)
+
+on:
+  schedule:
+    - cron: "0 6 * * *"        # 06:00 UTC daily
+  workflow_dispatch:            # also runnable on demand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Persist the accumulating DB across runs so the daily diff works
+      - name: Restore accumulating database
+        uses: actions/cache@v4
+        with:
+          path: storage
+          key: aiceo-db-${{ github.run_id }}
+          restore-keys: aiceo-db-
+
+      - name: Install lightweight dependencies
+        run: pip install feedparser requests yfinance beautifulsoup4 trafilatura pypdf pandas
+
+      - name: Collect (quick) + daily brief
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          REDDIT_FEED_USER: ${{ secrets.REDDIT_FEED_USER }}
+          REDDIT_FEED_TOKEN: ${{ secrets.REDDIT_FEED_TOKEN }}
+        run: |
+          python -m src.collect --quick
+          python -m src.daily_brief
+
+      - name: Commit the daily brief
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f data/clean/daily_brief.json
+          git commit -m "chore: daily brief $(date -u +%F)" || echo "no changes to commit"
+          git push || echo "nothing to push"
