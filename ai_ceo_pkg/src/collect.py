@@ -205,22 +205,31 @@ def collect_stock():
 
         # Technical analysis computed from real prices (no scraping).
         try:
-            c = hist["Close"]; delta = c.diff()
-            gain = delta.clip(lower=0).rolling(14).mean()
-            loss = (-delta.clip(upper=0)).rolling(14).mean()
-            rsi = (100 - 100 / (1 + gain / loss)).iloc[-1]
-            latest = float(c.iloc[-1]); sma50 = c.rolling(50).mean().iloc[-1]
-            sma200 = c.rolling(200).mean().iloc[-1]
-            hi52 = float(c.tail(252).max()); lo52 = float(c.tail(252).min())
-            stock["indicators"] = {
-                "latest_close": round(latest, 2),
-                "sma_50": round(float(sma50), 2) if sma50 == sma50 else None,
-                "sma_200": round(float(sma200), 2) if sma200 == sma200 else None,
-                "rsi_14": round(float(rsi), 1) if rsi == rsi else None,
-                "high_52w": round(hi52, 2), "low_52w": round(lo52, 2),
-                "pct_from_52w_high": round((latest / hi52 - 1) * 100, 1),
-                "trend": ("above 200-day SMA (bullish)" if sma200 == sma200 and latest > sma200
-                          else "below 200-day SMA (bearish)")}
+            c = hist["Close"].dropna()                  # yfinance can return NaN rows -> drop them
+            if len(c) < 15:
+                stock["indicators"] = {"latest_close": round(float(c.iloc[-1]), 2)} if len(c) else {}
+            else:
+                delta = c.diff()
+                gain = delta.clip(lower=0).rolling(14).mean()
+                loss = (-delta.clip(upper=0)).rolling(14).mean()
+                rsi_series = (100 - 100 / (1 + gain / loss)).dropna()
+                rsi = float(rsi_series.iloc[-1]) if not rsi_series.empty else None
+                latest = float(c.iloc[-1])
+                s50 = c.rolling(50).mean().dropna()
+                s200 = c.rolling(200).mean().dropna()
+                sma50 = float(s50.iloc[-1]) if not s50.empty else None
+                sma200 = float(s200.iloc[-1]) if not s200.empty else None
+                win = c.tail(252)
+                hi52, lo52 = float(win.max()), float(win.min())
+                stock["indicators"] = {
+                    "latest_close": round(latest, 2),
+                    "sma_50": round(sma50, 2) if sma50 is not None else None,
+                    "sma_200": round(sma200, 2) if sma200 is not None else None,
+                    "rsi_14": round(rsi, 1) if rsi is not None else None,
+                    "high_52w": round(hi52, 2), "low_52w": round(lo52, 2),
+                    "pct_from_52w_high": round((latest / hi52 - 1) * 100, 1) if hi52 else None,
+                    "trend": ("above 200-day SMA (bullish)" if sma200 is not None and latest > sma200
+                              else "below 200-day SMA (bearish)")}
         except Exception as e:
             print(f"        ! indicators skipped ({e})"); stock["indicators"] = {}
 

@@ -3694,5 +3694,113 @@
     "sentiment_score": 0.0,
     "irony_score": 0.0338,
     "sarcastic": false
+  },
+  {
+    "source": "news",
+    "section": "",
+    "title": "Dow Jones Futures Fall; Nvidia Leads 5 Stocks Near Buy Points, SpaceX Needs This",
+    "text": "Dow Jones Futures Fall; Nvidia Leads 5 Stocks Near Buy Points, SpaceX Needs This. Dow Jones futures will open Sunday evening after falling slightly Friday, along with S&P 500 futures and Nasdaq futures. The stock market rebounded this past week, though the gains were concentrated in chips and AI-related plays, along with biotechs",
+    "url": "https://finance.yahoo.com/m/aa0411a1-2ba1-3057-bff9-1381bd5225f7/dow-jones-futures-fall%3B.html?.tsrc=rss",
+    "published": "Sat, 20 Jun 2026 11:37:06 +0000",
+    "sentiment": "negative",
+    "sentiment_score": -0.6649,
+    "irony_score": null,
+    "sarcastic": false
+  },
+  {
+    "source": "news",
+    "section": "",
+    "title": "Data Centre Valley: Kazakhstan and Firebird sign \u20ac8.6B AI agreements with NVIDIA support",
+    "text": "Data Centre Valley: Kazakhstan and Firebird sign \u20ac8.6B AI agreements with NVIDIA support. Kazakhstan has signed agreements worth \u20ac8.6 billion with AI infrastructure company Firebird, backed by support from chipmaker NVIDIA, as part of its plans to develop what could become Central Asia\u2019s largest data centre hub.\nThe 1-gigawatt project is expected to attract nearly \u20ac26 billion in total investment from global technology companies, helping meet growing demand for AI computing capacity.\nThe initiative forms part of Kazakhstan\u2019s recently adopted national strategy for digital transformation and artificial intelligence. Prime Minister Olzhas Bektenov said the country\u2019s goal is \u201cto create a platform for hosting global digital infrastructure.\u201d\nUnder the agreements, Kazakhstan\u2019s Ministry of AI and Digital Development and Firebird will cooperate on the development of AI infrastructure powered by NVIDIA technology. The partners also plan to establish Firebird Labs Kazakhstan at Alem.AI, the country\u2019s international artificial intelligence centre in Astana.\nFirebird also signed a binding term sheet with Kazakhstan\u2019s telecommunications operator to define the framework for cooperation on the Data Centre Valley project.\nAccording to Firebird CEO Razmig Hovaghimian, the project could significantly expand computing capacity in the region.\n\u201cThe launch in 2027 could make Kazakhstan one of the ten leading countries in the world in this field,\u201d he said.\nHovaghimian added that even 100 megawatts of computing capacity could generate billions of euros in economic value, supporting technology companies and startups developing advanced AI applications.\nInternational analysts expect the global AI market to reach hundreds of billions of euros in the coming years, while demand for the computing power required to train and operate AI models continues to rise.\nAgainst that backdrop, countries are increasingly competing to attract the infrastructure underpinning artificial intelligence, including data centres, energy resources and advanced computing facilities.\nDeputy Prime Minister and Minister of AI and Digital Development Zhaslan Madiyev said Kazakhstan\u2019s advantages include low energy costs, international connectivity, tax incentives and streamlined procedures for large-scale investment projects.\nTurning coal into digital exports\nNVIDIA Vice President Rev Lebaredian argued that energy remains the foundation of AI infrastructure and said Kazakhstan\u2019s abundant power resources make it a natural location for large-scale computing projects.\n\u201cIf you don't have energy, you cannot build the rest. That is the foundation. Kazakhstan has energy,\u201d he said.\nThe planned Data Centre Valley will be located in Ekibastuz, one of Kazakhstan\u2019s largest energy hubs, where electricity is generated from extensive coal reserves.\nFor Kazakhstan, the project represents an effort to convert its traditional energy advantages into digital exports.\nChairman of Kazakhtelecom, Bagdat Mussin, described the initiative as a way of transforming locally generated electricity into export-oriented digital services.\n\u201cKazakhstan is turning Ekibastuz coal into export digital revenue,\u201d he said.\nAccording to Mussin, Firebird already has agreements with international technology companies that could help bring foreign revenue into the country once the project becomes operational.\nOfficials say the project could help diversify Kazakhstan\u2019s economy beyond commodities by exporting computing power, cloud services and AI-related digital infrastructure to international markets",
+    "url": "https://www.euronews.com/2026/06/16/data-centre-valley-firebird-nvidia-and-kazakhstan-sign-86b-in-ai-agreements?.tsrc=rss",
+    "published": "Sat, 20 Jun 2026 11:17:06 +0000",
+    "sentiment": "positive",
+    "sentiment_score": 0.851,
+    "irony_score": null,
+    "sarcastic": false
+  },
+  {
+    "source": "news",
+    "section": "",
+    "title": "Unlucky PC builder sent RTX 5070 from Amazon, gets DVD rewriter and a busted logic board from an early 2000's Kenwood AV receiver instead \u2014 $700 GPU turns out to be e-waste thanks to return scam",
+    "text": "Unlucky PC builder sent RTX 5070 from Amazon, gets DVD rewriter and a busted logic board from an early 2000's Kenwood AV receiver instead \u2014 $700 GPU turns out to be e-waste thanks to return scam. An extremely unfortunate PC builder is the latest to fall victim to Amazon's prolific returns scams, after the Nvidia RTX 5070 they received from the website turned out to be a DVD re-writer, a mousepad, and the busted logic board from an early 2000's Kenwood AV receiver.\nThe victim was gifted a brand new MSI Ventus 2X variant of the RTX 5070 from Amazon by a friend at a cost of 605 euros ($700). A few days later, when the package arrived, it weighed the same as the real thing, but it certainly did not have a graphics card inside. Instead, the customer received what appears to be a broken logic board from an old Kenwood AV receiver, a DVD rewriter, and what seems to be a mousepad.\n\"This was shipped and sold by Amazon,\" u/luutherr told Tom's Hardware. They also provided us with proof of purchase and confirmed the item was a gift from a friend, making the scam all the more galling. That means someone in the middle is the bad actor. In reality, what most likely happened was a scam-swap, where someone previously bought the item, emptied its real box contents, and filled it back up with junk that weighs the same. They then filed for a return, probably citing personal preference as the reason.\nSince the box still carried the same weight and the product wasn't returned because of a defect, it ended up back on sale after passing some basic checks. Someone else buys it, and Amazon or the seller unknowingly sends that person the fake item, completing the circle. Believe it or not, this whole process actually used to be worse before Amazon ended its commingling program last year, which sellers exploited to avoid being traced.\nIn the end, the same system that delivered OP the wrong product should come in handy for delivering justice. A simple return request should get them their money back, but it will certainly erode the customer's trust in the platform. We would say this is a reminder to always stay vigilant when buying PC hardware with prices that seem lower than usual. But since this was bought from the official MSI store and sold directly by Amazon, it's simply a consequence of deceitful human nature.\nFollow Tom's Hardware on Google News, or add us as a preferred source, to get our latest news, analysis, & reviews in your feeds.\nGet Tom's Hardware's best news and in-depth reviews, straight to your inbox.\nHassam Nasir is a die-hard hardware enthusiast with years of experience as a tech editor and writer, focusing on detailed CPU comparisons and general hardware news. When he\u2019s not working, you\u2019ll find him bending tubes for his ever-evolving custom water-loop gaming rig or benchmarking the latest CPUs and GPUs just for fun",
+    "url": "https://www.tomshardware.com/pc-components/gpus/unlucky-pc-builder-sent-rtx-5070-from-amazon-gets-dvd-rewriter-and-a-busted-logic-board-from-an-early-2000s-kenwood-av-receiver-instead-usd700-gpu-turns-out-to-be-e-waste-thanks-to-return-scam",
+    "published": "Sat, 20 Jun 2026 11:30:00 +0000",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": null,
+    "sarcastic": false
+  },
+  {
+    "source": "social",
+    "section": "r/nvidia",
+    "title": "NVIDIA App Feature Request Discussion",
+    "text": "NVIDIA App Feature Request Discussion. NVIDIA App Feature Request Discussion. What features or improvements would you like to see added to the NVIDIA App? Please upvote any ideas you support. Thanks in advance! \u200b Existing Features: Driver download, In Game Overlay, ShadowPlay, DLSS OVR, Highlights, Game Filters, Driver Settings, Optimal Playable Settings, Display Settings, GSYNC, Overlay Statistics, System Settings, GPU Tuning, RTX Video Super Resolution/ HDR, RTX HDR, RTX DV, etc... \u200b submitted by /u/HenryNvidia [link] [comments]",
+    "url": "https://www.reddit.com/r/nvidia/comments/1uaql94/nvidia_app_feature_request_discussion/",
+    "published": "2026-06-20T07:46:48+00:00",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": 0.0392,
+    "sarcastic": false
+  },
+  {
+    "source": "social",
+    "section": "r/nvidia",
+    "title": "Automatically switch NVIDIA driver settings based on primary display",
+    "text": "Automatically switch NVIDIA driver settings based on primary display. Automatically switch NVIDIA driver settings based on primary display. submitted by /u/Visible_Regret_5800 [link] [comments]",
+    "url": "https://www.reddit.com/r/nvidia/comments/1uaq8gr/automatically_switch_nvidia_driver_settings_based/",
+    "published": "2026-06-20T07:25:28+00:00",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": 0.1121,
+    "sarcastic": false
+  },
+  {
+    "source": "social",
+    "section": "r/nvidia",
+    "title": "nvidia geforce now not allowing 1440p on performance subscription",
+    "text": "nvidia geforce now not allowing 1440p on performance subscription. nvidia geforce now not allowing 1440p on performance subscription. https://preview.redd.it/ogvdr6e2wd8h1.png?width=2555&format=png&auto=webp&s=4079e28614a10125b333caa6fb0370f6fa33ebdf even while i pay for performance tier, i cant get 1440p resolution. is there any way to fix this? submitted by /u/qx_cm [link] [comments]",
+    "url": "https://www.reddit.com/r/nvidia/comments/1uapjpn/nvidia_geforce_now_not_allowing_1440p_on/",
+    "published": "2026-06-20T06:45:17+00:00",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": 0.07,
+    "sarcastic": false
+  },
+  {
+    "source": "social",
+    "section": "r/nvidia",
+    "title": "ROG Astral RTX 5090 reportedly leaves heat marks on ASUS ProArt X870E motherboard",
+    "text": "ROG Astral RTX 5090 reportedly leaves heat marks on ASUS ProArt X870E motherboard. ROG Astral RTX 5090 reportedly leaves heat marks on ASUS ProArt X870E motherboard. submitted by /u/RenatsMC [link] [comments]",
+    "url": "https://www.reddit.com/r/nvidia/comments/1uapcr2/rog_astral_rtx_5090_reportedly_leaves_heat_marks/",
+    "published": "2026-06-20T06:33:54+00:00",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": 0.0576,
+    "sarcastic": false
+  },
+  {
+    "source": "social",
+    "section": "r/nvidia",
+    "title": "Dedicated Gaming PC Build (the side panel is staying off for this beauty)",
+    "text": "Dedicated Gaming PC Build (the side panel is staying off for this beauty). Dedicated Gaming PC Build (the side panel is staying off for this beauty). Case: FormD T1 v2.1, CNC Anodized Black Case Fans: 2x Corsair RS120 Max CPU: AMD Ryzen 7 9800X3D CPU Contact Frame: Thermal Grizzly CPU Cooler: Thermalright AXP90-X47 Full Copper CPU Cooler Offset Brackets: DingKey Designs CPU Cooler Fan: Noctua A9x14 HS-PWM, Black Thermal Paste: Thermal Grizzly Duronaut GPU: NVIDIA RTX 5080 Founders Edition GPU Travel Kit: FormD T1 Riser Cable: FormD T1, PCIe 5.0 SS200 Motherboard: Asus ROG Strix B850-I Motherboard Backplate: DingKey Designs RAM: Corsair Vengeance, 32GB (2x16GB), DDR5-6000, CL30 NVMe: Samsung 990 Pro, 2TB PSU: Corsair SF1000 PSU Cables: Cablester, Teflon, Black submitted by /u/MaestroStrings [link] [comments]",
+    "url": "https://www.reddit.com/r/nvidia/comments/1uaggzr/dedicated_gaming_pc_build_the_side_panel_is/",
+    "published": "2026-06-19T23:01:58+00:00",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": 0.0239,
+    "sarcastic": false
+  },
+  {
+    "source": "social",
+    "section": "r/nvidia",
+    "title": "Loving my new RTX 5070 Ti! 90+ FPS on everything.",
+    "text": "Loving my new RTX 5070 Ti! 90+ FPS on everything.. Loving my new RTX 5070 Ti! 90+ FPS on everything.. \u200bI absolutely love this card. Just finished testing it at max resolutions on Battlefield 6, 007: First Light, and Forza Horizon 6 on 4k\u2014it easily pushes 90+ FPS everywhere. Absolutely perfect performance! submitted by /u/Vortex91022 [link] [comments]",
+    "url": "https://www.reddit.com/r/nvidia/comments/1uaeoz8/loving_my_new_rtx_5070_ti_90_fps_on_everything/",
+    "published": "2026-06-19T21:45:03+00:00",
+    "sentiment": "neutral",
+    "sentiment_score": 0.0,
+    "irony_score": 0.0776,
+    "sarcastic": false
   }
 ]

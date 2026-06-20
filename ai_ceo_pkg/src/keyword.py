@@ -16,23 +16,43 @@ import config as cfg
 
 
 def _stopwords():
-    # English stopwords + the company's own aliases (so the obvious names
-    # don't dominate and genuinely distinctive terms surface).
     from sklearn.feature_extraction import text as _t
     extra = {a.lower() for a in cfg.COMPANY["aliases"]}
-    extra |= {"company", "quarter", "year", "billion", "million", "said", "inc"}
+    # Reddit / RSS / web boilerplate
+    extra |= {"comments", "comment", "link", "submitted", "removed", "deleted",
+              "https", "http", "www", "reddit", "amp", "post", "posted", "via", "edit"}
+    # generic news / finance filler that isn't a real "theme"
+    extra |= {"company", "companies", "quarter", "quarterly", "year", "years", "yearly",
+              "billion", "million", "trillion", "said", "say", "says", "according",
+              "report", "reported", "reports", "new", "news", "also", "one", "two",
+              "first", "second", "percent", "share", "shares", "week", "weeks", "day",
+              "days", "time", "make", "makes", "made", "including", "include", "would",
+              "could", "will", "may", "like", "just", "now", "get", "much", "many",
+              "way", "back", "even", "well", "still", "going", "want", "really",
+              "thing", "things", "people", "use", "used", "using", "need", "see",
+              "today", "yesterday", "month", "months", "recent", "recently"}
     return list(_t.ENGLISH_STOP_WORDS.union(extra))
 
 
 def _top_terms(texts, stop, n, min_df):
     from sklearn.feature_extraction.text import TfidfVectorizer
+    stopset = set(stop)
     vec = TfidfVectorizer(max_features=2000, stop_words=stop,
-                          ngram_range=(1, 2), min_df=min_df)
+                          ngram_range=(1, 2), min_df=min_df,
+                          token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]{2,}\b")   # letters only, >=3 chars
     X = vec.fit_transform(texts)
     means = X.mean(axis=0).A1
     terms = vec.get_feature_names_out()
-    top = sorted(zip(terms, means), key=lambda x: -x[1])[:n]
-    return [{"term": t, "weight": round(float(w), 4)} for t, w in top]
+    ranked = sorted(zip(terms, means), key=lambda x: -x[1])
+    out = []
+    for t, w in ranked:
+        words = t.split()
+        if all(word in stopset for word in words):       # drop bigrams of pure stopwords
+            continue
+        out.append({"term": t, "weight": round(float(w), 4)})
+        if len(out) >= n:
+            break
+    return out
 
 
 def run(top_n=25):

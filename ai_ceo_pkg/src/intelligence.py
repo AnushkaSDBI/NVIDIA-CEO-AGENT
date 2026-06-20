@@ -46,6 +46,11 @@ class Recommendation(BaseModel):
 
 # ---------------- LLM (local Ollama) ----------------
 def _get_llm():
+    # "ollama" on your laptop (Ollama server); "transformers" on the data lab GPU
+    # (in-process HuggingFace model, no server needed).
+    if getattr(cfg, "LLM_BACKEND", "ollama") == "transformers":
+        from .llm import get_local_llm
+        return get_local_llm()
     from langchain_ollama import ChatOllama
     return ChatOllama(model=cfg.OLLAMA_MODEL, temperature=0.2)
 
@@ -83,15 +88,18 @@ def _format_evidence(chunks):
     return "\n".join(out)
 
 
-def _citations(chunks, idxs):
+def _citations(chunks, idxs, scored=None):
     cites = []
     for i in idxs:
         if 1 <= i <= len(chunks):
             c = chunks[i - 1]
+            ent = None
+            if scored and i in scored and scored[i][0] is not None:
+                ent = round(scored[i][0], 3)
             cites.append({
                 "source": c.get("source"), "title": c.get("title"),
                 "url": c.get("url", ""), "section": c.get("section", ""),
-                "published": c.get("published", ""),
+                "published": c.get("published", ""), "entailment": ent,
                 "snippet": " ".join((c.get("text") or "").split())[:200],
             })
     return cites
@@ -162,16 +170,31 @@ def _get_nli():
 
 
 def verify(claim, evidence_texts):
-    """Return entailment + contradiction probabilities for the claim given evidence."""
+    """Return entailment + contradiction for the claim. Scores each SENTENCE of the
+    evidence (not the whole noisy chunk) and takes the max — a claim is supported if
+    any single sentence entails it. Fixes dilution on long premises."""
     nli = _get_nli()
     if not nli or not evidence_texts:
         return {"verified": None, "confidence": None, "contradiction": None}
     tok, mdl, torch = nli
-    premise = " ".join(t for t in evidence_texts if t)[:2000]
-    inp = tok(premise, claim, return_tensors="pt", truncation=True, max_length=512)
+    import re
+    sents = []
+    for t in evidence_texts:
+        if not t:
+            continue
+        for s in re.split(r"(?<=[.!?])\s+", t):
+            s = s.strip()
+            if 15 <= len(s) <= 400:
+                sents.append(s)
+    if not sents:
+        sents = [" ".join(t for t in evidence_texts if t)[:400]]
+    sents = sents[:24]                                   # cap per call for speed
+    inp = tok(sents, [claim] * len(sents), return_tensors="pt",
+              truncation=True, max_length=256, padding=True)
     with torch.no_grad():
-        probs = torch.softmax(mdl(**inp).logits[0], dim=-1).tolist()
-    contradiction, _, entail = probs[0], probs[1], probs[-1]   # bart-mnli: [contra, neutral, entail]
+        probs = torch.softmax(mdl(**inp).logits, dim=-1)  # [n, 3] = [contra, neutral, entail]
+    entail = float(probs[:, -1].max())
+    contradiction = float(probs[:, 0].max())
     return {"verified": entail > cfg.NLI_THRESHOLD, "confidence": round(entail, 3),
             "contradiction": round(contradiction, 3)}
 
@@ -238,19 +261,31 @@ def _analyze(llm, company, role, kind, n, chunks, verify_fn):
                                if e is not None and e >= cfg.NLI_THRESHOLD), key=lambda x: -x[1])[:3]
                 kept = [i for i, _ in cand]
                 confs = [e for _, e in cand]
+            # 3) FINAL fallback: still show the analysis's own citations (best by entailment)
+            #    so the reader always sees the evidence — flagged unverified rather than hidden.
+            verified_kept = bool(kept)
+            if not kept:
+                cited = [(i, scored.get(i, (0.0,))[0] or 0.0)
+                         for i in f.evidence if 1 <= i <= len(chunks)]
+                cited.sort(key=lambda x: -x[1])
+                kept = [i for i, _ in cited[:3]]
+                confs = []
 
-        # 3) entailment-based verification from surviving citations
+        # 4) entailment-based verification from surviving citations
         if confs:
             entailment, verified = round(max(confs), 3), True
-        elif kept:
+        elif kept and not verify_fn:
             entailment, verified = None, None
+        elif kept:                                              # shown but did not pass the bar
+            best = max((scored.get(i, (0.0,))[0] or 0.0) for i in kept)
+            entailment, verified = round(best, 3), False
         else:
             entailment, verified = (0.0, False) if verify_fn else (None, None)
 
-        # 4) cross-source corroboration (how many independent source types agree)
+        # 5) cross-source corroboration (how many independent source types agree)
         corroboration = _corroboration(chunks, kept)
 
-        citations = _citations(chunks, kept)
+        citations = _citations(chunks, kept, scored)
         # authority-aware freshness: primary/official sources stay high regardless of age
         freshness = max((_freshness(c) for c in citations), default=0.5)
         # composite confidence: blend entailment + corroboration breadth + freshness
@@ -288,47 +323,75 @@ def _analyze(llm, company, role, kind, n, chunks, verify_fn):
 
 
 # ---------------- CEO synthesis agent ----------------
-_CEO_PROMPT = """You are the chief strategy advisor to the CEO of {company}.
-Based on the analysis below, produce the {n} highest-priority strategic recommendations.
+_IMPACT_RANK = {"high": 3, "medium": 2, "low": 1}
 
-OPPORTUNITIES:
-{opps}
+_REC_PROMPT = """You are the chief strategy advisor to the CEO of {company}.
+A strategic {kind} has been identified by the analysis team:
 
-RISKS:
-{risks}
+  {title}
+  {detail}
 
-TRENDS:
-{trends}
-
-Return ONLY a JSON array. Each object has keys:
-  "action": the recommended action,
-  "rationale": why, in one or two sentences,
+Recommend ONE decisive executive action that directly responds to it.
+Return ONLY a JSON object (no markdown) with keys:
+  "action": the recommended action (one decisive sentence),
+  "rationale": why this action, in one or two sentences,
   "expected_impact": the expected business impact,
-  "risk_level": "high" | "medium" | "low".
-No markdown, no prose."""
+  "risk_level": "high" | "medium" | "low" (the risk of taking the action)."""
 
 
-def _bullets(items):
-    return "\n".join(f"- {x['title']}: {x['detail']}" for x in items) or "- (none)"
+def _priority(impact, confidence):
+    """Priority blends the finding's impact with how well-verified it is."""
+    rank = _IMPACT_RANK.get((impact or "medium").lower(), 2) / 3.0
+    conf = confidence if confidence is not None else 0.5
+    score = round(0.6 * rank + 0.4 * conf, 3)
+    label = "high" if score >= 0.70 else "medium" if score >= 0.45 else "low"
+    return score, label
 
 
-def _recommend(llm, company, opps, risks, trends, verify_fn, n=5):
-    prompt = _CEO_PROMPT.format(company=company, n=n,
-                                opps=_bullets(opps), risks=_bullets(risks), trends=_bullets(trends))
-    premise = [x["detail"] for x in (opps + risks + trends)]
+def _rank(items):
+    return sorted(items, key=lambda f: (_IMPACT_RANK.get((f.get("impact") or "medium").lower(), 2),
+                                        f.get("confidence") or 0), reverse=True)
+
+
+def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
+    """One recommendation per finding: each is structurally tied to the specific
+    risk/opportunity it addresses, and inherits that finding's citations + confidence."""
+    risks_s, opps_s, trends_s = _rank(risks), _rank(opps), _rank(trends)
+
+    # interleave the strongest risks and opportunities so the brief is balanced
+    order = []
+    for r, o in zip(risks_s, opps_s):
+        order.append((r, "risk"))
+        order.append((o, "opportunity"))
+    order += [(r, "risk") for r in risks_s[len(opps_s):]]
+    order += [(o, "opportunity") for o in opps_s[len(risks_s):]]
+    if not order:
+        order = [(t, "trend") for t in trends_s]
+
     recs = []
-    for item in _llm_json(llm, prompt):
+    for f, kind in order[:n]:
+        items = _llm_json(llm, _REC_PROMPT.format(
+            company=company, kind=kind, title=f["title"], detail=f["detail"]))
+        item = items[0] if items else {}
         try:
-            r = Recommendation(**item)
+            r = Recommendation(**item) if item else None
         except Exception:
-            continue
-        v = verify_fn(f"{r.action}. {r.rationale}", premise) \
-            if verify_fn else {"verified": None, "confidence": None}
+            r = None
+        score, plabel = _priority(f.get("impact"), f.get("confidence"))
         recs.append({
-            "action": r.action, "rationale": r.rationale,
-            "expected_impact": r.expected_impact, "risk_level": r.risk_level,
-            "verified": v["verified"], "confidence": v["confidence"],
+            "action": r.action if r else f"Act on: {f['title']}",
+            "rationale": r.rationale if r else f["detail"],
+            "expected_impact": r.expected_impact if r else "",
+            "risk_level": r.risk_level if r else "medium",
+            "priority": plabel, "priority_score": score,
+            # structural traceability: which finding this addresses + its evidence
+            "addresses": {"type": kind, "title": f["title"],
+                          "confidence": f.get("confidence"),
+                          "corroboration": (f.get("corroboration") or {}).get("level"),
+                          "contested": f.get("contested", False)},
+            "citations": f.get("citations", []),     # inherit the finding's evidence trail
         })
+    recs.sort(key=lambda x: x["priority_score"], reverse=True)
     return recs
 
 

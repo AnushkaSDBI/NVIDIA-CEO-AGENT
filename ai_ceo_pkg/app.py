@@ -102,13 +102,16 @@ def _badge_level(level):
 
 def _citations_block(citations):
     if not citations:
-        st.caption("No supporting citations passed verification.")
+        st.caption("No evidence retrieved for this finding.")
         return
     with st.expander(f"Sources ({len(citations)})"):
         for c in citations:
             head = f"**{c.get('source','?')}** — {c.get('title','')}"
             if c.get("section"):
                 head += f"  ·  _{c['section']}_"
+            ent = c.get("entailment")
+            if ent is not None:
+                head += f"  ·  support {ent}"
             st.markdown(head)
             if c.get("snippet"):
                 st.markdown(f"<div class='cite'>{c['snippet']}…</div>", unsafe_allow_html=True)
@@ -320,32 +323,67 @@ def section_intelligence():
         _finding_cards(intel.get("trends", []))
     with tabs[3]:
         for r in intel.get("recommendations", []):
+            addr = r.get("addresses", {})
+            pr = r.get("priority", "")
+            pcls = {"high": "b-no", "medium": "b-md", "low": "b-ok"}.get(pr, "b-na")
+            prio = f'<span class="badge {pcls}">priority: {pr}</span>' if pr else ""
+            # what this recommendation responds to (the traceable link)
+            link = ""
+            if addr.get("title"):
+                conf = addr.get("confidence")
+                conf_s = f" · confidence {conf}" if conf is not None else ""
+                corr = f" · {addr.get('corroboration')}" if addr.get("corroboration") else ""
+                contested = " · ⚠ contested" if addr.get("contested") else ""
+                link = (f"<br><span style='color:#9aa0aa'>Addresses {addr.get('type','')}: "
+                        f"<b>{addr.get('title','')}</b>{conf_s}{corr}{contested}</span>")
             st.markdown(
                 f"<div class='card'><b>{r.get('action','')}</b> "
-                f"{_badge_level(r.get('risk_level'))}{_badge_verified(r.get('verified'), r.get('confidence'))}"
+                f"{prio}{_badge_level(r.get('risk_level'))}"
+                f"{link}"
                 f"<br><b>Why:</b> {r.get('rationale','')}"
                 f"<br><b>Expected impact:</b> {r.get('expected_impact','')}</div>",
                 unsafe_allow_html=True)
+            _citations_block(r.get("citations", []))
 
 
 def build_graph_html(entities):
-    """NVIDIA at the center, competitors + most-mentioned orgs around it. Self-contained HTML."""
+    """Knowledge graph: NVIDIA + organizations, linked by real co-occurrence edges
+    (not a star). Entities that appear together in documents are connected."""
     from pyvis.network import Network
     net = Network(height="600px", width="100%", bgcolor="#0e1117",
                   font_color="#e6e6e6", cdn_resources="in_line")
     center = cfg.COMPANY["name"]
     net.add_node(center, label=center, color=ACCENT, size=42, shape="dot")
     comp_names = {c["name"] for c in entities.get("competitors", [])}
-    for c in entities.get("competitors", []):
-        net.add_node(c["name"], label=c["name"], color="#e8a838",
-                     size=16 + min(c["mentions"], 30), title=f"{c['mentions']} mentions (competitor)")
-        net.add_edge(center, c["name"], color="#e8a838")
-    for o in entities.get("all_orgs", [])[:18]:
-        if o["name"] in comp_names:
+
+    nodes = {center}
+    for o in entities.get("all_orgs", [])[:22]:
+        is_comp = o["name"] in comp_names
+        net.add_node(o["name"], label=o["name"],
+                     color="#e8a838" if is_comp else "#5a6070",
+                     size=(16 if is_comp else 10) + min(o["mentions"], 26),
+                     title=f"{o['mentions']} mentions" + (" (competitor)" if is_comp else ""))
+        nodes.add(o["name"])
+
+    # inter-entity edges from co-occurrence (the actual network structure)
+    linked = set()
+    for e in entities.get("edges", []):
+        a, b = e["source"], e["target"]
+        if a in nodes and b in nodes:
+            net.add_edge(a, b, color="#33373f", value=e.get("weight", 1))
+            linked.add(a); linked.add(b)
+
+    # competitors always tie to the company; orphans tie to center so nothing floats
+    for n in nodes:
+        if n == center:
             continue
-        net.add_node(o["name"], label=o["name"], color="#5a6070",
-                     size=10 + min(o["mentions"], 22), title=f"{o['mentions']} mentions")
-        net.add_edge(center, o["name"], color="#33373f")
+        if n in comp_names:
+            net.add_edge(center, n, color="#e8a838")
+        elif n not in linked:
+            net.add_edge(center, n, color="#262a31")
+
+    net.set_options('{"physics":{"barnesHut":{"gravitationalConstant":-12000,'
+                    '"springLength":140,"springConstant":0.04},"minVelocity":0.4}}')
     try:
         return net.generate_html()
     except Exception:
@@ -357,18 +395,69 @@ def build_graph_html(entities):
 
 
 def section_graph():
-    st.header("Knowledge Graph")
-    e = load_json(ENT_PATH)
-    if not e or not (e.get("competitors") or e.get("all_orgs")):
-        st.info("No entities yet. Run `python -m src.entities` (or `python refresh.py`).")
-        return
-    st.caption("Organizations co-mentioned with the company across the corpus. "
-               "Green = company, amber = known competitors, grey = other orgs (size = mentions).")
+    st.header("Source Trust & Decision Weighting")
+    st.caption("How much should the CEO trust each source when acting on it? "
+               "Internal/first-party sources are weighted highest; external/crowd sources "
+               "are sentiment signals to corroborate, not act on directly.")
+
+    counts = {}
     try:
-        import streamlit.components.v1 as components
-        components.html(build_graph_html(e), height=620, scrolling=False)
-    except Exception as ex:
-        st.warning(f"Graph renderer unavailable ({ex}). Install pyvis: `pip install pyvis networkx`.")
+        counts = db.counts_by_source()
+    except Exception:
+        pass
+
+    rows = []
+    for src, (tier, weight, desc) in cfg.SOURCE_TRUST.items():
+        rows.append({"source": src, "tier": tier, "weight": weight,
+                     "docs": counts.get(src, 0), "desc": desc})
+    d = pd.DataFrame(rows)
+
+    # 1) Decision-weight ranking (the "ideal weighting" view)
+    dd = d.sort_values("weight")
+    colors = ["#76B900" if t == "internal" else "#6aa9ff" for t in dd["tier"]]
+    fig = go.Figure(go.Bar(
+        x=dd["weight"], y=dd["source"], orientation="h", marker_color=colors,
+        text=[f"{w:.2f}  ·  {n} docs" for w, n in zip(dd["weight"], dd["docs"])],
+        textposition="auto",
+        customdata=dd["desc"], hovertemplate="%{y}: %{customdata}<extra></extra>"))
+    fig.update_layout(template="plotly_dark", height=380, margin=dict(l=10, r=10, t=10, b=10),
+                      paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                      xaxis_title="decision weight (how much to trust)")
+    st.plotly_chart(fig, width='stretch')
+    st.markdown("<span style='color:#76B900'>■</span> internal / first-party  "
+                "&nbsp;&nbsp; <span style='color:#6aa9ff'>■</span> external / third-party",
+                unsafe_allow_html=True)
+
+    # 2) The decision strategy: volume vs trust quadrant
+    st.subheader("Decision strategy — volume vs. trust")
+    fig2 = go.Figure()
+    for tier, col in [("internal", "#76B900"), ("external", "#6aa9ff")]:
+        sub = d[d["tier"] == tier]
+        fig2.add_trace(go.Scatter(
+            x=sub["docs"], y=sub["weight"], mode="markers+text", text=sub["source"],
+            textposition="top center", name=tier,
+            marker=dict(size=[12 + min(n, 40) for n in sub["docs"]], color=col, opacity=0.8)))
+    if len(d):
+        fig2.add_hline(y=0.65, line_dash="dot", line_color="#555")
+    fig2.update_layout(template="plotly_dark", height=380, margin=dict(l=10, r=10, t=30, b=10),
+                       paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                       xaxis_title="volume (documents collected)",
+                       yaxis_title="trust weight")
+    st.plotly_chart(fig2, width='stretch')
+    st.caption("Top band (high trust): act on directly — filings, official materials. "
+               "Bottom band (high volume, low trust): treat as sentiment; require corroboration "
+               "across sources before acting. This mirrors how findings are scored: "
+               "confidence = entailment + cross-source corroboration + authority-aware freshness.")
+
+    # 3) Entity relationship graph (kept as a secondary view)
+    e = load_json(ENT_PATH)
+    if e and (e.get("competitors") or e.get("all_orgs")):
+        with st.expander("Organization relationship graph (co-mentions)"):
+            try:
+                import streamlit.components.v1 as components
+                components.html(build_graph_html(e), height=560, scrolling=False)
+            except Exception as ex:
+                st.warning(f"Graph renderer unavailable ({ex}).")
 
 
 def section_ask():
@@ -396,7 +485,7 @@ SECTIONS = {
     "Sentiment": section_sentiment,
     "Competitive Landscape": section_competitors,
     "CEO Intelligence": section_intelligence,
-    "Knowledge Graph": section_graph,
+    "Source Trust": section_graph,
     "Ask the Agent": section_ask,
 }
 

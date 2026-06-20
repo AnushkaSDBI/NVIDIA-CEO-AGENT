@@ -58,9 +58,14 @@ ASPECTS = {
                                  "sell-off", "selloff", "rally", "p/e"],
     "Competition":              ["amd", "intel", "custom silicon", "asic", "tpu", "mi300", "mi325", "competitor"],
 }
-MODEL_BACKEND   = "ollama"
+# ---- LLM backend ----
+# "ollama"       -> local Ollama server (your laptop)
+# "transformers" -> in-process HuggingFace model on GPU (university data lab, no Ollama)
+LLM_BACKEND   = os.getenv("LLM_BACKEND", "ollama")
+LLM_MODEL     = os.getenv("LLM_MODEL", "Qwen/Qwen2.5-7B-Instruct")  # HF id for transformers backend
+LLM_TEMPERATURE = 0.2
+LLM_MAX_TOKENS  = 1024
 OLLAMA_MODEL    = "qwen2.5:7b"
-HF_MODEL        = "Qwen/Qwen2.5-3B-Instruct"
 
 # --- 3. First-party (company) RSS sources -------------------
 COMPANY_FEEDS = {
@@ -82,6 +87,36 @@ COMPETITORS = [
     "samsung", "google", "microsoft", "amazon", "meta", "apple",
     "huawei", "cerebras", "groq", "graphcore", "marvell", "supermicro",
 ]
+
+# Curated organization universe — real companies only, each tagged by its role.
+# Entities NER finds are matched against this so the dashboard shows actual
+# organizations (not "revenue", "gpu", "professional visualization", etc.).
+ORG_TYPES = {
+    "competitor": ["amd", "intel", "qualcomm", "broadcom", "arm", "huawei", "cerebras",
+                   "groq", "graphcore", "tenstorrent", "sambanova", "marvell", "mediatek"],
+    "customer": ["microsoft", "google", "alphabet", "amazon", "aws", "meta", "oracle",
+                 "tesla", "openai", "anthropic", "tencent", "alibaba", "bytedance",
+                 "dell", "supermicro", "hpe", "lenovo", "coreweave"],
+    "supplier": ["tsmc", "samsung", "sk hynix", "micron", "asml", "foxconn", "amkor"],
+}
+# flat lookup: name -> role
+ORG_ROLE = {name: role for role, names in ORG_TYPES.items() for name in names}
+
+# Source trust weighting: how much should the CEO weight each source type when
+# making decisions? "internal" = first-party / official; "external" = third-party.
+# weight in [0,1] = decision trust. Drives the Source Trust view in the dashboard.
+SOURCE_TRUST = {
+    "filing":    ("internal", 1.00, "SEC filings — audited, legally binding"),
+    "pdf":       ("internal", 0.85, "Investor decks & transcripts — official"),
+    "company":   ("internal", 0.85, "NVIDIA press & blog — official but promotional"),
+    "research":  ("external", 0.70, "arXiv — technical research signal"),
+    "reference": ("external", 0.70, "Wikipedia — factual background"),
+    "news":      ("external", 0.60, "Journalism — timely, varies by outlet"),
+    "market":    ("external", 0.60, "Market/price data — factual, noisy"),
+    "ecosystem": ("external", 0.50, "GitHub activity — indirect adoption signal"),
+    "community": ("external", 0.40, "Hacker News — informed opinion"),
+    "social":    ("external", 0.35, "Reddit — retail sentiment, noisy / sarcasm"),
+}
 
 # --- 5. Other sources ---------------------------------------
 HN_QUERY = "NVIDIA"
@@ -183,11 +218,10 @@ MMR_LAMBDA   = 0.7                   # 1.0 = pure relevance, 0 = pure diversity
 USE_RERANKER = True
 
 # --- Multi-Query RAG (LLM query expansion) ------------------
-OLLAMA_MODEL = "qwen2.5:7b"
 MULTIQUERY_N = 3
 
 # --- Intelligence layer (CEO agent + verification) ----------
 NLI_MODEL     = "facebook/bart-large-mnli"   # entailment check for faithfulness
-NLI_THRESHOLD = 0.5                          # entailment prob above which a claim is "verified"
+NLI_THRESHOLD = 0.35                         # entailment bar for "verified" (sentence-level); evidence still shown below it
 CONTRADICTION_THRESHOLD = 0.5                # contradiction prob above which a finding is flagged "contested"
 INTEL_PATH    = "data/clean/intelligence.json"

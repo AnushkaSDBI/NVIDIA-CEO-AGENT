@@ -1,59 +1,15 @@
 {
   "all_orgs": [
     {
-      "name": "gpu",
-      "mentions": 131
-    },
-    {
-      "name": "ai",
-      "mentions": 125
-    },
-    {
-      "name": "sec",
-      "mentions": 59
-    },
-    {
-      "name": "cpu",
-      "mentions": 57
-    },
-    {
-      "name": "data center",
-      "mentions": 40
-    },
-    {
-      "name": "diluted",
-      "mentions": 38
-    },
-    {
-      "name": "api",
-      "mentions": 37
-    },
-    {
       "name": "intel",
       "mentions": 34
-    },
-    {
-      "name": "llm",
-      "mentions": 33
-    },
-    {
-      "name": "the securities and exchange commission",
-      "mentions": 33
     },
     {
       "name": "microsoft",
       "mentions": 31
     },
     {
-      "name": "blackwell",
-      "mentions": 30
-    },
-    {
       "name": "google",
-      "mentions": 29
-    },
-    {
-      "name": "the securities exchange act",
       "mentions": 29
     },
     {
@@ -63,10 +19,6 @@
     {
       "name": "ip",
       "mentions": 27
-    },
-    {
-      "name": "hopper",
-      "mentions": 25
     },
     {
       "name": "infiniband",
@@ -89,10 +41,6 @@
       "mentions": 23
     },
     {
-      "name": "dgx",
-      "mentions": 21
-    },
-    {
       "name": "nvlink",
       "mentions": 20
     },
@@ -101,15 +49,15 @@
       "mentions": 20
     },
     {
-      "name": "nim",
-      "mentions": 20
-    },
-    {
       "name": "github",
       "mentions": 19
     },
     {
       "name": "siemens",
+      "mentions": 18
+    },
+    {
+      "name": "amazon",
       "mentions": 18
     },
     {
@@ -122,10 +70,6 @@
     },
     {
       "name": "hpc",
-      "mentions": 17
-    },
-    {
-      "name": "amazon",
       "mentions": 17
     },
     {
@@ -159,6 +103,62 @@
     {
       "name": "income & expense",
       "mentions": 15
+    },
+    {
+      "name": "oi&e",
+      "mentions": 15
+    },
+    {
+      "name": "dso",
+      "mentions": 15
+    },
+    {
+      "name": "cfo commentary",
+      "mentions": 15
+    },
+    {
+      "name": "av",
+      "mentions": 14
+    },
+    {
+      "name": "bluefield",
+      "mentions": 14
+    },
+    {
+      "name": "tb",
+      "mentions": 13
+    },
+    {
+      "name": "gtc",
+      "mentions": 13
+    },
+    {
+      "name": "hugging face",
+      "mentions": 13
+    },
+    {
+      "name": "mlperf",
+      "mentions": 13
+    },
+    {
+      "name": "ieee",
+      "mentions": 13
+    },
+    {
+      "name": "omniverse",
+      "mentions": 13
+    },
+    {
+      "name": "ram",
+      "mentions": 12
+    },
+    {
+      "name": "quantum",
+      "mentions": 12
+    },
+    {
+      "name": "microsoft azure",
+      "mentions": 12
     }
   ],
   "competitors": [
@@ -166,73 +166,275 @@
       "name": "intel",
       "mentions": 34,
       "sample_docs": [
-        "Apple is fighting for TSMC capacity as Nvidia takes center s",
         "Market shares PC graphics chips Q1/2026",
-        "Intel x86 processors with NVIDIA RTX graphics reportedly pla"
+        "CUTh-Solver: GPU-Accelerated Sparse Matrix Solver for High-R",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s"
       ]
     },
     {
       "name": "microsoft",
       "mentions": 31,
       "sample_docs": [
-        "Nvidia announces RTX 2000 GPU series with \u20186x more performan",
-        "NVIDIA Nemotron 3 Ultra Powers Faster, More Efficient Reason",
-        "Hugging Face raises $235M from investors including Salesforc"
+        "NVIDIA earnings press release (2024-11-20)",
+        "q3_NVDA-F3Q25-Quarterly-Presentation-FINAL",
+        "q4_NVDA-F4Q25-Quarterly-Presentation-FINAL"
       ]
     },
     {
       "name": "google",
       "mentions": 29,
       "sample_docs": [
-        "Apple is fighting for TSMC capacity as Nvidia takes center s",
-        "Google, Nvidia and Anthropic bosses' AI tips for students",
-        "NVIDIA earnings press release (2025-05-28)"
+        "Apple to Launch New Siri in September With Help of Google, N",
+        "The \"Inverse Nvidia Circular Funding\" loop\u2026 the shorts are m",
+        "OTRO: Oblivious Tokenization Path with Square-Root ORAM"
       ]
     },
     {
       "name": "amd",
       "mentions": 28,
       "sample_docs": [
-        "ReQAT: Achieving Full-Precision Reasoning Accuracy with 4-bi",
-        "Apple is fighting for TSMC capacity as Nvidia takes center s",
-        "Market shares PC graphics chips Q1/2026"
+        "Market shares PC graphics chips Q1/2026",
+        "OTRO: Oblivious Tokenization Path with Square-Root ORAM",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s"
       ]
     },
     {
       "name": "meta",
       "mentions": 24,
       "sample_docs": [
-        "Extract More Kernel Performance with NVIDIA CompileIQ Auto-T",
-        "NVDA rose 18.7% on 2025-04-09",
-        "q2_NVDA-F2Q26-Quarterly-Presentation-FINAL"
+        "NVIDIA earnings press release (2026-02-25)",
+        "The \"Inverse Nvidia Circular Funding\" loop\u2026 the shorts are m",
+        "Are MSFT, META and NVDA undervalued right now? Forward PE, P"
+      ]
+    },
+    {
+      "name": "amazon",
+      "mentions": 18,
+      "sample_docs": [
+        "How SpaceX and 'MANGOS' are fueling the latest ETF trends",
+        "Satya Nadella warns that AI could hollow out entire industri",
+        "Apple is fighting for TSMC capacity as Nvidia takes center s"
       ]
     },
     {
       "name": "apple",
       "mentions": 18,
       "sample_docs": [
-        "Intel shares rise after Trump announces Apple partnership",
-        "Pixar, Adobe, Apple, Autodesk, and Nvidia form alliance for ",
-        "Apple is fighting for TSMC capacity as Nvidia takes center s"
-      ]
-    },
-    {
-      "name": "amazon",
-      "mentions": 17,
-      "sample_docs": [
-        "The most expensive opinion I ever had was about Nvidia's val",
-        "Apple is fighting for TSMC capacity as Nvidia takes center s",
-        "NVIDIA 10-K Annual report (2025-02-26)"
+        "Apple to Launch New Siri in September With Help of Google, N",
+        "Amazon hopes to challenge Nvidia more directly by selling it",
+        "Apple lost to Jensen"
       ]
     },
     {
       "name": "tsmc",
       "mentions": 16,
       "sample_docs": [
-        "Intel shares rise after Trump announces Apple partnership",
-        "NVIDIA earnings press release (2025-08-27)",
+        "ISSCC 2026: NVIDIA & Broadcom CPO, HBM4 & LPDDR6, TSMC Activ",
+        "TSMC might allocate more capacity to AMD and Nvidia shifts a",
         "Apple is fighting for TSMC capacity as Nvidia takes center s"
       ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "amd",
+      "target": "intel",
+      "weight": 19
+    },
+    {
+      "source": "infiniband",
+      "target": "ip",
+      "weight": 15
+    },
+    {
+      "source": "cfo commentary",
+      "target": "dso",
+      "weight": 15
+    },
+    {
+      "source": "cfo commentary",
+      "target": "income & expense",
+      "weight": 15
+    },
+    {
+      "source": "cfo commentary",
+      "target": "oi&e",
+      "weight": 15
+    },
+    {
+      "source": "cfo commentary",
+      "target": "reportable segments",
+      "weight": 15
+    },
+    {
+      "source": "cfo commentary",
+      "target": "\u2022 revenue",
+      "weight": 15
+    },
+    {
+      "source": "dso",
+      "target": "income & expense",
+      "weight": 15
+    },
+    {
+      "source": "dso",
+      "target": "oi&e",
+      "weight": 15
+    },
+    {
+      "source": "dso",
+      "target": "reportable segments",
+      "weight": 15
+    },
+    {
+      "source": "dso",
+      "target": "\u2022 revenue",
+      "weight": 15
+    },
+    {
+      "source": "income & expense",
+      "target": "oi&e",
+      "weight": 15
+    },
+    {
+      "source": "income & expense",
+      "target": "reportable segments",
+      "weight": 15
+    },
+    {
+      "source": "income & expense",
+      "target": "\u2022 revenue",
+      "weight": 15
+    },
+    {
+      "source": "oi&e",
+      "target": "reportable segments",
+      "weight": 15
+    },
+    {
+      "source": "oi&e",
+      "target": "\u2022 revenue",
+      "weight": 15
+    },
+    {
+      "source": "reportable segments",
+      "target": "\u2022 revenue",
+      "weight": 15
+    },
+    {
+      "source": "cfo commentary",
+      "target": "professional visualization",
+      "weight": 14
+    },
+    {
+      "source": "dso",
+      "target": "professional visualization",
+      "weight": 14
+    },
+    {
+      "source": "income & expense",
+      "target": "professional visualization",
+      "weight": 14
+    },
+    {
+      "source": "oi&e",
+      "target": "professional visualization",
+      "weight": 14
+    },
+    {
+      "source": "professional visualization",
+      "target": "reportable segments",
+      "weight": 14
+    },
+    {
+      "source": "professional visualization",
+      "target": "\u2022 revenue",
+      "weight": 14
+    },
+    {
+      "source": "meta",
+      "target": "microsoft",
+      "weight": 12
+    },
+    {
+      "source": "google",
+      "target": "meta",
+      "weight": 12
+    },
+    {
+      "source": "google",
+      "target": "microsoft",
+      "weight": 12
+    },
+    {
+      "source": "ip",
+      "target": "professional visualization",
+      "weight": 12
+    },
+    {
+      "source": "infiniband",
+      "target": "professional visualization",
+      "weight": 11
+    },
+    {
+      "source": "intel",
+      "target": "tsmc",
+      "weight": 10
+    },
+    {
+      "source": "intel",
+      "target": "microsoft",
+      "weight": 10
+    },
+    {
+      "source": "infiniband",
+      "target": "\u2022 revenue",
+      "weight": 10
+    },
+    {
+      "source": "ip",
+      "target": "\u2022 revenue",
+      "weight": 10
+    },
+    {
+      "source": "amazon",
+      "target": "microsoft",
+      "weight": 9
+    },
+    {
+      "source": "coreweave",
+      "target": "microsoft azure",
+      "weight": 9
+    },
+    {
+      "source": "ip",
+      "target": "nvlink",
+      "weight": 9
+    },
+    {
+      "source": "amd",
+      "target": "tsmc",
+      "weight": 9
+    },
+    {
+      "source": "google",
+      "target": "intel",
+      "weight": 9
+    },
+    {
+      "source": "meta",
+      "target": "siemens",
+      "weight": 8
+    },
+    {
+      "source": "apple",
+      "target": "google",
+      "weight": 8
+    },
+    {
+      "source": "infiniband",
+      "target": "nvlink",
+      "weight": 8
     }
   ]
 }
