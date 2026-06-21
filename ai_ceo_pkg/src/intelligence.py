@@ -396,6 +396,39 @@ def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
 
 
 # ---------------- orchestrator ----------------
+_BRIEFING_PROMPT = """You are the chief of staff briefing the CEO of {company}.
+Using ONLY the analysis below, write a concise executive briefing in THREE short
+paragraphs, each under its heading. Plain prose, no bullet points, no markdown.
+
+WHAT'S HAPPENING:
+(the most important current developments)
+
+WHY IT MATTERS:
+(the strategic implications for {company})
+
+WHAT TO DO NEXT:
+(the top priorities for management)
+
+ANALYSIS
+Opportunities: {opps}
+Risks: {risks}
+Trends: {trends}
+Recommended actions: {recs}"""
+
+
+def _briefing(llm, company, opps, risks, trends, recs):
+    """One synthesized narrative briefing: what's happening / why / what to do next."""
+    def names(items):
+        return "; ".join(x.get("title", "") for x in items[:5]) or "(none)"
+    prompt = _BRIEFING_PROMPT.format(
+        company=company, opps=names(opps), risks=names(risks), trends=names(trends),
+        recs="; ".join(r.get("action", "") for r in recs[:5]) or "(none)")
+    try:
+        return _invoke(llm, prompt).strip()
+    except Exception:
+        return ""
+
+
 def run_analysis(search_fn=None, llm=None, verify_fn=verify):
     company = cfg.COMPANY["name"]
     search_fn = search_fn or repository.search
@@ -419,9 +452,13 @@ def run_analysis(search_fn=None, llm=None, verify_fn=verify):
     print("  [CEO INTEL] synthesizing recommendations ...")
     recs = _recommend(llm, company, opps, risks, trends, verify_fn)
 
+    print("  [CEO INTEL] writing CEO briefing ...")
+    briefing = _briefing(llm, company, opps, risks, trends, recs)
+
     report = {
         "company": company,
         "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "briefing": briefing,
         "opportunities": opps, "risks": risks, "trends": trends,
         "recommendations": recs,
     }

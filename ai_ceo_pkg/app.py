@@ -311,6 +311,11 @@ def section_intelligence():
     st.caption(f"Generated {intel.get('generated_at','')}  ·  every claim is grounded in retrieved "
                "evidence and checked by an NLI entailment model.")
 
+    if intel.get("briefing"):
+        st.markdown(f"<div class='card' style='border-left:3px solid {ACCENT}'>"
+                    f"<b>CEO Briefing</b><br>{intel['briefing'].replace(chr(10), '<br>')}</div>",
+                    unsafe_allow_html=True)
+
     tabs = st.tabs([f"Opportunities ({len(intel.get('opportunities',[]))})",
                     f"Risks ({len(intel.get('risks',[]))})",
                     f"Trends ({len(intel.get('trends',[]))})",

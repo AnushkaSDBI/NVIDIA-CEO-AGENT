@@ -1,0 +1,23 @@
+# ============================================================
+#  .env  —  your local secrets. NEVER commit this file.
+#  (It is already listed in .gitignore.)
+#  Fill in the values below, then run the pipeline normally.
+# ============================================================
+
+# --- SEC EDGAR (REQUIRED — replace with your real email, or SEC returns HTTP 403) ---
+SEC_USER_AGENT=AI-CEO-Project your.real.email@example.com
+
+# --- Reddit consumer sentiment (OPTIONAL) ---
+# Option A — PRAW OAuth app (https://www.reddit.com/prefs/apps -> "script"):
+REDDIT_CLIENT_ID=
+REDDIT_CLIENT_SECRET=
+REDDIT_USER_AGENT=ai-ceo-research/0.1
+# Option B — keyless RSS feed token (https://www.reddit.com/prefs/feeds/):
+REDDIT_FEED_USER=Knusha
+REDDIT_FEED_TOKEN=b433a1bd369318a320b3b09d0fc1cf7d431d2771
+
+# --- GitHub ecosystem (OPTIONAL — raises API rate limit) ---
+GITHUB_TOKEN=
+
+# --- Hugging Face (OPTIONAL — faster model downloads) ---
+HF_TOKEN=

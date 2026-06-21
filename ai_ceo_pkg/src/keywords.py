@@ -30,15 +30,19 @@ def _stopwords():
               "could", "will", "may", "like", "just", "now", "get", "much", "many",
               "way", "back", "even", "well", "still", "going", "want", "really",
               "thing", "things", "people", "use", "used", "using", "need", "see",
-              "today", "yesterday", "month", "months", "recent", "recently"}
+              "today", "yesterday", "month", "months", "recent", "recently",
+              # generic business/finance words that carry no thematic signal
+              "non", "gaap", "revenue", "revenues", "results", "result", "business",
+              "growth", "guidance", "fiscal", "total", "net", "income", "earnings",
+              "financial", "value", "high", "low", "good", "great", "long", "term"}
     return list(_t.ENGLISH_STOP_WORDS.union(extra))
 
 
-def _top_terms(texts, stop, n, min_df):
+def _top_terms(texts, stop, n, min_df, max_df=0.5):
     from sklearn.feature_extraction.text import TfidfVectorizer
     stopset = set(stop)
     vec = TfidfVectorizer(max_features=2000, stop_words=stop,
-                          ngram_range=(1, 2), min_df=min_df,
+                          ngram_range=(1, 2), min_df=min_df, max_df=max_df,
                           token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]{2,}\b")   # letters only, >=3 chars
     X = vec.fit_transform(texts)
     means = X.mean(axis=0).A1
@@ -47,7 +51,7 @@ def _top_terms(texts, stop, n, min_df):
     out = []
     for t, w in ranked:
         words = t.split()
-        if all(word in stopset for word in words):       # drop bigrams of pure stopwords
+        if any(word in stopset for word in words):       # drop any term containing a stopword
             continue
         out.append({"term": t, "weight": round(float(w), 4)})
         if len(out) >= n:
@@ -71,7 +75,7 @@ def run(top_n=25):
         s_texts = [d["text"] for d in docs if d.get("source") == s and d.get("text")]
         if len(s_texts) >= 3:
             try:
-                by_source[s] = _top_terms(s_texts, stop, 12, min_df=1)
+                by_source[s] = _top_terms(s_texts, stop, 12, min_df=1, max_df=1.0)
             except Exception:
                 pass
 
