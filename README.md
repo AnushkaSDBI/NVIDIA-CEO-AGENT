@@ -17,7 +17,7 @@ Every component maps to a course module, so the system is fully explainable in t
 | ------------------------ | -------------------------- |
 | Collected documents      | **317**                    |
 | Independent source types | **9**                      |
-| Chunks indexed           | **XXXX**                   |
+| Chunks indexed           | **7700**                   |
 | Embedding model          | **BAAI/bge-small-en-v1.5** |
 | Vector index             | **FAISS**                  |
 | Keyword retriever        | **BM25**                   |
