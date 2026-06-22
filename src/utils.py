@@ -46,18 +46,33 @@ def chunk_text(text, size=1000, overlap=150):
 
 
 # --- 4. De-duplication --------------------------------------
-def deduplicate(docs, min_len=120):
+# Short-but-dense financial facts to rescue regardless of length:
+# a $/€/£ figure, a percentage, or earnings vocabulary (flashes, guidance).
+_FIN_SIGNAL = re.compile(
+    r"[$€£]\s?\d|\d+(?:\.\d+)?\s?%|\b(?:billion|million|beats?|miss(?:es|ed)?|"
+    r"guidance|eps|revenue|earnings|forecast|outlook)\b", re.I)
+
+
+def deduplicate(docs, min_len=60, min_chars=None):
     """
     Drop junk/short docs and remove duplicates.
-    IMPORTANT: hash the TEXT, not the title. Chunked sources (SEC
-    filings, Wikipedia) share one title across many chunks, so
-    hashing the title would collapse them all into a single doc.
+
+    The length floor is SOURCE-AWARE: short social/market posts carry real signal
+    (sentiment, prices) and get a lower floor via `min_chars`. On top of that, any
+    short-but-dense financial item — an earnings flash, a guidance line, a $/% figure —
+    is kept regardless of source, so high-information one-liners are never discarded.
+
+    IMPORTANT: hash the TEXT, not the title. Chunked sources (SEC filings, Wikipedia)
+    share one title across many chunks, so hashing the title would collapse them all.
     """
+    min_chars = min_chars or {}
     seen, clean = set(), []
     for d in docs:
-        if len(d["text"]) < min_len:
+        text = d["text"]
+        floor = min_chars.get(d.get("source", ""), min_len)
+        if len(text) < floor and not _FIN_SIGNAL.search(text):
             continue
-        key = hashlib.md5(d["text"].strip().lower().encode()).hexdigest()
+        key = hashlib.md5(text.strip().lower().encode()).hexdigest()
         if key in seen:
             continue
         seen.add(key)

@@ -503,7 +503,7 @@ def run(quick=False):
     with open(cfg.RAW_PATH, "w", encoding="utf-8") as f:
         json.dump(raw, f, indent=2)
 
-    clean = utils.deduplicate(raw, cfg.MIN_TEXT_LEN)
+    clean = utils.deduplicate(raw, cfg.MIN_TEXT_LEN, cfg.MIN_DOC_CHARS)
     before = len(clean)
     clean = utils.filter_relevant(clean, cfg.COMPANY["aliases"], cfg.FILTER_SOURCES)
     dropped = before - len(clean)

@@ -151,7 +151,15 @@ PDF_URLS = {
 }
 
 # --- 6. Cleaning + chunking ---------------------------------
-MIN_TEXT_LEN  = 60      # lowered from 120 so short HN/news items survive
+MIN_TEXT_LEN  = 60      # default floor (open-web / news / research / first-party)
+# Per-source overrides: short content is NORMAL and carries signal for these,
+# so they get a lower floor than the open-web default above.
+MIN_DOC_CHARS = {
+    "social":    12,    # short posts ARE the sentiment signal
+    "market":    12,    # price / financial blips
+    "community": 30,    # Hacker News one-liners
+    "ecosystem": 40,    # repo blurbs
+}
 CHUNK_SIZE    = 1000
 CHUNK_OVERLAP = 150
 
