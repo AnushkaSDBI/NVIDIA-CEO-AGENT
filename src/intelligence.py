@@ -247,27 +247,34 @@ def _analyze(llm, company, role, kind, n, chunks, verify_fn):
         claim = f"{f.title}. {f.detail}"
         scored = _score_chunks(claim, chunks, verify_fn)        # {idx: (entail, contra)}
 
-        if not verify_fn:                                       # NLI off -> keep cited as-is
+        if not verify_fn:                                       # NLI off -> keep cited in-bounds
             kept = [i for i in f.evidence if 1 <= i <= len(chunks)]
             confs = []
         else:
-            # 1) keep cited chunks that entail the claim
-            kept = [i for i in f.evidence
-                    if scored.get(i, (None,))[0] is not None and scored[i][0] >= cfg.NLI_THRESHOLD]
-            confs = [scored[i][0] for i in kept]
-            # 2) repair: nothing cited held up -> pull best entailing chunks from the rest
+            # all chunks that SUPPORT the claim (entail >= threshold), strongest first,
+            # scanning the whole retrieved set (not only what the LLM happened to cite)
+            supporters = sorted(((i, scored[i][0]) for i in scored
+                                 if scored[i][0] is not None and scored[i][0] >= cfg.NLI_THRESHOLD),
+                                key=lambda x: -x[1])
+            # diversify across source types FIRST: take the best supporter from each distinct
+            # source, so a finding is backed by INDEPENDENT sources (drives corroboration to 3+)
+            seen_src, kept, confs = set(), [], []
+            for i, e in supporters:
+                src = chunks[i - 1].get("source")
+                if src not in seen_src:
+                    seen_src.add(src)
+                    kept.append(i)
+                    confs.append(e)
+            # then top up with the next strongest supporters (any source) up to 5 citations
+            for i, e in supporters:
+                if i not in kept and len(kept) < 5:
+                    kept.append(i)
+                    confs.append(e)
+            # fallback: nothing entailed -> still show the analysis's own cited evidence
+            # (flagged unverified) so the reader always sees what it was based on
             if not kept:
-                cand = sorted(((i, e) for i, (e, _) in scored.items()
-                               if e is not None and e >= cfg.NLI_THRESHOLD), key=lambda x: -x[1])[:3]
-                kept = [i for i, _ in cand]
-                confs = [e for _, e in cand]
-            # 3) FINAL fallback: still show the analysis's own citations (best by entailment)
-            #    so the reader always sees the evidence — flagged unverified rather than hidden.
-            verified_kept = bool(kept)
-            if not kept:
-                cited = [(i, scored.get(i, (0.0,))[0] or 0.0)
-                         for i in f.evidence if 1 <= i <= len(chunks)]
-                cited.sort(key=lambda x: -x[1])
+                cited = sorted(((i, scored.get(i, (0.0,))[0] or 0.0)
+                                for i in f.evidence if 1 <= i <= len(chunks)), key=lambda x: -x[1])
                 kept = [i for i, _ in cited[:3]]
                 confs = []
 
@@ -349,8 +356,16 @@ def _priority(impact, confidence):
 
 
 def _rank(items):
-    return sorted(items, key=lambda f: (_IMPACT_RANK.get((f.get("impact") or "medium").lower(), 2),
-                                        f.get("confidence") or 0), reverse=True)
+    """Best findings first: verified, then breadth of independent corroboration,
+    then confidence, then impact. This promotes verified + multi-source + high-confidence
+    findings into the recommendations."""
+    def key(f):
+        verified = 1 if f.get("verified") else 0
+        corr = min((f.get("corroboration") or {}).get("score", 0), 3)
+        conf = f.get("confidence") or 0.0
+        impact = _IMPACT_RANK.get((f.get("impact") or "medium").lower(), 2)
+        return (verified, corr, round(conf, 3), impact)
+    return sorted(items, key=key, reverse=True)
 
 
 def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
@@ -378,20 +393,29 @@ def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
         except Exception:
             r = None
         score, plabel = _priority(f.get("impact"), f.get("confidence"))
+        corr = f.get("corroboration") or {}
+        n_sources = corr.get("score", 0)
         recs.append({
             "action": r.action if r else f"Act on: {f['title']}",
             "rationale": r.rationale if r else f["detail"],
             "expected_impact": r.expected_impact if r else "",
             "risk_level": r.risk_level if r else "medium",
             "priority": plabel, "priority_score": score,
+            # quality signals inherited from the finding this recommendation rests on
+            "verified": bool(f.get("verified")),
+            "confidence": f.get("confidence"),
+            "evidence_sources": n_sources,                       # distinct independent source types
+            "well_supported": bool(f.get("verified")) and n_sources >= 3,
             # structural traceability: which finding this addresses + its evidence
             "addresses": {"type": kind, "title": f["title"],
                           "confidence": f.get("confidence"),
-                          "corroboration": (f.get("corroboration") or {}).get("level"),
+                          "corroboration": corr.get("level"),
                           "contested": f.get("contested", False)},
             "citations": f.get("citations", []),     # inherit the finding's evidence trail
         })
-    recs.sort(key=lambda x: x["priority_score"], reverse=True)
+    # surface the best-supported recommendations first (verified + 3 sources, then confidence)
+    recs.sort(key=lambda x: (x["well_supported"], x["priority_score"],
+                             x.get("confidence") or 0), reverse=True)
     return recs
 
 
@@ -429,20 +453,46 @@ def _briefing(llm, company, opps, risks, trends, recs):
         return ""
 
 
+def _gather(search_fn, query, sources, per_source=3):
+    """Retrieve a SOURCE-BALANCED evidence pool: the top chunks from EACH source type
+    separately, then combined. Without this, one query returns the global top-k, which
+    long investor PDFs / filings tend to dominate — so findings end up citing only those.
+    Pulling per-source guarantees the pool spans independent sources, which is what lets
+    a finding be corroborated across (filing + news + market) rather than (pdf + pdf + pdf)."""
+    pool, seen = [], set()
+    for src in sources:
+        try:
+            hits = search_fn(query, k=per_source, sources=[src])
+        except TypeError:
+            hits = search_fn(query, k=per_source)
+        for h in (hits or []):
+            key = (h.get("source"), h.get("url"), (h.get("title") or "")[:60])
+            if key not in seen:
+                seen.add(key)
+                pool.append(h)
+    return pool
+
+
 def run_analysis(search_fn=None, llm=None, verify_fn=verify):
     company = cfg.COMPANY["name"]
     search_fn = search_fn or repository.search
     llm = llm or _get_llm()
 
     print(f"  [CEO INTEL] gathering evidence for {company} ...")
-    risk_ev = search_fn("regulatory risk competition supply chain customer concentration "
-                        "export controls CUDA alternatives open-source competing libraries",
-                        k=8, sources=["filing", "news", "market", "ecosystem"])
-    opp_ev = search_fn("growth opportunities new markets products partnerships demand expansion",
-                       k=8, sources=["company", "pdf", "research", "news"])
-    trend_ev = search_fn("emerging technology trends AI data center accelerated computing software "
-                        "open-source ecosystem developer adoption library momentum",
-                        k=8, sources=["research", "company", "news", "ecosystem"])
+    # Source-BALANCED pools (top chunks from each source type), so evidence and
+    # citations span independent sources instead of being dominated by internal PDFs.
+    risk_ev = _gather(search_fn,
+                      "regulatory risk competition supply chain customer concentration "
+                      "export controls CUDA alternatives open-source competing libraries",
+                      ["filing", "news", "market", "ecosystem", "community", "social"])
+    opp_ev = _gather(search_fn,
+                     "growth opportunities new markets products partnerships demand expansion "
+                     "data center AI software services automotive robotics",
+                     ["company", "news", "research", "ecosystem", "pdf", "community", "market"])
+    trend_ev = _gather(search_fn,
+                       "emerging technology trends AI data center accelerated computing software "
+                       "open-source ecosystem developer adoption library momentum",
+                       ["research", "company", "news", "ecosystem", "community", "social"])
 
     print("  [CEO INTEL] running analyst agents ...")
     risks = _analyze(llm, company, "risk analyst", "strategic RISKS", 5, risk_ev, verify_fn)

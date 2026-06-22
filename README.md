@@ -22,7 +22,7 @@ Every component maps to a course module, so the system is fully explainable in t
 | Vector index             | **FAISS**                  |
 | Keyword retriever        | **BM25**                   |
 | LLM                      | **Qwen2.5-7B via Ollama**  |
-| Last refresh             | **YYYY-MM-DD HH:MM**       |
+| Last refresh             | **2026-06-22 22:41**       |
 
 ---
 
@@ -47,31 +47,16 @@ The first seven pages directly match the required dashboard sections. Extra anal
 
 | Order | Extra page | Purpose |
 |---:|---|---|
-| 8 | **Competitive Landscape** | Shows competitors by mentions and includes clickable links explaining what competitors are currently doing |
-| 9 | **Source Trust** | Shows source reliability, decision weighting, internal vs external evidence, and organization relationship graph |
-| 10 | **Ask the Agent** | Allows live evidence-grounded Q&A using the indexed corpus and local LLM |
+| 8 | **Trend Monitor** | Shows trends includes clickable links explaining their sources |
+| 9 | **Competitive Landscape** | Shows competitors by mentions and includes clickable links explaining what competitors are currently doing |
+| 10 | **Source Trust** | Shows source reliability, decision weighting, internal vs external evidence, and organization relationship graph |
+| 11 | **Ask the Agent** | Allows live evidence-grounded Q&A using the indexed corpus and local LLM |
 
 ---
 
 ## Dashboard Screenshots
 
 Add screenshots after running the Streamlit dashboard.
-
-Recommended folder structure:
-
-```text
-screenshots/
-  01_company_overview.png
-  02_market_intelligence.png
-  03_opportunity_monitor.png
-  04_risk_monitor.png
-  05_sentiment_analysis.png
-  06_strategic_recommendations.png
-  07_ceo_briefing.png
-  08_competitive_landscape.png
-  09_source_trust.png
-  10_ask_the_agent.png
-```
 
 ### 1. Company Overview
 
@@ -86,25 +71,34 @@ screenshots/
 ### 3. Opportunity Monitor
 
 ![Opportunity Monitor]
+![alt text](image-5.png)
 
 
 ### 4. Risk Monitor
 
 ![Risk Monitor]
+![alt text](image-6.png)
 
 ### 5. Sentiment Analysis
 
 ![Sentiment Analysis]
+![alt text](image-7.png)
 
 ### 6. Strategic Recommendations
 
 ![Strategic Recommendations]
+![alt text](image-8.png)
 ### 7. CEO Briefing
 
 ![CEO Briefing]
 ![alt text](image-2.png)
 
-### 8. Competitive Landscape
+### 8. Trend Monitor
+
+![Competitive Landscape]
+![alt text](image-9.png)
+
+### 9. Competitive Landscape
 
 ![Competitive Landscape]
 ![alt text](image-3.png)
@@ -117,7 +111,7 @@ screenshots/
 ### 10. Ask the Agent
 
 ![Ask the Agent]
-
+![alt text](image-10.png)
 ---
 
 ## System architecture
@@ -249,71 +243,15 @@ Switching from NVIDIA to another company requires:
 
 This makes the system suitable for live-coding changes during the oral examination.
 
----
-
-### Generic-name safety
-
-The company is matched using whole-word aliases such as:
-
-```text
-NVDA
-NVIDIA
-GeForce
-CUDA
-Jensen Huang
-```
-
-This prevents unrelated documents from being kept just because they contain generic terms.
-
----
-
-### Evidence-first design
-
-Every opportunity, risk, trend, and recommendation carries evidence.
-If a finding is weak or unverified, the system should mark it transparently instead of pretending it is certain.
-
-This supports the project goal: not just information retrieval, but strategic decision-making supported by evidence.
-
----
-
-### Authority-aware trust
-
-The system separates first-party and third-party evidence:
-
-```text
-First-party: NVIDIA official announcements, investor relations, SEC filings
-Third-party: news, research, community, GitHub, Reddit, Hacker News
-```
-
-This allows the dashboard and confidence score to distinguish official evidence from public opinion or external commentary.
-
----
-
-### Open-source/free LLM only
-
-The project does **not** use OpenAI, Anthropic, Gemini, or any paid commercial LLM API as the primary reasoning engine.
-
-Supported reasoning backends:
-
-```text
-1. Ollama locally with Qwen2.5-7B-Instruct
-2. In-process transformers on GPU lab machines
-```
-
----
-
-### Dual NLP tracks
-
-The system uses both classical and neural NLP:
-
-| Track         | Components                         | Purpose                                             |
-| ------------- | ---------------------------------- | --------------------------------------------------- |
-| Classical NLP | TF-IDF, spaCy NER, BM25            | Explainable, deterministic, strong for keywords     |
-| Neural NLP    | Embeddings, FinBERT, NLI, Qwen LLM | Semantic search, sentiment, verification, reasoning |
-
-This makes the system easier to explain in the oral exam.
-
----
+1. SQLite over ChromaDB/PostgreSQL — No server, no config, built into Python. At ~5,000 chunks the performance difference is negligible. FAISS stores vectors, SQLite stores chunk text, linked by row ID — explicit and transparent.
+2. bge-small-en-v1.5 — Brief-recommended, 384-dim, 33M params, fast on GPU. Asymmetric query prefix applied at retrieval time in search.py. L2-normalized vectors so inner product = cosine similarity.
+3. Hybrid RAG (FAISS + BM25) — Dense embeddings handle synonyms ("regulatory risk" finds "compliance exposure"). BM25 handles exact terms ("recall 25V123", "$TSLA"). Reciprocal Rank Fusion combines both without score normalization.
+4. IndexFlatIP over HNSW — Exact exhaustive search. At 5,025 vectors this is instant. Approximate indexes only needed at 100K+ vectors.
+5. Qwen3-8B via transformers + SDPA — vLLM failed (flash-attn ABI mismatch). Transformers with PyTorch SDPA attention bypasses flash-attn, needs no server, produces identical output.
+6. temperature=0.2 — Low temperature = grounded, deterministic outputs. Critical for evidence-based reasoning.
+900-char chunks, 150 overlap — ~200 tokens per chunk. Large enough for one idea, small enough for precise retrieval. Overlap prevents boundary-split ideas from being lost.
+7. FinBERT over generic sentiment — Financial language is specialized. "Missed on deliveries" is negative in finance, neutral in plain English.
+8. Precomputed intelligence — Pipeline generates JSON once; dashboard reads instantly. Separates compute from display.
 
 ## Module map
 
@@ -428,9 +366,10 @@ It contains the seven required sections first, exactly in the PDF order:
 5. Sentiment Analysis
 6. Strategic Recommendations
 7. CEO Briefing
-8. Competitive Landscape
-9. Source Trust
-10. Ask the Agent
+8. Trend Monitor
+9. Competitive Landscape
+10. Source Trust
+11. Ask the Agent
 
 
 ---

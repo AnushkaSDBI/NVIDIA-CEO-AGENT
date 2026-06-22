@@ -1,34 +1,73 @@
 {
   "company": "NVIDIA",
-  "generated_at": "2026-06-20T14:59:48",
-  "opportunities": [
+  "generated_at": "2026-06-22T21:06:40",
+  "briefing": "**WHAT'S HAPPENING:**\nNVIDIA faces significant risks due to export controls, particularly concerning AI and GPU exports, which could disrupt its global supply chain. Additionally, regulatory restrictions on automotive products and potential impacts from the International Financial Reporting (IFR) on AI diffusion pose ongoing challenges. The company must also navigate the expansion of AI infrastructure in Europe and the development of agentic AI, while fostering open-source collaboration to stay competitive.\n\n**WHY IT MATTERS:**\nThese risks and trends underscore the need for NVIDIA to adapt its strategies to maintain market leadership. Export controls could severely impact supply chain resilience and operational efficiency, potentially leading to revenue losses. Regulatory restrictions on automotive products may limit growth opportunities in a critical sector. Engaging with key regulatory bodies is crucial to ensure favorable conditions for open-source foundation models, which are becoming increasingly important in AI development.\n\n**WHAT TO DO NEXT:**\nNVIDIA should prioritize establishing a robust global supply chain diversification strategy to mitigate the risks associated with export controls. Forming a dedicated regulatory compliance team will help preemptively address potential restrictions and ensure compliance. Engaging strategically with government-approved firms can secure market access and foster favorable regulations, while forming partnerships could enhance competitive positioning in emerging AI technologies.",
+  "opportunities": [],
+  "risks": [
     {
-      "title": "Anticipating Industry Changes and Technological Innovations",
-      "detail": "Timely identification of industry changes is crucial for developing new or enhancing existing products.",
+      "title": "Export Controls Disruption",
+      "detail": "Risk of export controls disrupting supply chain and distribution channels.",
       "impact": "high",
       "citations": [
         {
-          "source": "pdf",
-          "title": "ar_2026-Annual-Report-Web",
-          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
-          "section": "ar_2026-Annual-Report-Web.pdf",
-          "published": "",
-          "snippet": ". Our success depends on our ability to: \u2022 timely identify industry changes, adapt our strategies, and develop new or enhance and maintain existing products and technologies that meet the evolving nee"
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.995,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2026-05-20)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+          "section": "10-Q 2026-05-20",
+          "published": "2026-05-20",
+          "entailment": 0.995,
+          "snippet": ". The USG already imposed export controls restricting certain gaming GPUs, and if the USG expands such controls to restrict additional gaming products, it may disrupt a significant portion of our supp"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-08-27)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000209/nvda-20250727.htm",
+          "section": "10-Q 2025-08-27",
+          "published": "2025-08-27",
+          "entailment": 0.995,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-05-28)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000116/nvda-20250427.htm",
+          "section": "10-Q 2025-05-28",
+          "published": "2025-05-28",
+          "entailment": 0.995,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2024-08-28)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000264/nvda-20240728.htm",
+          "section": "10-Q 2024-08-28",
+          "published": "2024-08-28",
+          "entailment": 0.995,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
         }
       ],
       "verified": true,
-      "confidence": 0.83,
-      "entailment": 0.994,
+      "confidence": 0.831,
+      "entailment": 0.995,
       "freshness": 1.0,
       "corroboration": {
         "score": 1,
         "sources": [
-          "pdf"
+          "filing"
         ],
         "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.994,
+        "entailment": 0.995,
         "corroboration": 0.3333333333333333,
         "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
@@ -37,17 +76,18 @@
       "contradicting_evidence": null
     },
     {
-      "title": "Meeting Evolving Market Needs",
-      "detail": "Developing products that meet the evolving needs of markets, including addressing unexpected shifts in standards and disruptive technologies.",
+      "title": "AI and GPU Export Controls",
+      "detail": "Export controls targeting GPUs and semiconductors associated with AI negatively impact business.",
       "impact": "high",
       "citations": [
         {
-          "source": "pdf",
-          "title": "ar_2026-Annual-Report-Web",
-          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
-          "section": "ar_2026-Annual-Report-Web.pdf",
-          "published": "",
-          "snippet": ". Our success depends on our ability to: \u2022 timely identify industry changes, adapt our strategies, and develop new or enhance and maintain existing products and technologies that meet the evolving nee"
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.996,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
         }
       ],
       "verified": true,
@@ -57,7 +97,7 @@
       "corroboration": {
         "score": 1,
         "sources": [
-          "pdf"
+          "filing"
         ],
         "level": "weak"
       },
@@ -71,196 +111,8 @@
       "contradicting_evidence": null
     },
     {
-      "title": "Managing Complex Supply Chain",
-      "detail": "Increasing complexity from multiple suppliers and variations in production planning and logistics.",
-      "impact": "medium",
-      "citations": [
-        {
-          "source": "pdf",
-          "title": "ar_2026-Annual-Report-Web",
-          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
-          "section": "ar_2026-Annual-Report-Web.pdf",
-          "published": "",
-          "snippet": ". We have also entered and may continue to enter into prepaid manufacturing and capacity agreements to supply both current and future products. The increased purchase volumes and integration of new su"
-        }
-      ],
-      "verified": true,
-      "confidence": 0.832,
-      "entailment": 0.997,
-      "freshness": 1.0,
-      "corroboration": {
-        "score": 1,
-        "sources": [
-          "pdf"
-        ],
-        "level": "weak"
-      },
-      "score_breakdown": {
-        "entailment": 0.997,
-        "corroboration": 0.3333333333333333,
-        "freshness": 1.0,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": false,
-      "contradicting_evidence": null
-    },
-    {
-      "title": "Anticipating Demand Fluctuations",
-      "detail": "Changes in product development cycles, competitor actions, and economic conditions can impact demand timing and volume.",
-      "impact": "high",
-      "citations": [
-        {
-          "source": "pdf",
-          "title": "ar_2026-Annual-Report-Web",
-          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
-          "section": "ar_2026-Annual-Report-Web.pdf",
-          "published": "",
-          "snippet": ". Factors that have caused and/or could in the future cause us to underestimate or overestimate demand, and impact the timing and volume of our revenue, include: \u2022 changes in product development cycle"
-        }
-      ],
-      "verified": true,
-      "confidence": 0.827,
-      "entailment": 0.987,
-      "freshness": 1.0,
-      "corroboration": {
-        "score": 1,
-        "sources": [
-          "pdf"
-        ],
-        "level": "weak"
-      },
-      "score_breakdown": {
-        "entailment": 0.987,
-        "corroboration": 0.3333333333333333,
-        "freshness": 1.0,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": false,
-      "contradicting_evidence": null
-    },
-    {
-      "title": "Remaining Competitive Through Innovation",
-      "detail": "Anticipating customer demands and delivering competitive products at acceptable quality and prices.",
-      "impact": "medium",
-      "citations": [
-        {
-          "source": "pdf",
-          "title": "ar_2026-Annual-Report-Web",
-          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
-          "section": "ar_2026-Annual-Report-Web.pdf",
-          "published": "",
-          "snippet": "performance per watt \u2022 Introduced the NVIDIA Vera Rubin platform \u2013 including new chips and racks \u2013 built for agentic AI and co-designed to deliver up to 10x lower token cost versus Blackwell \u2022 Entered"
-        },
-        {
-          "source": "pdf",
-          "title": "ar_2026-Annual-Report-Web",
-          "url": "data/raw/nvidia_investor_pdfs\\ar_2026-Annual-Report-Web.pdf",
-          "section": "ar_2026-Annual-Report-Web.pdf",
-          "published": "",
-          "snippet": ". Our success depends on our ability to: \u2022 timely identify industry changes, adapt our strategies, and develop new or enhance and maintain existing products and technologies that meet the evolving nee"
-        }
-      ],
-      "verified": true,
-      "confidence": 0.722,
-      "entailment": 0.778,
-      "freshness": 1.0,
-      "corroboration": {
-        "score": 1,
-        "sources": [
-          "pdf"
-        ],
-        "level": "weak"
-      },
-      "score_breakdown": {
-        "entailment": 0.778,
-        "corroboration": 0.3333333333333333,
-        "freshness": 1.0,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": false,
-      "contradicting_evidence": null
-    }
-  ],
-  "risks": [
-    {
-      "title": "Export Controls Disruption",
-      "detail": "Export controls could disrupt supply chains and distribution channels, impacting demand for non-data center products.",
-      "impact": "high",
-      "citations": [
-        {
-          "source": "filing",
-          "title": "NVIDIA 10-Q Quarterly report (2026-05-20)",
-          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
-          "section": "10-Q 2026-05-20",
-          "published": "2026-05-20",
-          "snippet": ". Export controls have and could in the future disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our non-"
-        },
-        {
-          "source": "filing",
-          "title": "NVIDIA 10-K Annual report (2026-02-25)",
-          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
-          "section": "10-K 2026-02-25",
-          "published": "2026-02-25",
-          "snippet": ". Export controls have and could in the future disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our non-"
-        }
-      ],
-      "verified": true,
-      "confidence": 0.832,
-      "entailment": 0.998,
-      "freshness": 1.0,
-      "corroboration": {
-        "score": 1,
-        "sources": [
-          "filing"
-        ],
-        "level": "weak"
-      },
-      "score_breakdown": {
-        "entailment": 0.998,
-        "corroboration": 0.3333333333333333,
-        "freshness": 1.0,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": false,
-      "contradicting_evidence": null
-    },
-    {
-      "title": "AI and GPU Restrictions",
-      "detail": "Restrictions on AI and GPU exports could negatively impact business and financial results by limiting services and access to markets.",
-      "impact": "high",
-      "citations": [
-        {
-          "source": "filing",
-          "title": "NVIDIA 10-K Annual report (2025-02-26)",
-          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
-          "section": "10-K 2025-02-26",
-          "published": "2025-02-26",
-          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
-        }
-      ],
-      "verified": true,
-      "confidence": 0.748,
-      "entailment": 0.829,
-      "freshness": 1.0,
-      "corroboration": {
-        "score": 1,
-        "sources": [
-          "filing"
-        ],
-        "level": "weak"
-      },
-      "score_breakdown": {
-        "entailment": 0.829,
-        "corroboration": 0.3333333333333333,
-        "freshness": 1.0,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": false,
-      "contradicting_evidence": null
-    },
-    {
-      "title": "Regulatory Impact on Automotive Solutions",
-      "detail": "Potential restrictions on automotive products may limit the company's ability to develop and supply solutions for automotive customers.",
+      "title": "Regulatory Restrictions on Automotive Products",
+      "detail": "Potential restrictions on automotive products could impact development and supply solutions for customers.",
       "impact": "medium",
       "citations": [
         {
@@ -269,6 +121,7 @@
           "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
           "section": "10-K 2025-02-26",
           "published": "2025-02-26",
+          "entailment": 0.996,
           "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev"
         },
         {
@@ -277,12 +130,40 @@
           "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000316/nvda-20241027.htm",
           "section": "10-Q 2024-11-20",
           "published": "2024-11-20",
+          "entailment": 0.996,
           "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.541,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-08-27)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000209/nvda-20250727.htm",
+          "section": "10-Q 2025-08-27",
+          "published": "2025-08-27",
+          "entailment": 0.541,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-05-28)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000116/nvda-20250427.htm",
+          "section": "10-Q 2025-05-28",
+          "published": "2025-05-28",
+          "entailment": 0.541,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
         }
       ],
       "verified": true,
-      "confidence": 0.832,
-      "entailment": 0.997,
+      "confidence": 0.831,
+      "entailment": 0.996,
       "freshness": 1.0,
       "corroboration": {
         "score": 1,
@@ -292,7 +173,7 @@
         "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.997,
+        "entailment": 0.996,
         "corroboration": 0.3333333333333333,
         "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
@@ -301,8 +182,8 @@
       "contradicting_evidence": null
     },
     {
-      "title": "Open-Source Foundation Model Restrictions",
-      "detail": "Regulatory controls or other restrictions on third-party applications could significantly impact the business by limiting support services.",
+      "title": "Open-Source Foundation Models Regulation",
+      "detail": "Regulatory control or restriction on third-party applications and models could significantly impact business.",
       "impact": "medium",
       "citations": [
         {
@@ -311,12 +192,49 @@
           "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
           "section": "10-K 2026-02-25",
           "published": "2026-02-25",
+          "entailment": 0.859,
           "snippet": ". Open-source foundation models are rapidly growing in popularity with developers worldwide. Any regulatory control or other restriction that limits our ability to provide products and services that s"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.529,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2026-05-20)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+          "section": "10-Q 2026-05-20",
+          "published": "2026-05-20",
+          "entailment": 0.529,
+          "snippet": ". The USG already imposed export controls restricting certain gaming GPUs, and if the USG expands such controls to restrict additional gaming products, it may disrupt a significant portion of our supp"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.425,
+          "snippet": ". These restrictions would apply to all covered products, including products sold years ago. The AI Diffusion IFR would limit access to the market for IT services and computing infrastructure, by favo"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.416,
+          "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev"
         }
       ],
       "verified": true,
-      "confidence": 0.804,
-      "entailment": 0.941,
+      "confidence": 0.763,
+      "entailment": 0.859,
       "freshness": 1.0,
       "corroboration": {
         "score": 1,
@@ -326,7 +244,7 @@
         "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.941,
+        "entailment": 0.859,
         "corroboration": 0.3333333333333333,
         "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
@@ -337,12 +255,12 @@
         "title": "NVIDIA 10-K Annual report (2025-02-26)",
         "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
         "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev",
-        "contradiction": 0.849
+        "contradiction": 0.787
       }
     },
     {
       "title": "AI Diffusion IFR Impact",
-      "detail": "The AI Diffusion IFR may limit market access for IT services and computing infrastructure, favoring government-approved firms over merit-based selection.",
+      "detail": "AI Diffusion IFR may limit access to market for IT services and computing infrastructure, favoring government-approved firms.",
       "impact": "low",
       "citations": [
         {
@@ -351,12 +269,13 @@
           "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
           "section": "10-K 2025-02-26",
           "published": "2025-02-26",
+          "entailment": 0.988,
           "snippet": ". These restrictions would apply to all covered products, including products sold years ago. The AI Diffusion IFR would limit access to the market for IT services and computing infrastructure, by favo"
         }
       ],
       "verified": true,
-      "confidence": 0.717,
-      "entailment": 0.768,
+      "confidence": 0.827,
+      "entailment": 0.988,
       "freshness": 1.0,
       "corroboration": {
         "score": 1,
@@ -366,34 +285,61 @@
         "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.768,
+        "entailment": 0.988,
         "corroboration": 0.3333333333333333,
         "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
       },
-      "contested": false,
-      "contradicting_evidence": null
+      "contested": true,
+      "contradicting_evidence": {
+        "source": "filing",
+        "title": "NVIDIA 10-K Annual report (2025-02-26)",
+        "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+        "snippet": ". These restrictions would apply to all covered products, including products sold years ago. The AI Diffusion IFR would limit access to the market for IT services and computing infrastructure, by favo",
+        "contradiction": 0.582
+      }
     }
   ],
   "trends": [
     {
-      "title": "AI Infrastructure Expansion",
-      "detail": "NVIDIA is expanding its AI infrastructure across Europe and Asia through partnerships with local companies.",
+      "title": "AI Infrastructure Expansion in Europe",
+      "detail": "France and other European countries are investing in AI infrastructure with NVIDIA technologies.",
       "impact": "high",
-      "citations": [],
+      "citations": [
+        {
+          "source": "company",
+          "title": "France Advances Europe\u2019s AI Future With NVIDIA Technologies",
+          "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/",
+          "section": "press",
+          "published": "Thu, 18 Jun 2026 06:00:59 GMT",
+          "entailment": 0.168,
+          "snippet": "As part of these efforts, Mistral is building a new 44-megawatt data center in Bruy\u00e8res-le-Ch\u00e2tel, a commune in northern France. Announced at GTC Paris last year, Mistral\u2019s first deployment is already"
+        },
+        {
+          "source": "company",
+          "title": "France Advances Europe\u2019s AI Future With NVIDIA Technologies",
+          "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/",
+          "section": "press",
+          "published": "Thu, 18 Jun 2026 06:00:59 GMT",
+          "entailment": 0.033,
+          "snippet": "This momentum reflects a broader wave of AI infrastructure investment in France. Scaleway, a European public cloud provider, now offers NVIDIA Blackwell B300\u2011SXM instances, giving developers and enter"
+        }
+      ],
       "verified": false,
-      "confidence": 0.125,
-      "entailment": 0.0,
-      "freshness": 0.5,
+      "confidence": 0.417,
+      "entailment": 0.168,
+      "freshness": 1.0,
       "corroboration": {
-        "score": 0,
-        "sources": [],
-        "level": "none"
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.0,
-        "corroboration": 0.0,
-        "freshness": 0.5,
+        "entailment": 0.168,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
       },
       "contested": false,
@@ -401,74 +347,52 @@
     },
     {
       "title": "Agentic AI Development",
-      "detail": "There's a focus on developing autonomous AI agents capable of operating at scale in various industries.",
+      "detail": "NVIDIA is advancing agentic AI through tools like DOCA and XR AI for physical tasks.",
       "impact": "high",
-      "citations": [],
+      "citations": [
+        {
+          "source": "company",
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "section": "press",
+          "published": "Tue, 16 Jun 2026 22:30:41 GMT",
+          "entailment": 0.05,
+          "snippet": "As AI agents gain the ability to perceive the physical world, use tools, access enterprise knowledge and collaborate with people, they are becoming a new class of digital workers. NVIDIA XR AI provide"
+        },
+        {
+          "source": "company",
+          "title": "Hands Free, AIs Forward: NVIDIA XR AI Brings Agents to AR Glasses",
+          "url": "https://blogs.nvidia.com/blog/nvidia-xr-ai/",
+          "section": "press",
+          "published": "Tue, 16 Jun 2026 22:30:41 GMT",
+          "entailment": 0.014,
+          "snippet": "Like human workers, they need knowledge, tools and specialized skills to perceive and understand the world through video, audio and sensor data, interpret fast-changing conditions and spatial context,"
+        },
+        {
+          "source": "company",
+          "title": "Advancing AI Infrastructure for Agentic AI with NVIDIA DOCA In-Silicon Security",
+          "url": "https://developer.nvidia.com/blog/advancing-ai-infrastructure-for-agentic-ai-with-nvidia-doca-in-silicon-security/",
+          "section": "dev_blog",
+          "published": "2026-06-01T04:21:42Z",
+          "entailment": 0.009,
+          "snippet": "Advancing AI Infrastructure for Agentic AI with NVIDIA DOCA In-Silicon Security. The AI era is driving a new class of infrastructure: AI factories that transform data into intelligence for autonomous "
+        }
+      ],
       "verified": false,
-      "confidence": 0.125,
-      "entailment": 0.0,
-      "freshness": 0.5,
+      "confidence": 0.358,
+      "entailment": 0.05,
+      "freshness": 1.0,
       "corroboration": {
-        "score": 0,
-        "sources": [],
-        "level": "none"
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.0,
-        "corroboration": 0.0,
-        "freshness": 0.5,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": false,
-      "contradicting_evidence": null
-    },
-    {
-      "title": "AI Factory Ecosystem",
-      "detail": "NVIDIA is building out an ecosystem for AI factories that can process and transform data into actionable intelligence.",
-      "impact": "high",
-      "citations": [],
-      "verified": false,
-      "confidence": 0.125,
-      "entailment": 0.0,
-      "freshness": 0.5,
-      "corroboration": {
-        "score": 0,
-        "sources": [],
-        "level": "none"
-      },
-      "score_breakdown": {
-        "entailment": 0.0,
-        "corroboration": 0.0,
-        "freshness": 0.5,
-        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
-      },
-      "contested": true,
-      "contradicting_evidence": {
-        "source": "company",
-        "title": "SK Telecom and NVIDIA Build AI Infrastructure to Power Korea\u2019s AI Innovation",
-        "url": "https://nvidianews.nvidia.com/news/sk-telecom-ai-infrastructure",
-        "snippet": "\"Through our close partnership with NVIDIA, we have now secured full-stack AI infrastructure capabilities, from chips to data center operations,\" said Chey Tae-won, Chairman of SK Group. \u201cWe will work",
-        "contradiction": 0.77
-      }
-    },
-    {
-      "title": "Physical AI Research",
-      "detail": "Research efforts are advancing physical AI with tools like NVIDIA's Cosmos 3 for synthetic data generation.",
-      "impact": "medium",
-      "citations": [],
-      "verified": false,
-      "confidence": 0.125,
-      "entailment": 0.0,
-      "freshness": 0.5,
-      "corroboration": {
-        "score": 0,
-        "sources": [],
-        "level": "none"
-      },
-      "score_breakdown": {
-        "entailment": 0.0,
-        "corroboration": 0.0,
-        "freshness": 0.5,
+        "entailment": 0.05,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
       },
       "contested": true,
@@ -477,27 +401,121 @@
         "title": "When deep research isn't enough for your business: Sakana AI launches 'ultra deep research' agent for 100+ page reports in 8 hours",
         "url": "https://venturebeat.com/technology/when-deep-research-isnt-enough-for-your-business-sakana-ai-launches-ultra-deep-research-agent-for-100-page-reports-in-8-hours",
         "snippet": ". Marlin\u2019s AB-MCTS engine does something similar for research. Inside the Engine: The Mechanics of AB-MCTS The chronology of this technology traces back to June 2025, when Sakana AI first introduced t",
-        "contradiction": 0.508
+        "contradiction": 0.746
       }
     },
     {
-      "title": "Open Source Contributions",
-      "detail": "NVIDIA is actively contributing to open-source projects, such as the CUDA Core Compute Libraries.",
-      "impact": "low",
-      "citations": [],
+      "title": "Open Source Collaboration in AI",
+      "detail": "SK Telecom and NVIDIA are using open source datasets to train models and build AI infrastructure.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "company",
+          "title": "SK Telecom and NVIDIA Build AI Infrastructure to Power Korea\u2019s AI Innovation",
+          "url": "https://nvidianews.nvidia.com/news/sk-telecom-ai-infrastructure",
+          "section": "press",
+          "published": "Sun, 07 Jun 2026 23:00:00 GMT",
+          "entailment": 0.318,
+          "snippet": "In April, SK Telecom revealed that it has adopted open source NVIDIA Nemotron\u2122 datasets to train the A.X K1 model as part of the Korea government\u2019s Sovereign AI Foundation Model Project. Moreover, as "
+        }
+      ],
       "verified": false,
-      "confidence": 0.125,
-      "entailment": 0.0,
-      "freshness": 0.5,
+      "confidence": 0.492,
+      "entailment": 0.318,
+      "freshness": 1.0,
       "corroboration": {
-        "score": 0,
-        "sources": [],
-        "level": "none"
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
       },
       "score_breakdown": {
-        "entailment": 0.0,
-        "corroboration": 0.0,
-        "freshness": 0.5,
+        "entailment": 0.318,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": true,
+      "contradicting_evidence": {
+        "source": "company",
+        "title": "France Advances Europe\u2019s AI Future With NVIDIA Technologies",
+        "url": "https://blogs.nvidia.com/blog/france-advances-europes-ai-future/",
+        "snippet": "This momentum reflects a broader wave of AI infrastructure investment in France. Scaleway, a European public cloud provider, now offers NVIDIA Blackwell B300\u2011SXM instances, giving developers and enter",
+        "contradiction": 0.822
+      }
+    },
+    {
+      "title": "Increased Focus on Physical AI Research",
+      "detail": "NVIDIA is supporting physical AI research with tools like Cosmos 3 for synthetic data generation.",
+      "impact": "high",
+      "citations": [
+        {
+          "source": "company",
+          "title": "NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI",
+          "url": "https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/",
+          "section": "blog",
+          "published": "Wed, 03 Jun 2026 15:00:35 +0000",
+          "entailment": 0.008,
+          "snippet": "Cosmos 3 can further help generate synthetic data and scene variations, then support post-training with embodiment-specific behavior and environment data for tasks ranging from pick-and-place to dexte"
+        }
+      ],
+      "verified": false,
+      "confidence": 0.337,
+      "entailment": 0.008,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.008,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
+        "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
+      },
+      "contested": true,
+      "contradicting_evidence": {
+        "source": "company",
+        "title": "SK Telecom and NVIDIA Build AI Infrastructure to Power Korea\u2019s AI Innovation",
+        "url": "https://nvidianews.nvidia.com/news/sk-telecom-ai-infrastructure",
+        "snippet": "\"Through our close partnership with NVIDIA, we have now secured full-stack AI infrastructure capabilities, from chips to data center operations,\" said Chey Tae-won, Chairman of SK Group. \u201cWe will work",
+        "contradiction": 0.529
+      }
+    },
+    {
+      "title": "Enterprise-Ready AI Solutions",
+      "detail": "NVIDIA offers a range of enterprise-ready solutions from data centers to deskside stations.",
+      "impact": "medium",
+      "citations": [
+        {
+          "source": "company",
+          "title": "Run Step 3.7 Flash on NVIDIA GPUs with Enterprise-Ready Multimodal AI",
+          "url": "https://developer.nvidia.com/blog/run-step-3-7-flash-on-nvidia-gpus-with-enterprise-ready-multimodal-ai/",
+          "section": "dev_blog",
+          "published": "2026-05-29T00:07:11Z",
+          "entailment": 0.096,
+          "snippet": "From data center deployments on NVIDIA Blackwell to deskside with NVIDIA DGX Station to managed NIM microservices and Day 0 fine-tuning workflows, NVIDIA provides a range of options for integrating St"
+        }
+      ],
+      "verified": false,
+      "confidence": 0.381,
+      "entailment": 0.096,
+      "freshness": 1.0,
+      "corroboration": {
+        "score": 1,
+        "sources": [
+          "company"
+        ],
+        "level": "weak"
+      },
+      "score_breakdown": {
+        "entailment": 0.096,
+        "corroboration": 0.3333333333333333,
+        "freshness": 1.0,
         "weights": "0.50 entailment + 0.25 corroboration + 0.25 freshness (authority-aware)"
       },
       "contested": false,
@@ -506,44 +524,262 @@
   ],
   "recommendations": [
     {
-      "action": "Invest heavily in AI infrastructure expansion",
-      "rationale": "Expanding AI infrastructure across Europe and Asia will capitalize on growing demand for AI services.",
-      "expected_impact": "Significant growth in revenue from international markets.",
-      "risk_level": "medium",
-      "verified": false,
-      "confidence": 0.005
-    },
-    {
-      "action": "Develop autonomous AI agents at scale",
-      "rationale": "Autonomous AI agents are critical for future industrial automation and can drive new product lines.",
-      "expected_impact": "Enhanced competitive position and potential for high-margin products.",
+      "action": "Establish a global supply chain diversification strategy to mitigate export control risks.",
+      "rationale": "This action will reduce dependency on regions with stringent export controls, ensuring continuity in supply and distribution channels. It also prepares for potential future disruptions by having alternative sources ready.",
+      "expected_impact": "Enhanced resilience against export control disruptions, potentially reducing operational risks and maintaining market presence globally.",
       "risk_level": "high",
-      "verified": false,
-      "confidence": 0.02
-    },
-    {
-      "action": "Strengthen open-source contributions",
-      "rationale": "Active participation in open-source projects will enhance NVIDIA's reputation and attract more developers to its ecosystem.",
-      "expected_impact": "Increased developer community engagement and innovation.",
-      "risk_level": "low",
-      "verified": false,
-      "confidence": 0.009
-    },
-    {
-      "action": "Anticipate and prepare for export controls",
-      "rationale": "Export controls could severely impact non-data center product lines, necessitating proactive strategies.",
-      "expected_impact": "Mitigation of supply chain disruptions and financial risks.",
-      "risk_level": "high",
+      "priority": "high",
+      "priority_score": 0.932,
       "verified": true,
-      "confidence": 0.81
+      "confidence": 0.831,
+      "evidence_sources": 1,
+      "well_supported": false,
+      "addresses": {
+        "type": "risk",
+        "title": "Export Controls Disruption",
+        "confidence": 0.831,
+        "corroboration": "weak",
+        "contested": false
+      },
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.995,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2026-05-20)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+          "section": "10-Q 2026-05-20",
+          "published": "2026-05-20",
+          "entailment": 0.995,
+          "snippet": ". The USG already imposed export controls restricting certain gaming GPUs, and if the USG expands such controls to restrict additional gaming products, it may disrupt a significant portion of our supp"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-08-27)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000209/nvda-20250727.htm",
+          "section": "10-Q 2025-08-27",
+          "published": "2025-08-27",
+          "entailment": 0.995,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-05-28)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000116/nvda-20250427.htm",
+          "section": "10-Q 2025-05-28",
+          "published": "2025-05-28",
+          "entailment": 0.995,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2024-08-28)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000264/nvda-20240728.htm",
+          "section": "10-Q 2024-08-28",
+          "published": "2024-08-28",
+          "entailment": 0.995,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        }
+      ]
     },
     {
-      "action": "Enhance regulatory compliance in automotive solutions",
-      "rationale": "Potential restrictions on automotive products could limit market access; preemptive measures are necessary.",
-      "expected_impact": "Preservation of current market share and future growth opportunities.",
+      "action": "Diversify NVIDIA\u2019s supply chain to include more countries and regions.",
+      "rationale": "This reduces dependency on any single market or region that may have restrictive export controls, ensuring a steady supply of necessary components for AI and GPU development.",
+      "expected_impact": "Enhances resilience against geopolitical risks and ensures continuous product development and delivery, potentially increasing long-term profitability.",
       "risk_level": "medium",
-      "verified": false,
-      "confidence": 0.074
+      "priority": "high",
+      "priority_score": 0.932,
+      "verified": true,
+      "confidence": 0.831,
+      "evidence_sources": 1,
+      "well_supported": false,
+      "addresses": {
+        "type": "risk",
+        "title": "AI and GPU Export Controls",
+        "confidence": 0.831,
+        "corroboration": "weak",
+        "contested": false
+      },
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.996,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        }
+      ]
+    },
+    {
+      "action": "Form a dedicated regulatory compliance team to monitor and preemptively address potential automotive product restrictions.",
+      "rationale": "This ensures NVIDIA remains compliant and can adapt quickly to any changes, minimizing disruption to development and supply chains.",
+      "expected_impact": "Enhances long-term stability and customer trust while potentially reducing short-term operational costs through proactive measures.",
+      "risk_level": "high",
+      "priority": "high",
+      "priority_score": 0.732,
+      "verified": true,
+      "confidence": 0.831,
+      "evidence_sources": 1,
+      "well_supported": false,
+      "addresses": {
+        "type": "risk",
+        "title": "Regulatory Restrictions on Automotive Products",
+        "confidence": 0.831,
+        "corroboration": "weak",
+        "contested": false
+      },
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.996,
+          "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2024-11-20)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000316/nvda-20241027.htm",
+          "section": "10-Q 2024-11-20",
+          "published": "2024-11-20",
+          "entailment": 0.996,
+          "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.541,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-08-27)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000209/nvda-20250727.htm",
+          "section": "10-Q 2025-08-27",
+          "published": "2025-08-27",
+          "entailment": 0.541,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2025-05-28)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000116/nvda-20250427.htm",
+          "section": "10-Q 2025-05-28",
+          "published": "2025-05-28",
+          "entailment": 0.541,
+          "snippet": ". Export controls could disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our gaming products. The possib"
+        }
+      ]
+    },
+    {
+      "action": "Engage with key regulatory bodies to shape open-source foundation model regulations in favor of NVIDIA's interests.",
+      "rationale": "This proactive approach ensures that NVIDIA\u2019s position and capabilities are considered early in the regulatory process, potentially mitigating future restrictions.",
+      "expected_impact": "Enhances long-term business stability by aligning regulatory frameworks with NVIDIA\u2019s strategic goals and technological advancements.",
+      "risk_level": "high",
+      "priority": "high",
+      "priority_score": 0.705,
+      "verified": true,
+      "confidence": 0.763,
+      "evidence_sources": 1,
+      "well_supported": false,
+      "addresses": {
+        "type": "risk",
+        "title": "Open-Source Foundation Models Regulation",
+        "confidence": 0.763,
+        "corroboration": "weak",
+        "contested": true
+      },
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2026-02-25)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+          "section": "10-K 2026-02-25",
+          "published": "2026-02-25",
+          "entailment": 0.859,
+          "snippet": ". Open-source foundation models are rapidly growing in popularity with developers worldwide. Any regulatory control or other restriction that limits our ability to provide products and services that s"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.529,
+          "snippet": ". Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to additional restrictions on the use, resale, repa"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-Q Quarterly report (2026-05-20)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+          "section": "10-Q 2026-05-20",
+          "published": "2026-05-20",
+          "entailment": 0.529,
+          "snippet": ". The USG already imposed export controls restricting certain gaming GPUs, and if the USG expands such controls to restrict additional gaming products, it may disrupt a significant portion of our supp"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.425,
+          "snippet": ". These restrictions would apply to all covered products, including products sold years ago. The AI Diffusion IFR would limit access to the market for IT services and computing infrastructure, by favo"
+        },
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.416,
+          "snippet": ". For example, the USG is considering restrictions on the import and sale of certain automotive products in the United States, which if adopted and interpreted broadly, could impact our ability to dev"
+        }
+      ]
+    },
+    {
+      "action": "Form strategic partnerships with government-approved firms to ensure market access and compliance.",
+      "rationale": "This approach helps navigate regulatory requirements while maintaining competitive edge, ensuring NVIDIA remains relevant in AI-driven markets.",
+      "expected_impact": "Enhances market presence and reduces legal risks, potentially opening new avenues for growth.",
+      "risk_level": "medium",
+      "priority": "medium",
+      "priority_score": 0.531,
+      "verified": true,
+      "confidence": 0.827,
+      "evidence_sources": 1,
+      "well_supported": false,
+      "addresses": {
+        "type": "risk",
+        "title": "AI Diffusion IFR Impact",
+        "confidence": 0.827,
+        "corroboration": "weak",
+        "contested": true
+      },
+      "citations": [
+        {
+          "source": "filing",
+          "title": "NVIDIA 10-K Annual report (2025-02-26)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+          "section": "10-K 2025-02-26",
+          "published": "2025-02-26",
+          "entailment": 0.988,
+          "snippet": ". These restrictions would apply to all covered products, including products sold years ago. The AI Diffusion IFR would limit access to the market for IT services and computing infrastructure, by favo"
+        }
+      ]
     }
   ]
 }
