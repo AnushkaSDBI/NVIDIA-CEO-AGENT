@@ -246,7 +246,7 @@ This makes the system suitable for live-coding changes during the oral examinati
 1. SQLite over ChromaDB/PostgreSQL — No server, no config, built into Python. At ~5,000 chunks the performance difference is negligible. FAISS stores vectors, SQLite stores chunk text, linked by row ID — explicit and transparent.
 2. bge-small-en-v1.5 — Brief-recommended, 384-dim, 33M params, fast on GPU. Asymmetric query prefix applied at retrieval time in search.py. L2-normalized vectors so inner product = cosine similarity.
 3. Hybrid RAG (FAISS + BM25) — Dense embeddings handle synonyms ("regulatory risk" finds "compliance exposure"). BM25 handles exact terms ("recall 25V123", "$TSLA"). Reciprocal Rank Fusion combines both without score normalization.
-4. IndexFlatIP over HNSW — Exact exhaustive search. At 5,025 vectors this is instant. Approximate indexes only needed at 100K+ vectors.
+4. IndexFlatIP over HNSW — Exact exhaustive search. At ~7700 vectors this is instant. Approximate indexes only needed at 100K+ vectors.
 5. Qwen3-8B via transformers + SDPA — vLLM failed (flash-attn ABI mismatch). Transformers with PyTorch SDPA attention bypasses flash-attn, needs no server, produces identical output.
 6. temperature=0.2 — Low temperature = grounded, deterministic outputs. Critical for evidence-based reasoning.
 900-char chunks, 150 overlap — ~200 tokens per chunk. Large enough for one idea, small enough for precise retrieval. Overlap prevents boundary-split ideas from being lost.
