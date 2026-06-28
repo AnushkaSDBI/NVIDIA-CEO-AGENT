@@ -62,37 +62,37 @@ The first seven pages directly match the required dashboard sections. Extra anal
 ![alt text](images/image-11.png)
 
 ### 2. Market Intelligence
-(images/image-12.png)
+![alt text](images/image-12.png)
 
 ### 3. Opportunity Monitor
-(images/image-17.png)
+![(images/image-17.png)](images/image-17.png)
 
 ### 4. Risk Monitor
-(images/image-18.png)
+![(images/image-18.png)](images/image-18.png)
 
 ### 5. Sentiment Analysis
-(images/image-15.png)
+![(images/image-15.png)](images/image-15.png)
 
 ### 6. Strategic Recommendations
-(images/image-16.png)
+![(images/image-16.png)](images/image-16.png)
 
 ### 7. CEO Briefing
-(images/image-19.png)
+![(images/image-19.png)](images/image-19.png)
 
 ### 8. Trend Monitor
-(images/image-20.png)
+![(images/image-20.png)](images/image-20.png)
 
 ### 9. Competitive Landscape
-(images/image-21.png)
+![(images/image-21.png)](images/image-21.png)
 
 ### 10. Source Trust
-(images/image-22.png)
+![(images/image-22.png)](images/image-22.png)
 
 ### 11. Agent Reasoning
-(images/image-23.png)
+![(images/image-23.png)](images/image-23.png)
 
 ### 12. Ask the Agent
-(images/image.png)
+![(images/image.png)](images/image.png)
 
 ---
 
@@ -101,19 +101,20 @@ The first seven pages directly match the required dashboard sections. Extra anal
 ```mermaid
 flowchart TD
     SRC["1 · Collect — collect.py<br/>SEC 10-K/10-Q · investor PDFs · NVIDIA press/blogs · Google News<br/>arXiv · Wikipedia · Hacker News · GitHub repos · Reddit · yfinance"]
-    SRC --> DB[("SQLite corpus<br/>deduplicated")]
-    DB --> IDX["2 · Index — preprocess.py + repository.py<br/>chunk · BM25 + FAISS hybrid + rerank + MMR"]
-    DB --> NLP["Classical NLP — sentiment · entities · keywords<br/>FinBERT · spaCy NER · TF-IDF"]
+    SRC --> DB[("2 · Database — SQLite<br/>deduplicated corpus")]
+    DB --> PRE["3 · Preprocess — preprocess.py<br/>chunk + lemmatize"]
+    PRE --> IDX["4 · Index / Repository — repository.py<br/>BM25 + FAISS hybrid + rerank + MMR"]
+    DB --> NLP["5 · Classical NLP — sentiment.py · entities.py · keywords.py<br/>FinBERT · spaCy NER · TF-IDF"]
 
-    IDX --> PLAN["3 · Agent — agent_graph.py (LangGraph)<br/>Plan"]
+    IDX --> PLAN["6 · Agent — agent_graph.py (LangGraph)<br/>Plan"]
     PLAN --> RET["Retrieve"]
-    RET --> ANA["Analyze + NLI verify"]
+    RET --> ANA["Analyze + NLI verify<br/><i>intelligence.py</i>"]
     ANA --> DEC{"Decide: evidence strong?"}
     DEC -->|weak: rewrite and retry| RET
-    DEC -->|strong| REC["Recommend"]
-    REC --> VAL["Validate"]
+    DEC -->|strong| REC["Recommend<br/><i>intelligence.py</i>"]
+    REC --> VAL["Validate<br/><i>intelligence.py</i>"]
 
-    VAL --> APP["4 · Dashboard — app.py"]
+    VAL --> APP["7 · Dashboard — app.py"]
     NLP --> APP
 ```
 
