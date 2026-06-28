@@ -59,7 +59,7 @@ The first seven pages directly match the required dashboard sections. Extra anal
 
 
 ### 1. Company Overview
-(images/image-11.png)
+![alt text](images/image-11.png)
 
 ### 2. Market Intelligence
 (images/image-12.png)
