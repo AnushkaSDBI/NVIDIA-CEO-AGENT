@@ -148,16 +148,25 @@ other nine; enable it with the `REDDIT_*` env vars.
 ## Data flow
 
 ```text
-sources --HTTP--> SQLite source of truth --chunk/lemmatize--> BM25 + FAISS index
-        |                                                              |
-        |                                          embed bge-small-en-v1.5, cosine
-        v                                                              v
-  uniform record                                        hybrid retrieve -> rerank -> MMR
- {title,text,source,                                                   |
-  url,published}                                        LLM reason Qwen2.5-7B local
-                                                                       v
-                          opportunities / risks / trends -> NLI verify -> score ->
-                          recommendations -> CEO briefing -> results JSON -> dashboard
+INGEST
+  sources --HTTP--> SQLite (source of truth)
+       uniform record: {title, text, source, url, published}
+  SQLite --chunk/lemmatize--> BM25 + FAISS index   (embed bge-small-en-v1.5, cosine)
+  SQLite --> classical NLP (sentiment / entities / keywords)
+
+AGENT  (agent_graph.py, LangGraph)
+  Plan --> Retrieve --> Analyze --> Decide --> Recommend --> Validate
+              |            |           |
+       hybrid retrieve   LLM Qwen   evidence weak?
+       rerank + MMR      + NLI verify + score
+              ^                       |
+              +--- rewrite query & retry (Decide loops back to Retrieve) ---+
+                                                              | strong
+                                                              v
+  Validate (NLI-verified gate) --> CEO briefing --> intelligence.json
+
+DASHBOARD
+  intelligence.json + classical NLP + SQLite --> app.py (Streamlit)
 ```
 
 ---
