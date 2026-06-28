@@ -16,19 +16,19 @@ Every component maps to a course module, so the system is fully explainable in t
 | Metric                   | Value                      |
 | ------------------------ | -------------------------- |
 | Collected documents      | **317**                    |
-| Independent source types | **9**                      |
+| Independent source types | **9 active** (10 configured, Reddit optional) |
 | Chunks indexed           | **7700**                   |
 | Embedding model          | **BAAI/bge-small-en-v1.5** |
 | Vector index             | **FAISS**                  |
 | Keyword retriever        | **BM25**                   |
 | LLM                      | **Qwen2.5-7B via Ollama**  |
-| Last refresh             | **2026-06-22 22:41**       |
+| Last refresh             | **YYYY-MM-DD HH:MM**       |
 
 ---
 
 ## Executive Intelligence Dashboard Pages
 
-The dashboard follows the exact examination requirement order first.  
+The dashboard follows the exact examination requirement order first.
 The first seven pages directly match the required dashboard sections. Extra analytical pages are placed after the required seven so the evaluator can immediately verify rubric compliance.
 
 ### Required pages from the PDF
@@ -40,115 +40,109 @@ The first seven pages directly match the required dashboard sections. Extra anal
 | 3 | **Opportunity Monitor** | Displays opportunity title, impact level, supporting evidence, verification status, and confidence score |
 | 4 | **Risk Monitor** | Displays risk title, risk category, severity level, supporting evidence, verification status, and confidence score |
 | 5 | **Sentiment Analysis** | Shows news sentiment, public sentiment, aspect-based sentiment, sarcasm/irony handling, and sentiment trends |
-| 6 | **Strategic Recommendations** | Shows recommendation, priority, supporting evidence, expected impact, and risk level |
+| 6 | **Strategic Recommendations** | Shows recommendation, priority, supporting evidence, expected impact, risk level, verification status, and number of independent evidence sources |
 | 7 | **CEO Briefing** | Generates an executive summary answering: what happened, why it matters, and what management should do next |
 
 ### Extra dashboard pages after the required seven
 
 | Order | Extra page | Purpose |
 |---:|---|---|
-| 8 | **Trend Monitor** | Shows trends includes clickable links explaining their sources |
+| 8 | **Trend Monitor** | Displays emerging technology and market trends, each with impact level, supporting evidence, verification status, corroboration, and confidence score |
 | 9 | **Competitive Landscape** | Shows competitors by mentions and includes clickable links explaining what competitors are currently doing |
 | 10 | **Source Trust** | Shows source reliability, decision weighting, internal vs external evidence, and organization relationship graph |
-| 11 | **Ask the Agent** | Allows live evidence-grounded Q&A using the indexed corpus and local LLM |
+| 11 | **Agent Reasoning** | Allows live evidence-grounded Q&A using the indexed corpus and local LLM |
+| 12 | **Ask the Agent** | Allows live evidence-grounded Q&A using the indexed corpus and local LLM |
 
 ---
 
 ## Dashboard Screenshots
 
-Add screenshots after running the Streamlit dashboard.
 
 ### 1. Company Overview
-
-![Company Overview]
-![alt text](image.png)
+(images/image-11.png)
 
 ### 2. Market Intelligence
-
-![Market Intelligence]
-![alt text](image-1.png)
+(images/image-12.png)
 
 ### 3. Opportunity Monitor
-
-![Opportunity Monitor]
-![alt text](image-5.png)
-
+(images/image-17.png)
 
 ### 4. Risk Monitor
-
-![Risk Monitor]
-![alt text](image-6.png)
+(images/image-18.png)
 
 ### 5. Sentiment Analysis
-
-![Sentiment Analysis]
-![alt text](image-7.png)
+(images/image-15.png)
 
 ### 6. Strategic Recommendations
+(images/image-16.png)
 
-![Strategic Recommendations]
-![alt text](image-8.png)
 ### 7. CEO Briefing
-
-![CEO Briefing]
-![alt text](image-2.png)
+(images/image-19.png)
 
 ### 8. Trend Monitor
-
-![Competitive Landscape]
-![alt text](image-9.png)
+(images/image-20.png)
 
 ### 9. Competitive Landscape
+(images/image-21.png)
 
-![Competitive Landscape]
-![alt text](image-3.png)
+### 10. Source Trust
+(images/image-22.png)
 
-### 9. Source Trust
+### 11. Agent Reasoning
+(images/image-23.png)
 
-![Source Trust]
-![alt text](image-4.png)
+### 12. Ask the Agent
+(images/image.png)
 
-### 10. Ask the Agent
-
-![Ask the Agent]
-![alt text](image-10.png)
 ---
 
 ## System architecture
 
 ```mermaid
 flowchart TD
-    subgraph Collect["1 - Live collection (collect.py)"]
-        N[News RSS]
-        C[Company RSS]
-        S[SEC EDGAR filings]
-        P[Investor PDFs]
-        A[arXiv]
-        H[Hacker News]
-        R[Reddit]
-        G[GitHub ecosystem]
-        M[Stock prices yfinance]
-    end
+    SRC["1 · Collect — collect.py<br/>SEC 10-K/10-Q · investor PDFs · NVIDIA press/blogs · Google News<br/>arXiv · Wikipedia · Hacker News · GitHub repos · Reddit · yfinance"]
+    SRC --> DB[("SQLite corpus<br/>deduplicated")]
+    DB --> IDX["2 · Index — preprocess.py + repository.py<br/>chunk · BM25 + FAISS hybrid + rerank + MMR"]
+    DB --> NLP["Classical NLP — sentiment · entities · keywords<br/>FinBERT · spaCy NER · TF-IDF"]
 
-    Collect --> DB[(SQLite - accumulating, deduplicated)]
-    DB --> PRE[2 - preprocess.py<br/>chunk and lemmatize]
-    PRE --> IDX[repository.py<br/>BM25 + FAISS hybrid + reranker + MMR]
-    DB --> SENT[sentiment.py<br/>FinBERT, sarcasm, aspect-based]
-    DB --> ENT[entities.py<br/>spaCy NER + curated tagging]
-    DB --> KW[keywords.py<br/>classical TF-IDF]
-    IDX --> IE[3 - intelligence.py<br/>analyst agents: opportunities, risks, trends]
-    IE --> VER[NLI verify<br/>entailment + contradiction]
-    VER --> SCORE[composite confidence<br/>entailment + corroboration + freshness]
-    SCORE --> REC[recommendations<br/>1 per finding, evidence inherited]
-    REC --> BRIEF[CEO briefing<br/>what / why / next]
-    SENT --> APP
-    ENT --> APP
-    KW --> APP
-    BRIEF --> APP[4 - app.py<br/>Streamlit dashboard, 7 required sections + 3 extra pages]
-    SCORE --> APP
+    IDX --> PLAN["3 · Agent — agent_graph.py (LangGraph)<br/>Plan"]
+    PLAN --> RET["Retrieve"]
+    RET --> ANA["Analyze + NLI verify"]
+    ANA --> DEC{"Decide: evidence strong?"}
+    DEC -->|weak: rewrite and retry| RET
+    DEC -->|strong| REC["Recommend"]
+    REC --> VAL["Validate"]
+
+    VAL --> APP["4 · Dashboard — app.py"]
+    NLP --> APP
 ```
 
+The intelligence stage is a **LangGraph agent** (`agent_graph.py`) running *Plan → Retrieve → Analyze → Decide → Recommend → Validate*; the `Decide` node loops back to `Retrieve` (rewriting its query) when evidence is weak. A second ReAct agent (`agent.py`) powers the interactive "Ask the Agent" page. Both reason with a local Qwen2.5-7B (Ollama) and verify every claim with an NLI model (`bart-large-mnli`).
+
 ---
+
+## Data sources
+
+Ten source types are collected (`collect.py`), each tagged with a decision-trust weight
+that the dashboard's Source Trust view and the agent's scoring use. Open-web sources are
+kept only if they mention an NVIDIA alias; first-party sources are exempt.
+
+| Source type | What is actually collected | Endpoint / query | Trust |
+|---|---|---|---|
+| `filing` | SEC **10-K + 10-Q** filings, last 2 years | SEC EDGAR (`SEC_FORMS`, `SEC_YEARS=2`) | internal · 1.00 |
+| `pdf` | NVIDIA **investor PDFs** — Q4 & Q1 FY2026 results, enterprise reference-architecture white paper | `PDF_URLS` (nvidianews, docs.nvidia.com) | internal · 0.85 |
+| `company` | NVIDIA **first-party RSS** — newsroom, corporate blog, developer blog | `nvidianews.nvidia.com/rss.xml`, `blogs.nvidia.com/feed`, `developer.nvidia.com/blog/feed` | internal · 0.85 |
+| `research` | **arXiv** papers about NVIDIA (≤15) | `ARXIV_QUERY = abs:NVIDIA` | external · 0.70 |
+| `reference` | **Wikipedia** factual background | NVIDIA reference page | external · 0.70 |
+| `news` | **Journalism** headlines (≤40/query) | Google News RSS | external · 0.60 |
+| `market` | **NVDA price history + indicators**, 2-year window | yfinance (`STOCK_PERIOD = 2y`) | external · 0.60 |
+| `ecosystem` | **GitHub repos** — NVIDIA libraries (TensorRT, TensorRT-LLM, CUTLASS, CCCL) + rival stacks (ROCm, Triton, vLLM, llama.cpp) | GitHub API (`GITHUB_REPOS`) | external · 0.50 |
+| `community` | **Hacker News** discussion | Algolia (`HN_QUERY = NVIDIA`, 80 hits) | external · 0.40 |
+| `social` | **Reddit** retail sentiment — r/nvidia, r/NVDA_Stock, r/wallstreetbets, r/hardware, r/buildapc *(optional, `USE_REDDIT=False` by default; RSS fallback)* | PRAW / Reddit RSS | external · 0.35 |
+
+All ten are defined in `SOURCE_TRUST` (`config.py`), which is the single source of truth for
+both collection and the trust weighting. Reddit is off by default, so a standard run uses the
+other nine; enable it with the `REDDIT_*` env vars.
 
 ## Data flow
 
@@ -172,7 +166,7 @@ sources --HTTP--> SQLite source of truth --chunk/lemmatize--> BM25 + FAISS index
 | Layer             | Choice                                                                       | Why                                                                                      |
 | ----------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | Collection        | `feedparser`, `requests`, `yfinance`                                         | Free public RSS, JSON, EDGAR APIs, no paid keys                                          |
-| Sources           | News, company, filings, PDFs, research, community, social, ecosystem, market | 9 independent source types across the trust spectrum                                     |
+| Sources           | SEC filings, investor PDFs, NVIDIA RSS, Google News, arXiv, Wikipedia, market data, GitHub, Hacker News, Reddit (optional) | 10 source types across the trust spectrum (Reddit optional, so 9 active by default) |
 | Storage           | **SQLite**                                                                   | Zero-config, portable, accumulating, deduplicated repository                             |
 | Embeddings        | **BAAI/bge-small-en-v1.5**                                                   | CPU-friendly 384-dimensional embedding model suitable for semantic retrieval             |
 | Vector retrieval  | **FAISS**                                                                    | Fast local vector search without hosted vector database                                  |
@@ -190,7 +184,7 @@ sources --HTTP--> SQLite source of truth --chunk/lemmatize--> BM25 + FAISS index
 ## AI pipeline
 
 1. **Collect**
-   Pull live documents from 9 source types into a uniform format and accumulate them in SQLite.
+   Pull live documents from up to 10 source types (Reddit optional) into a uniform format and accumulate them in SQLite.
 
 2. **Process**
    Clean documents, remove irrelevant/short content, chunk text, lemmatize, and deduplicate using content hashes.
@@ -199,13 +193,13 @@ sources --HTTP--> SQLite source of truth --chunk/lemmatize--> BM25 + FAISS index
    Generate embeddings for chunks using `BAAI/bge-small-en-v1.5`, then build a FAISS dense index and BM25 keyword index.
 
 4. **Retrieve**
-   For each analyst lens, combine BM25 and dense retrieval, rerank results, and apply MMR to keep evidence diverse.
+   For each analyst lens, combine BM25 and dense retrieval, rerank results, and apply MMR to keep evidence diverse. The intelligence engine gathers a **source-balanced** evidence pool (top chunks from each source type) so findings can be corroborated across *independent* sources rather than being dominated by one source such as long filings or PDFs.
 
 5. **Reason**
    Opportunity, risk, and trend agents extract findings using only retrieved evidence.
 
 6. **Verify**
-   The NLI verifier checks whether the evidence supports or contradicts each finding using entailment and contradiction scores.
+   The NLI verifier checks whether the evidence supports or contradicts each finding using entailment and contradiction scores. Verification is sentence-level, so a claim is supported when any single evidence sentence entails it.
 
 7. **Score**
    Confidence is calculated using a composite score:
@@ -214,16 +208,16 @@ sources --HTTP--> SQLite source of truth --chunk/lemmatize--> BM25 + FAISS index
    confidence = 0.50 * entailment + 0.25 * corroboration + 0.25 * freshness
    ```
 
-   Primary/company sources are not unfairly penalized for age because some official filings remain strategically relevant.
+   Primary/company sources are not unfairly penalized for age because some official filings remain strategically relevant. Citations are diversified across source types, so corroboration reflects how many *independent* sources support a finding.
 
 8. **Recommend**
-   The system generates one recommendation per ranked finding and carries forward the supporting evidence, confidence, priority, impact, and risk.
+   The system generates one recommendation per ranked finding and carries forward the supporting evidence, confidence, priority, impact, and risk. Findings are ranked so verified, well-corroborated, high-confidence ones surface first; each recommendation records whether it is verified and how many independent evidence sources back it.
 
 9. **Brief**
    The CEO briefing summarizes what happened, why it matters, and what management should do next.
 
 10. **Serve**
-    The Streamlit dashboard presents the seven required executive sections first, followed by three extra analytical pages.
+    The Streamlit dashboard presents the seven required executive sections first, followed by four extra analytical pages (Trend Monitor, Competitive Landscape, Source Trust, Ask the Agent).
 
 ---
 
@@ -243,15 +237,77 @@ Switching from NVIDIA to another company requires:
 
 This makes the system suitable for live-coding changes during the oral examination.
 
-1. SQLite over ChromaDB/PostgreSQL — No server, no config, built into Python. At ~5,000 chunks the performance difference is negligible. FAISS stores vectors, SQLite stores chunk text, linked by row ID — explicit and transparent.
-2. bge-small-en-v1.5 — Brief-recommended, 384-dim, 33M params, fast on GPU. Asymmetric query prefix applied at retrieval time in search.py. L2-normalized vectors so inner product = cosine similarity.
-3. Hybrid RAG (FAISS + BM25) — Dense embeddings handle synonyms ("regulatory risk" finds "compliance exposure"). BM25 handles exact terms ("recall 25V123", "$TSLA"). Reciprocal Rank Fusion combines both without score normalization.
-4. IndexFlatIP over HNSW — Exact exhaustive search. At 5,025 vectors this is instant. Approximate indexes only needed at 100K+ vectors.
-5. Qwen3-8B via transformers + SDPA — vLLM failed (flash-attn ABI mismatch). Transformers with PyTorch SDPA attention bypasses flash-attn, needs no server, produces identical output.
-6. temperature=0.2 — Low temperature = grounded, deterministic outputs. Critical for evidence-based reasoning.
-900-char chunks, 150 overlap — ~200 tokens per chunk. Large enough for one idea, small enough for precise retrieval. Overlap prevents boundary-split ideas from being lost.
-7. FinBERT over generic sentiment — Financial language is specialized. "Missed on deliveries" is negative in finance, neutral in plain English.
-8. Precomputed intelligence — Pipeline generates JSON once; dashboard reads instantly. Separates compute from display.
+---
+
+### Generic-name safety
+
+The company is matched using whole-word aliases such as:
+
+```text
+NVDA
+NVIDIA
+GeForce
+CUDA
+Jensen Huang
+```
+
+This prevents unrelated documents from being kept just because they contain generic terms.
+
+---
+
+### Evidence-first design
+
+Every opportunity, risk, trend, and recommendation carries evidence.
+If a finding is weak or unverified, the system marks it transparently instead of pretending it is certain. Evidence is always shown — if no citation clears the verification bar, the cited evidence is still displayed (flagged unverified, with its support score) rather than hidden.
+
+This supports the project goal: not just information retrieval, but strategic decision-making supported by evidence.
+
+---
+
+### Source-balanced evidence gathering
+
+For each analyst lens the engine retrieves the top chunks from **each** source type separately and combines them, instead of taking the global top-k (which long filings and PDFs tend to dominate). When building a finding's citations it keeps the strongest entailing chunk from each distinct source first. This is what lets a finding be corroborated across, for example, *filing + news + market* rather than *pdf + pdf + pdf*, and it drives the cross-source corroboration score.
+
+---
+
+### Authority-aware trust
+
+The system separates first-party and third-party evidence:
+
+```text
+First-party: NVIDIA official announcements, investor relations, SEC filings
+Third-party: news, research, community, GitHub, Reddit, Hacker News
+```
+
+This allows the dashboard and confidence score to distinguish official evidence from public opinion or external commentary.
+
+---
+
+### Open-source/free LLM only
+
+The project does **not** use OpenAI, Anthropic, Gemini, or any paid commercial LLM API as the primary reasoning engine.
+
+Supported reasoning backends:
+
+```text
+1. Ollama locally with Qwen2.5-7B-Instruct
+2. In-process transformers on GPU lab machines
+```
+
+---
+
+### Dual NLP tracks
+
+The system uses both classical and neural NLP:
+
+| Track         | Components                         | Purpose                                             |
+| ------------- | ---------------------------------- | --------------------------------------------------- |
+| Classical NLP | TF-IDF, spaCy NER, BM25            | Explainable, deterministic, strong for keywords     |
+| Neural NLP    | Embeddings, FinBERT, NLI, Qwen LLM | Semantic search, sentiment, verification, reasoning |
+
+This makes the system easier to explain in the oral exam.
+
+---
 
 ## Module map
 
@@ -285,12 +341,6 @@ cp .env.example .env
 
 Set `SEC_USER_AGENT` in `.env` using a real email address because SEC EDGAR requires a valid user agent.
 
-Example:
-
-```text
-SEC_USER_AGENT=your-name your-email@example.com
-```
-
 ---
 
 ### Full pipeline
@@ -322,6 +372,8 @@ This reuses the current FAISS index and avoids rebuilding the index.
 ```bash
 streamlit run app.py
 ```
+
+The dashboard loads from pre-computed artifacts and auto-refreshes when they change (each cached loader keys on the file's modification time), so regenerating the intelligence output is reflected without manually clearing the cache.
 
 ---
 
@@ -356,7 +408,7 @@ The dashboard is provided through:
 app.py
 ```
 
-It contains the seven required sections first, exactly in the PDF order:
+It contains the seven required sections first, exactly in the PDF order, followed by four extra analytical pages:
 
 ```text
 1. Company Overview
@@ -369,8 +421,9 @@ It contains the seven required sections first, exactly in the PDF order:
 8. Trend Monitor
 9. Competitive Landscape
 10. Source Trust
-11. Ask the Agent
-
+11. Agent Reasoning
+12. Ask the Agent
+```
 
 ---
 
@@ -381,6 +434,7 @@ Architecture documentation is provided through:
 ```text
 README.md
 ARCHITECTURE.md
+LAYERS.md
 ```
 
 It includes:
@@ -394,10 +448,10 @@ AI pipeline
 methods
 alternatives considered
 hyperparameters
+per-layer mechanism and hyperparameter sensitivity
 ```
 
 ---
-
 
 ## Evaluation
 
@@ -430,16 +484,22 @@ It collects live information, stores it in a searchable knowledge base, retrieve
 
 ## Important note
 
-Weak or unverified findings should not be presented as final CEO recommendations.
-Only findings with strong evidence, sufficient confidence, and multiple sources should be promoted to strategic recommendations.
+Unverified findings should not be presented as validated CEO recommendations.
 
-Recommended promotion rule:
+Validation is performed by an independent NLI model: a recommendation is marked **validated**
+only when its underlying claim is *entailed* by the retrieved evidence (anti-hallucination).
+The number of independent sources that corroborate it is reported separately as a secondary
+quality signal — shown on every recommendation, but not required for validation, because a
+strong single-source claim from an authoritative filing can still be correct.
+
+The dashboard makes this visible: each recommendation shows whether it is **verified** (the
+validation gate) and how many **independent sources** corroborate it (the secondary signal),
+and findings are ranked so verified, well-corroborated, high-confidence ones surface first.
+
+Validation gate:
 
 ```text
-verified == true
-confidence >= 0.70
-citations >= 3
-source_types >= 2
+validated  ==  verified            # NLI: the claim is entailed by its evidence
+reported   :=  evidence_sources    # how many independent source types corroborate it
+               corroboration       # strong (3+) / moderate (2) / weak (1)
 ```
-
-

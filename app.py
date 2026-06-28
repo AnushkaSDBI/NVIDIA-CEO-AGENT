@@ -37,16 +37,6 @@ POS, NEG, NEU = "#76B900", "#e23b3b", "#7a7a85"
 SENT_PATH = "data/clean/sentiment.json"
 ENT_PATH = "data/clean/entities.json"
 
-# ---------------- logo / branding ----------------
-LOGO_PATH = "download.jpeg"
-
-def show_nvidia_logo(width=140):
-    """Show NVIDIA logo from download.jpeg in the project root."""
-    if os.path.exists(LOGO_PATH):
-        st.image(LOGO_PATH, width=width)
-    else:
-        st.warning(f"Logo file not found: {LOGO_PATH}")
-
 st.set_page_config(page_title="AI CEO — Strategic Intelligence",
                    page_icon="🧠", layout="wide")
 
@@ -66,9 +56,29 @@ st.markdown(f"""
   .b-lo  {{background:rgba(118,185,0,0.16);  color:{ACCENT};}}
   .cite  {{font-size:0.82rem; color:#b8bcc4; border-left:2px solid #2a2e37;
            padding-left:10px; margin:6px 0;}}
-  .brand-subtitle {{color:#b8bcc4; font-size:0.95rem; margin-top:-0.5rem;}}
+
+  /* ---------------- NVIDIA theme ---------------- */
+  .stApp {{background:#0b0d0f;}}
+  [data-testid="stHeader"] {{background:rgba(0,0,0,0);}}
+  [data-testid="stSidebar"] {{background:#0a0c0e; border-right:1px solid #1c2230;}}
+  h1, h2, h3 {{color:#ffffff; font-weight:700;}}
+  h2 {{border-bottom:2px solid {ACCENT}; padding-bottom:5px;}}
+  [data-testid="stMetricValue"] {{color:{ACCENT};}}
+  [data-testid="stMetricLabel"] {{color:#9aa0aa;}}
+  .stRadio [aria-checked="true"] {{color:{ACCENT};}}
+  a {{color:{ACCENT};}}
+  hr {{border-color:rgba(118,185,0,0.25);}}
+  .nv-wordmark {{font-weight:800; letter-spacing:.5px; color:{ACCENT};}}
 </style>
 """, unsafe_allow_html=True)
+
+# NVIDIA logo — shown top-left and in the sidebar when present next to app.py.
+_LOGO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images\download.jpeg")
+try:
+    if os.path.exists(_LOGO):
+        st.logo(_LOGO)
+except Exception:
+    pass
 
 
 # ---------------- cached loaders (fast, graceful, auto-invalidating) ----------------
@@ -126,6 +136,34 @@ def _f(v, default=None):
         return float(v)
     except (TypeError, ValueError):
         return default
+
+
+@st.cache_data(show_spinner=False, ttl=86400)
+def _wiki_summary_live(title):
+    """Clean 1-3 sentence company summary from Wikipedia's REST summary endpoint.
+    Cached for a day; returns '' on any failure (offline, rate-limited, etc.)."""
+    import urllib.request, urllib.parse
+    url = "https://en.wikipedia.org/api/rest_v1/page/summary/" + urllib.parse.quote(title)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "AI-CEO-Dashboard/1.0"})
+        with urllib.request.urlopen(req, timeout=6) as r:
+            return json.loads(r.read()).get("extract", "") or ""
+    except Exception:
+        return ""
+
+
+def company_summary():
+    """Summarised overview: prefer the live Wikipedia extract, fall back to the
+    Wikipedia text already collected in the corpus. Returns (text, source_label)."""
+    title = cfg.COMPANY.get("wiki_title") or cfg.COMPANY.get("name", "")
+    s = _wiki_summary_live(title)
+    if s:
+        return s, "Wikipedia"
+    try:
+        s = db.reference_summary()
+    except Exception:
+        s = ""
+    return (s, "Wikipedia (collected)") if s else ("", "")
 
 
 def _last_refresh():
@@ -412,26 +450,33 @@ def section_overview():
     trend = ind.get("trend", "")
     c5.metric("Trend", "Bullish" if "bullish" in trend else "Bearish" if "bearish" in trend else "—")
 
+    # --- Company overview (between the metrics and the source breakdown) ---
+    st.subheader("Overview")
+    summary, src = company_summary()
+    if summary:
+        st.markdown(
+            f"<div class='card'>{summary} "
+            f"<span style='color:#9aa0aa;font-size:.8rem'>— {src}</span></div>",
+            unsafe_allow_html=True)
+    aliases = ", ".join(cfg.COMPANY.get("aliases", [])[:6])
+    topics = " · ".join(cfg.COMPANY.get("topics", [])[1:6])
+    st.markdown(
+        "<div class='card'>"
+        f"<b>{ov['company']} ({cfg.COMPANY['ticker']})</b> &nbsp;·&nbsp; {ov['industry']}<br>"
+        f"<span style='color:#9aa0aa'>Key brand &amp; product terms:</span> {aliases}"
+        + (f"<br><span style='color:#9aa0aa'>Focus areas tracked:</span> {topics}" if topics else "")
+        + "</div>", unsafe_allow_html=True)
+    if intel and intel.get("generated_at"):
+        st.caption(f"Intelligence generated: {intel['generated_at']}  ·  "
+                   f"{ov['company']} ({cfg.COMPANY['ticker']}) · {ov['industry']}")
+
+    # --- Corpus by source (unchanged) ---
     st.subheader("Corpus by source")
     if counts:
         d = pd.DataFrame(sorted(counts.items(), key=lambda x: x[1]), columns=["source", "documents"])
         fig = go.Figure(go.Bar(x=d["documents"], y=d["source"], orientation="h",
                                marker_color=ACCENT))
         fig.update_layout(template="plotly_dark", height=340, margin=dict(l=10, r=10, t=10, b=10),
-                          paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-        st.plotly_chart(fig, width='stretch')
-
-    if intel and intel.get("generated_at"):
-        st.caption(f"Intelligence generated: {intel['generated_at']}  ·  "
-                   f"{ov['company']} ({cfg.COMPANY['ticker']}) · {ov['industry']}")
-
-    kw = load_json("data/clean/keywords.json")
-    if kw and kw.get("overall"):
-        st.subheader("Key terms across the corpus (TF-IDF)")
-        st.caption("Classical, deterministic signal — most distinctive terms, no LLM involved.")
-        d = pd.DataFrame(kw["overall"][:15]).sort_values("weight")
-        fig = go.Figure(go.Bar(x=d["weight"], y=d["term"], orientation="h", marker_color="#6aa9ff"))
-        fig.update_layout(template="plotly_dark", height=380, margin=dict(l=10, r=10, t=10, b=10),
                           paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig, width='stretch')
 
@@ -444,13 +489,20 @@ def section_stock():
         return
     df = pd.DataFrame(hist)
     df["date"] = pd.to_datetime(df["date"])
+    # SMAs are computed on the FULL history so they remain correct at the left edge of any window
     df["SMA50"] = df["close"].rolling(50).mean()
     df["SMA200"] = df["close"].rolling(200).mean()
 
+    # date-range slider — default to the last 1 year
+    win = st.select_slider("Date range", options=["1M", "3M", "6M", "1Y", "2Y"], value="1Y")
+    days = {"1M": 30, "3M": 90, "6M": 180, "1Y": 365, "2Y": 100000}[win]
+    cutoff = df["date"].max() - pd.Timedelta(days=days)
+    dfv = df[df["date"] >= cutoff]
+
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df["date"], y=df["close"], name="Close", line=dict(color=ACCENT, width=2)))
-    fig.add_trace(go.Scatter(x=df["date"], y=df["SMA50"], name="SMA 50", line=dict(color="#e8a838", width=1)))
-    fig.add_trace(go.Scatter(x=df["date"], y=df["SMA200"], name="SMA 200", line=dict(color="#6aa9ff", width=1)))
+    fig.add_trace(go.Scatter(x=dfv["date"], y=dfv["close"], name="Close", line=dict(color=ACCENT, width=2)))
+    fig.add_trace(go.Scatter(x=dfv["date"], y=dfv["SMA50"], name="SMA 50", line=dict(color="#e8a838", width=1)))
+    fig.add_trace(go.Scatter(x=dfv["date"], y=dfv["SMA200"], name="SMA 200", line=dict(color="#6aa9ff", width=1)))
     fig.update_layout(template="plotly_dark", height=420, margin=dict(l=10, r=10, t=10, b=10),
                       paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                       legend=dict(orientation="h", y=1.02))
@@ -877,20 +929,89 @@ def section_graph():
 
 def section_ask():
     st.header("Ask the CEO Agent")
-    st.caption("A live, evidence-grounded answer: retrieves from the indexed corpus, then the local "
-               "LLM answers with inline citations. (Requires Ollama running.)")
+    st.caption("An autonomous agent: it decides which tools to call (search, stock, sentiment, "
+               "competitors), observes the results, and loops until it can answer — then cites its "
+               "evidence. (Requires Ollama running.)")
     q = st.text_input("Question", placeholder="e.g. How exposed is NVIDIA to China export controls?")
     if st.button("Ask", type="primary") and q.strip():
-        with st.spinner("Retrieving evidence and reasoning…"):
+        with st.spinner("Agent is planning, calling tools, and reasoning…"):
             try:
-                from src.intelligence import brief
-                res = brief(q.strip())
+                import importlib
+                from src import agent as _agent_mod
+                importlib.reload(_agent_mod)          # force the latest agent.py, bypassing stale cache
+                res = _agent_mod.agent_answer(q.strip())
             except Exception as ex:
+                import traceback
                 st.error(f"Could not reach the agent: {ex}\n\nMake sure Ollama is running "
                          "(`ollama list`) and the index is built (`python -m src.repository`).")
+                with st.expander("Error details (traceback)"):
+                    st.code(traceback.format_exc())
                 return
         st.markdown(res.get("answer", "_(no answer)_"))
+        steps = res.get("reasoning", [])
+        if steps:
+            with st.expander(f"Agent reasoning ({len(steps)} steps)"):
+                for t in steps:
+                    act = t.get("action") or ("skipped" if t.get("error") else "thinking")
+                    th = t.get("thought", "")
+                    st.markdown(f"**Step {t.get('step')}** · `{act}`"
+                                + (f" — {th}" if th else ""))
         _citations_block(res.get("citations", []))
+
+
+def section_agent():
+    st.header("Agent Reasoning")
+    st.caption("How the agent investigated — it planned the focus areas itself, called tools, and "
+               "rewrote its own searches when the evidence was weak or unverified (self-correction).")
+    intel = _load_intel_or_stop()
+    if not intel:
+        return
+    ag = intel.get("agent")
+    if not ag:
+        st.info("This intelligence run was produced by the non-agent pipeline. "
+                "Regenerate with `python -m src.agent_graph` to record the agent's plan and reasoning.")
+        return
+
+    # Framework + the required workflow as a visible chain.
+    fw = ag.get("framework", "agent")
+    flow = ag.get("workflow") or ["Goal", "Plan", "Retrieve", "Analyze", "Decide", "Recommend", "Validate"]
+    st.markdown(f'<span class="badge b-ok">⚙ {fw}</span>', unsafe_allow_html=True)
+    st.markdown("**Agent workflow:** " + "  ➜  ".join(f"`{s}`" for s in flow))
+
+    val = ag.get("validation", {})
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Plan steps", len(ag.get("plan", [])))
+    c2.metric("Self-corrections", ag.get("total_retries", 0),
+              help="Times the agent rewrote its own query after weak/unverified evidence")
+    c3.metric("Recommendations", val.get("recommendations", len(intel.get("recommendations", []))))
+    c4.metric("Validated", val.get("verified", val.get("well_supported", "—")),
+              help="NLI-verified: the recommendation's claim is entailed by its evidence")
+
+    st.markdown(f"**Objective:** {ag.get('objective','')}")
+
+    st.subheader("Investigation plan (decided by the agent)")
+    for i, p in enumerate(ag.get("plan", []), 1):
+        st.markdown(f"{i}. **{p.get('focus','')}**  ·  _{p.get('lens','')}_  ·  query: `{p.get('query','')}`")
+
+    st.subheader("Execution trace (act → observe → reflect → retry)")
+    for s in ag.get("steps", []):
+        rt = s.get("retries", 0)
+        badge = (f'<span class="badge b-md">↻ {rt} self-correction{"s" if rt != 1 else ""}</span>'
+                 if rt else '<span class="badge b-ok">✓ first try</span>')
+        st.markdown(f"<div class='card'><b>{s.get('focus','')}</b> "
+                    f"<span class='badge b-na'>{s.get('lens','')}</span>{badge}</div>",
+                    unsafe_allow_html=True)
+        for a in s.get("attempts", []):
+            line = (f"&nbsp;&nbsp;**Attempt {a.get('attempt')}** — searched `{a.get('query','')[:70]}` "
+                    f"→ {a.get('evidence_chunks',0)} chunks, {a.get('findings',0)} findings "
+                    f"({a.get('weak_findings',0)} weak) → _{a.get('decision','')}_")
+            st.markdown(line, unsafe_allow_html=True)
+            if a.get("refined_query"):
+                st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;↳ agent rewrote query: `{a['refined_query'][:70]}`")
+
+    st.subheader("Tools the agent can call")
+    for t in ag.get("tools", []):
+        st.markdown(f"- **{t.get('name')}** — {t.get('description','')}")
 
 
 # ======================= shell =======================
@@ -908,18 +1029,16 @@ SECTIONS = {
     "Trend Monitor": section_trends,
     "Competitive Landscape": section_competitors,
     "Source Trust": section_graph,
+    "Agent Reasoning": section_agent,
     "Ask the Agent": section_ask,
 }
 
 if __name__ == "__main__":
     with st.sidebar:
-        show_nvidia_logo(width=160)
-        st.markdown(f"### AI CEO\n**{cfg.COMPANY['name']}** · {cfg.COMPANY['ticker']}")
-        st.caption("Strategic Intelligence Dashboard")
-
-        st.divider()
+        if os.path.exists(_LOGO):
+            st.image(_LOGO, width=150)
+        st.markdown(f"### 🧠 AI CEO\n**{cfg.COMPANY['name']}** · {cfg.COMPANY['ticker']}")
         choice = st.radio("Section", list(SECTIONS), label_visibility="collapsed")
-
         st.divider()
         ov, _ = load_overview()
         if ov:
@@ -927,18 +1046,7 @@ if __name__ == "__main__":
         st.caption(f"🔄 Last refresh: {_last_refresh()}")
         st.caption("Artifacts are pre-computed; sections load from cache.")
 
-    # Branded top banner on every page.
-    logo_col, title_col = st.columns([1, 6])
-    with logo_col:
-        show_nvidia_logo(width=110)
-    with title_col:
-        st.markdown("## AI CEO — Strategic Intelligence Dashboard")
-        st.markdown(
-            f"<div class='brand-subtitle'>{cfg.COMPANY['name']} ({cfg.COMPANY['ticker']}) "
-            f"· Last refresh: {_last_refresh()}</div>",
-            unsafe_allow_html=True,
-        )
-
-    st.divider()
+    # Last-refresh banner at the top of every page.
+    st.caption(f"🔄 Last refresh: {_last_refresh()}  ·  {cfg.COMPANY['name']} ({cfg.COMPANY['ticker']})")
 
     SECTIONS[choice]()

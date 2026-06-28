@@ -1,0 +1,12 @@
+[server]
+# transformers lazily imports torchvision modules that crash Streamlit's source
+# watcher (and can block hot-reload of edited files). "none" avoids it — restart
+# Streamlit manually after code changes.
+fileWatcherType = "none"
+
+[theme]
+primaryColor = "#76B900"
+backgroundColor = "#0b0d0f"
+secondaryBackgroundColor = "#161b22"
+textColor = "#e6e6e6"
+font = "sans serif"

@@ -52,7 +52,12 @@ def _get_llm():
         from .llm import get_local_llm
         return get_local_llm()
     from langchain_ollama import ChatOllama
-    return ChatOllama(model=cfg.OLLAMA_MODEL, temperature=0.2)
+    kwargs = dict(model=cfg.OLLAMA_MODEL,
+                  temperature=getattr(cfg, "LLM_TEMPERATURE", 0.2))
+    seed = getattr(cfg, "LLM_SEED", None)
+    if seed is not None:                       # pin for reproducible plan/findings/counts
+        kwargs["seed"] = seed
+    return ChatOllama(**kwargs)
 
 
 def _invoke(llm, prompt):
@@ -62,7 +67,18 @@ def _invoke(llm, prompt):
 def _extract_json(text):
     """Robustly pull a JSON array/object out of an LLM response."""
     text = re.sub(r"```(json)?|```", "", text or "").strip()
-    for op, cl in (("[", "]"), ("{", "}")):
+    # 1) try to parse the whole response (handles a clean object or array directly,
+    #    including an object that contains nested arrays e.g. {"action_input": {"sources": [...]}})
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
+    # 2) otherwise extract the OUTERMOST value, choosing object vs array by whichever
+    #    delimiter appears FIRST in the text (so a nested [...] inside {...} isn't grabbed)
+    first = {op: text.find(op) for op in ("{", "[") if text.find(op) != -1}
+    order = sorted(first, key=first.get)                  # delimiter that starts earliest first
+    for op in order:
+        cl = "}" if op == "{" else "]"
         s, e = text.find(op), text.rfind(cl)
         if s != -1 and e != -1 and e > s:
             try:
@@ -213,8 +229,64 @@ Return ONLY a JSON array. Each object has keys:
 No markdown, no prose."""
 
 
+_NLI_CACHE = {}                                   # (hash(claim), hash(text)) -> (entail, contra)
+
+
+def _nli_score_many(claim, texts):
+    """Score the claim against MANY chunk texts in batched forward passes (one set of
+    passes for the whole list, instead of one model call per chunk). Per-chunk result is
+    identical to verify([text]): split into sentences, take the max entail/contra."""
+    nli = _get_nli()
+    if not nli:
+        return [(None, None)] * len(texts)
+    tok, mdl, torch = nli
+    import re
+    all_sents, owner = [], []
+    for ti, t in enumerate(texts):
+        sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", t or "")
+                 if 15 <= len(s.strip()) <= 400][:24]
+        if not sents and t:
+            sents = [" ".join(t.split())[:400]]
+        for s in sents:
+            all_sents.append(s)
+            owner.append(ti)
+    ent = [0.0] * len(texts)
+    con = [0.0] * len(texts)
+    B = 32
+    for i in range(0, len(all_sents), B):
+        batch = all_sents[i:i + B]
+        inp = tok(batch, [claim] * len(batch), return_tensors="pt",
+                  truncation=True, max_length=256, padding=True)
+        with torch.no_grad():
+            probs = torch.softmax(mdl(**inp).logits, dim=-1)  # [n,3]=[contra,neutral,entail]
+        for j in range(len(batch)):
+            ti = owner[i + j]
+            ent[ti] = max(ent[ti], float(probs[j, -1]))
+            con[ti] = max(con[ti], float(probs[j, 0]))
+    return [(round(ent[k], 3), round(con[k], 3)) for k in range(len(texts))]
+
+
 def _score_chunks(claim, chunks, verify_fn):
-    """Per-chunk NLI: {idx: (entail, contradict)} over ALL retrieved chunks."""
+    """Per-chunk NLI: {idx: (entail, contradict)} over ALL retrieved chunks.
+    With the real NLI verifier this BATCHES every chunk into one set of forward passes
+    and caches by (claim, text) so retries don't re-score the same evidence."""
+    if verify_fn is verify:                                    # real NLI -> batch + cache
+        texts = [c.get("text", "") for c in chunks]
+        out, todo, todo_i = {}, [], []
+        for i, t in enumerate(texts):
+            key = (hash(claim), hash(t))
+            if key in _NLI_CACHE:
+                out[i + 1] = _NLI_CACHE[key]
+            else:
+                todo.append(t)
+                todo_i.append(i)
+        if todo:
+            for j, pair in enumerate(_nli_score_many(claim, todo)):
+                i = todo_i[j]
+                out[i + 1] = pair
+                _NLI_CACHE[(hash(claim), hash(texts[i]))] = pair
+        return out
+    # custom / stub verifier (tests) -> per-chunk
     scored = {}
     for i in range(1, len(chunks) + 1):
         if verify_fn:
@@ -249,45 +321,49 @@ def _analyze(llm, company, role, kind, n, chunks, verify_fn):
 
         if not verify_fn:                                       # NLI off -> keep cited in-bounds
             kept = [i for i in f.evidence if 1 <= i <= len(chunks)]
-            confs = []
+            entailment, verified = None, None
         else:
-            # all chunks that SUPPORT the claim (entail >= threshold), strongest first,
-            # scanning the whole retrieved set (not only what the LLM happened to cite)
+            # Two-tier evidence bar:
+            #   STRONG  (>= NLI_THRESHOLD)        -> strong enough to VERIFY the claim
+            #   SUPPORT (>= CORROBORATION_THRESHOLD) -> at least weakly supportive; counts toward
+            #                                          CORROBORATION so a claim verified by one strong
+            #                                          source can still gather independent second sources.
+            STRONG = cfg.NLI_THRESHOLD
+            SUPPORT = getattr(cfg, "CORROBORATION_THRESHOLD", round(STRONG * 0.55, 3))
+            strong_idx = {i for i in scored
+                          if scored[i][0] is not None and scored[i][0] >= STRONG}
             supporters = sorted(((i, scored[i][0]) for i in scored
-                                 if scored[i][0] is not None and scored[i][0] >= cfg.NLI_THRESHOLD),
+                                 if scored[i][0] is not None and scored[i][0] >= SUPPORT),
                                 key=lambda x: -x[1])
-            # diversify across source types FIRST: take the best supporter from each distinct
-            # source, so a finding is backed by INDEPENDENT sources (drives corroboration to 3+)
-            seen_src, kept, confs = set(), [], []
+            # diversify across source types FIRST: best supporter from each distinct source,
+            # so a finding is backed by INDEPENDENT sources (lets corroboration reach 2-3)
+            seen_src, kept = set(), []
             for i, e in supporters:
                 src = chunks[i - 1].get("source")
                 if src not in seen_src:
                     seen_src.add(src)
                     kept.append(i)
-                    confs.append(e)
             # then top up with the next strongest supporters (any source) up to 5 citations
             for i, e in supporters:
                 if i not in kept and len(kept) < 5:
                     kept.append(i)
-                    confs.append(e)
-            # fallback: nothing entailed -> still show the analysis's own cited evidence
+            # fallback: nothing supportive -> still show the analysis's own cited evidence
             # (flagged unverified) so the reader always sees what it was based on
             if not kept:
                 cited = sorted(((i, scored.get(i, (0.0,))[0] or 0.0)
                                 for i in f.evidence if 1 <= i <= len(chunks)), key=lambda x: -x[1])
                 kept = [i for i, _ in cited[:3]]
-                confs = []
 
-        # 4) entailment-based verification from surviving citations
-        if confs:
-            entailment, verified = round(max(confs), 3), True
-        elif kept and not verify_fn:
-            entailment, verified = None, None
-        elif kept:                                              # shown but did not pass the bar
-            best = max((scored.get(i, (0.0,))[0] or 0.0) for i in kept)
-            entailment, verified = round(best, 3), False
-        else:
-            entailment, verified = (0.0, False) if verify_fn else (None, None)
+            # verification requires at least one STRONG (entailing) source among the kept evidence
+            strong_kept = [i for i in kept if i in strong_idx]
+            if strong_kept:
+                entailment = round(max(scored[i][0] for i in strong_kept), 3)
+                verified = True
+            elif kept:                                          # shown but no source cleared the bar
+                entailment = round(max((scored.get(i, (0.0,))[0] or 0.0) for i in kept), 3)
+                verified = False
+            else:
+                entailment, verified = 0.0, False
 
         # 5) cross-source corroboration (how many independent source types agree)
         corroboration = _corroboration(chunks, kept)
@@ -368,9 +444,25 @@ def _rank(items):
     return sorted(items, key=key, reverse=True)
 
 
+_REC_BATCH_PROMPT = """You are the chief strategy advisor to the CEO of {company}.
+The analysis team has identified these strategic findings:
+
+{findings}
+
+For EACH numbered finding, recommend ONE decisive executive action that directly
+responds to it. Return ONLY a JSON array (no markdown); each object has keys:
+  "index": the finding number it responds to,
+  "action": the recommended action (one decisive sentence),
+  "rationale": why this action, in one or two sentences,
+  "expected_impact": the expected business impact,
+  "risk_level": "high" | "medium" | "low" (the risk of taking the action).
+Return exactly {n} objects, one per finding."""
+
+
 def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
     """One recommendation per finding: each is structurally tied to the specific
-    risk/opportunity it addresses, and inherits that finding's citations + confidence."""
+    risk/opportunity it addresses, and inherits that finding's citations + confidence.
+    All recommendations are produced in ONE batched LLM call (not one call per finding)."""
     risks_s, opps_s, trends_s = _rank(risks), _rank(opps), _rank(trends)
 
     # interleave the strongest risks and opportunities so the brief is balanced
@@ -382,14 +474,24 @@ def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
     order += [(o, "opportunity") for o in opps_s[len(risks_s):]]
     if not order:
         order = [(t, "trend") for t in trends_s]
+    order = order[:n]
+
+    # ONE batched call for all recommendations
+    by_index = {}
+    if order:
+        listing = "\n".join(f'{i}. [{kind}] {f["title"]}: {f["detail"]}'
+                            for i, (f, kind) in enumerate(order, 1))
+        for it in _llm_json(llm, _REC_BATCH_PROMPT.format(
+                company=company, findings=listing, n=len(order))):
+            idx = it.get("index") if isinstance(it, dict) else None
+            if isinstance(idx, int):
+                by_index[idx] = it
 
     recs = []
-    for f, kind in order[:n]:
-        items = _llm_json(llm, _REC_PROMPT.format(
-            company=company, kind=kind, title=f["title"], detail=f["detail"]))
-        item = items[0] if items else {}
+    for i, (f, kind) in enumerate(order, 1):
+        item = by_index.get(i, {})
         try:
-            r = Recommendation(**item) if item else None
+            r = Recommendation(**item) if item.get("action") else None
         except Exception:
             r = None
         score, plabel = _priority(f.get("impact"), f.get("confidence"))
@@ -405,7 +507,10 @@ def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
             "verified": bool(f.get("verified")),
             "confidence": f.get("confidence"),
             "evidence_sources": n_sources,                       # distinct independent source types
-            "well_supported": bool(f.get("verified")) and n_sources >= 3,
+            # validated = the claim is NLI-verified (entailed by its evidence). The number
+            # of independent sources is reported separately (evidence_sources) as a secondary
+            # quality signal, but is NOT required to mark a recommendation validated.
+            "well_supported": bool(f.get("verified")),
             # structural traceability: which finding this addresses + its evidence
             "addresses": {"type": kind, "title": f["title"],
                           "confidence": f.get("confidence"),
@@ -413,7 +518,7 @@ def _recommend(llm, company, opps, risks, trends, verify_fn=None, n=6):
                           "contested": f.get("contested", False)},
             "citations": f.get("citations", []),     # inherit the finding's evidence trail
         })
-    # surface the best-supported recommendations first (verified + 3 sources, then confidence)
+    # surface the best-supported recommendations first (verified + sources, then priority)
     recs.sort(key=lambda x: (x["well_supported"], x["priority_score"],
                              x.get("confidence") or 0), reverse=True)
     return recs

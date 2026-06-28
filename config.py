@@ -21,6 +21,7 @@ except Exception:
 COMPANY = {
     "name":    "NVIDIA",
     "ticker":  "NVDA",
+    "wiki_title": "Nvidia",          # Wikipedia page title for the overview summary
     # High-precision NVIDIA terms. A doc from an open-web source is kept
     # ONLY if it mentions one of these (see FILTER_SOURCES below).
     "aliases": ["NVIDIA", "NVDA", "GeForce", "CUDA", "Jensen Huang", "RTX"],
@@ -231,5 +232,7 @@ MULTIQUERY_N = 3
 # --- Intelligence layer (CEO agent + verification) ----------
 NLI_MODEL     = "facebook/bart-large-mnli"   # entailment check for faithfulness
 NLI_THRESHOLD = 0.35                         # entailment bar for "verified" (sentence-level); evidence still shown below it
+CORROBORATION_THRESHOLD = 0.20               # lower bar: a source counts toward CORROBORATION if it's at least
+                                             # weakly supportive (>= this), even if it alone wouldn't "verify" the claim
 CONTRADICTION_THRESHOLD = 0.5                # contradiction prob above which a finding is flagged "contested"
 INTEL_PATH    = "data/clean/intelligence.json"

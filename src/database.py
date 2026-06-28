@@ -183,6 +183,35 @@ def counts_by_source():
     return {r["source"]: r["n"] for r in rows}
 
 
+def latest_collected_at():
+    """Most recent document-collection timestamp (used for the UI 'last refresh')."""
+    con = _conn(); cur = con.cursor()
+    cur.execute("SELECT MAX(collected_at) AS ts FROM documents")
+    row = cur.fetchone(); con.close()
+    return row["ts"] if row else None
+
+
+def reference_summary(max_chars=650):
+    """First clean paragraph of the collected Wikipedia (reference) article — used as a
+    fallback company overview when the live Wikipedia summary is unavailable."""
+    con = _conn(); cur = con.cursor()
+    try:
+        cur.execute("SELECT text FROM documents WHERE source='reference' AND text IS NOT NULL "
+                    "ORDER BY LENGTH(text) DESC LIMIT 1")
+        row = cur.fetchone()
+    except Exception:
+        row = None
+    con.close()
+    if not row or not row[0]:
+        return ""
+    text = " ".join(str(row[0]).split())
+    if len(text) <= max_chars:
+        return text
+    cut = text[:max_chars]
+    dot = cut.rfind(". ")
+    return (cut[:dot + 1] if dot > 200 else cut + " …").strip()
+
+
 def get_documents(source=None, limit=50):
     con = _conn(); cur = con.cursor()
     if source:
