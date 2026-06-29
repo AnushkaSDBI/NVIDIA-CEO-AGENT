@@ -73,7 +73,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # NVIDIA logo — shown top-left and in the sidebar when present next to app.py.
-_LOGO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images\download.jpeg")
+_LOGO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image/download.jpeg")
 try:
     if os.path.exists(_LOGO):
         st.logo(_LOGO)
@@ -183,12 +183,9 @@ def _last_refresh():
 
 
 def _badge_verified(verified, confidence):
-    if verified is True:
-        label = "✓ verified" + (f" {confidence:.0%}" if confidence is not None else "")
-        return f'<span class="badge b-ok">{label}</span>'
-    if verified is False:
-        return '<span class="badge b-no">✗ unverified</span>'
-    return '<span class="badge b-na">— not checked</span>'
+    # Verification status badge intentionally removed from cards. NLI verification still
+    # runs and feeds confidence, corroboration, and the validation summary.
+    return ""
 
 
 def _badge_sources(n):
@@ -969,7 +966,7 @@ def section_agent():
     ag = intel.get("agent")
     if not ag:
         st.info("This intelligence run was produced by the non-agent pipeline. "
-                "Regenerate with `python -m src.agent_graph` to record the agent's plan and reasoning.")
+                "Regenerate with `python -m src.agent_loop` to record the agent's plan and reasoning.")
         return
 
     # Framework + the required workflow as a visible chain.
@@ -979,39 +976,62 @@ def section_agent():
     st.markdown("**Agent workflow:** " + "  ➜  ".join(f"`{s}`" for s in flow))
 
     val = ag.get("validation", {})
+    dec = ag.get("decisions", {}) or {}
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Plan steps", len(ag.get("plan", [])))
     c2.metric("Self-corrections", ag.get("total_retries", 0),
-              help="Times the agent rewrote its own query after weak/unverified evidence")
+              help="Times the agent re-searched after judging its evidence thin")
     c3.metric("Recommendations", val.get("recommendations", len(intel.get("recommendations", []))))
-    c4.metric("Validated", val.get("verified", val.get("well_supported", "—")),
-              help="NLI-verified: the recommendation's claim is entailed by its evidence")
+    c4.metric("Findings", len(intel.get("opportunities", [])) + len(intel.get("risks", []))
+              + len(intel.get("trends", [])),
+              help="Total findings across opportunities, risks, and trends")
 
     st.markdown(f"**Objective:** {ag.get('objective','')}")
 
     st.subheader("Investigation plan (decided by the agent)")
     for i, p in enumerate(ag.get("plan", []), 1):
-        st.markdown(f"{i}. **{p.get('focus','')}**  ·  _{p.get('lens','')}_  ·  query: `{p.get('query','')}`")
+        st.markdown(f"{i}. **{p.get('focus','')}**  ·  query: `{p.get('query','')}`")
 
-    st.subheader("Execution trace (act → observe → reflect → retry)")
-    for s in ag.get("steps", []):
-        rt = s.get("retries", 0)
-        badge = (f'<span class="badge b-md">↻ {rt} self-correction{"s" if rt != 1 else ""}</span>'
-                 if rt else '<span class="badge b-ok">✓ first try</span>')
-        st.markdown(f"<div class='card'><b>{s.get('focus','')}</b> "
-                    f"<span class='badge b-na'>{s.get('lens','')}</span>{badge}</div>",
-                    unsafe_allow_html=True)
-        for a in s.get("attempts", []):
-            line = (f"&nbsp;&nbsp;**Attempt {a.get('attempt')}** — searched `{a.get('query','')[:70]}` "
-                    f"→ {a.get('evidence_chunks',0)} chunks, {a.get('findings',0)} findings "
-                    f"({a.get('weak_findings',0)} weak) → _{a.get('decision','')}_")
-            st.markdown(line, unsafe_allow_html=True)
-            if a.get("refined_query"):
-                st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;↳ agent rewrote query: `{a['refined_query'][:70]}`")
+    if dec:
+        st.subheader("Agent priority judgement")
+        focus = (dec.get("recommended_focus") or "").replace("_", " ").title()
+        if focus:
+            cls = {"Risk Mitigation": "b-no", "Growth": "b-ok", "Balanced": "b-md"}.get(focus, "b-na")
+            st.markdown(f'<span class="badge {cls}">Recommended focus: {focus}</span>',
+                        unsafe_allow_html=True)
+        pr = ", ".join(dec.get("priority_risks", []) or [])
+        po = ", ".join(dec.get("priority_opportunities", []) or [])
+        if pr:
+            st.markdown(f"**Priority risks:** {pr}")
+        if po:
+            st.markdown(f"**Priority opportunities:** {po}")
+        if dec.get("decision_rationale"):
+            st.markdown(f"<div class='card'>{dec['decision_rationale']}</div>", unsafe_allow_html=True)
+
+    actions = dec.get("immediate_actions", []) or []
+    if actions:
+        st.subheader("Immediate actions")
+        for a in actions:
+            st.markdown(f"- {a}")
 
     st.subheader("Tools the agent can call")
     for t in ag.get("tools", []):
         st.markdown(f"- **{t.get('name')}** — {t.get('description','')}")
+
+    by_cat = (ag.get("validation", {}) or {}).get("by_category")
+    if by_cat:
+        st.subheader("Agent validation (all categories)")
+        st.caption("Each category is validated independently for grounding and consistency before the report is written.")
+        order = ["all", "opportunities", "risks", "trends", "recommendations"]
+        for cat in [c for c in order if c in by_cat]:
+            v = by_cat[cat]
+            ok = "b-ok" if v.get("valid", True) else "b-no"
+            status = "consistent" if v.get("valid", True) else "issues found"
+            st.markdown(
+                f"<div class='card'><b>{cat.capitalize()}</b> "
+                f"<span class='badge {ok}'>{v.get('count',0)} items · {status}</span> "
+                f"<span style='color:#9aa0aa'>{v.get('note','')}</span></div>",
+                unsafe_allow_html=True)
 
 
 # ======================= shell =======================
