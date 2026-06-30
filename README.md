@@ -104,7 +104,7 @@ flowchart TD
     SRC --> DB[("2 · Database — SQLite<br/>deduplicated corpus")]
     DB --> PRE["3 · Preprocess — preprocess.py<br/>chunk + lemmatize"]
     PRE --> IDX["4 · Index / Repository — repository.py<br/>BM25 + FAISS hybrid + rerank + MMR"]
-    DB --> NLP["5 · Classical NLP — sentiment.py · entities.py · keywords.py<br/>FinBERT · spaCy NER · TF-IDF"]
+    DB --> NLP["5 · Classical NLP — sentiment.py · entities.py · keywords.py<br/>FinBERT · spaCy NER"]
 
     IDX --> PLAN["6 · Agent — agent_loop.py <br/>Plan"]
     PLAN --> RET["Retrieve"]
