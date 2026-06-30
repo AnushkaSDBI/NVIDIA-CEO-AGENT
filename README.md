@@ -106,7 +106,7 @@ flowchart TD
     PRE --> IDX["4 · Index / Repository — repository.py<br/>BM25 + FAISS hybrid + rerank + MMR"]
     DB --> NLP["5 · Classical NLP — sentiment.py · entities.py · keywords.py<br/>FinBERT · spaCy NER · TF-IDF"]
 
-    IDX --> PLAN["6 · Agent — agent_loop.py (LangGraph)<br/>Plan"]
+    IDX --> PLAN["6 · Agent — agent_loop.py <br/>Plan"]
     PLAN --> RET["Retrieve"]
     RET --> ANA["Analyze + NLI verify<br/><i>intelligence.py</i>"]
     ANA --> DEC{"Decide: evidence strong?"}
