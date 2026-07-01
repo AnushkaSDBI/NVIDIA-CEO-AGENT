@@ -106,7 +106,7 @@ flowchart TD
     PRE --> IDX["4 · Index / Repository — repository.py<br/>BM25 + FAISS hybrid + rerank + MMR"]
     DB --> NLP["5 · Classical NLP — sentiment.py · entities.py · keywords.py<br/>FinBERT · spaCy NER"]
 
-    IDX --> PLAN["6 · Agent — agent_loop.py <br/>Plan"]
+    IDX --> PLAN["6 · Agent — agent_graph.py/agent_loop.py <br/>Plan"]
     PLAN --> RET["Retrieve"]
     RET --> ANA["Analyze + NLI verify<br/><i>intelligence.py</i>"]
     ANA --> DEC{"Decide: evidence strong?"}
@@ -118,7 +118,7 @@ flowchart TD
     NLP --> APP
 ```
 
-The intelligence stage is a **LangGraph agent** (`agent_loop.py`) running *Plan → Retrieve → Analyze → Decide → Recommend → Validate*; the `Decide` node loops back to `Retrieve` (rewriting its query) when evidence is weak. A second ReAct agent (`agent.py`) powers the interactive "Ask the Agent" page. Both reason with a local Qwen2.5-7B (Ollama) and verify every claim with an NLI model (`bart-large-mnli`).
+The intelligence stage is a **LangGraph agent** (`agent_graph.py, agent_loop.py`) running *Plan → Retrieve → Analyze → Decide → Recommend → Validate*; the `Decide` node loops back to `Retrieve` (rewriting its query) when evidence is weak. A second ReAct agent (`agent.py`) powers the interactive "Ask the Agent" page. Both reason with a local Qwen2.5-7B (Ollama) and verify every claim with an NLI model (`bart-large-mnli`).
 
 ---
 
@@ -154,7 +154,7 @@ INGEST
   SQLite --chunk/lemmatize--> BM25 + FAISS index   (embed bge-small-en-v1.5, cosine)
   SQLite --> classical NLP (sentiment / entities / keywords)
 
-AGENT  (agent_loop.py, LangGraph)
+AGENT  (agent_graph.py, LangGraph)
   Plan --> Retrieve --> Analyze --> Decide --> Recommend --> Validate
               |            |           |
        hybrid retrieve   LLM Qwen   evidence weak?
